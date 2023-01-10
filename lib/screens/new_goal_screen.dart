@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:goal_quest/constants.dart';
-import 'package:goal_quest/models/goal.dart';
-import 'package:goal_quest/records.dart';
 import 'package:goal_quest/styles.dart';
 import 'package:hive/hive.dart';
 
@@ -49,7 +47,7 @@ class NewGoalScreen extends HookWidget {
                       textController: titleController,
                       title: 'My Goal',
                       description: '* The name of your goal. Keep it as short as possible but accurately descriptive.',
-                      hintText: 'eg. Build a PC, create & upload a Dart course',
+                      hintText: 'eg. Build a PC, write book',
                     ),
                     ReusableGoalPropCard(
                       textController: descriptionController,
@@ -108,7 +106,7 @@ class NewGoalScreen extends HookWidget {
                           ),
                           title: Text(
                             formattedDate,
-                            style: defaultFont,
+                            style: defaultFont.copyWith(color: Colors.orange[200]),
                           ),
                         ),
                       ),
@@ -128,16 +126,18 @@ class NewGoalScreen extends HookWidget {
                         '${DateTime.now().day.toString().padLeft(2, '0')}-${DateTime.now().month.toString().padLeft(2, '0')}-${DateTime.now().year}';
 
                     if (formIsValid) {
+                    
                       var newGoal = {
                         'title': titleController.text,
                         'description': descriptionController.text,
                         'actionPlan': actionPlanController.text,
                         'creationDate': creationDate,
-                        'dueDate': formattedDate
+                        'dueDate': formattedDate,
+                        'timeSpan' : targetDate.value.difference(DateTime.now()).inDays
                       };
                       
-                     print( _goalBox.put(titleController.text, newGoal));
-                      goalRecords.add(newGoal);
+                     _goalBox.put(titleController.text, newGoal);
+                    
                       formKey.currentState!.reset();
                       showDialog(
                           context: context,
@@ -267,7 +267,7 @@ class ReusableTextField extends StatelessWidget {
         maxLines: maxlines,
         textCapitalization: TextCapitalization.sentences,
         textInputAction: TextInputAction.next,
-        autofocus: true,
+       
         decoration: InputDecoration(
             label: Text(label),
             filled: true,

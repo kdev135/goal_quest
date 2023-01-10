@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:goal_quest/constants.dart';
-import 'package:goal_quest/records.dart';
 import 'package:goal_quest/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive/hive.dart';
+
+import 'package:hive_flutter/hive_flutter.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -17,6 +16,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
+    
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
       floatingActionButton: FloatingActionButton(
@@ -26,7 +26,7 @@ class HomeScreen extends StatelessWidget {
         },
         child: const Icon(Icons.add),
       ),
-
+appBar: AppBar(elevation: 0.0,backgroundColor: primaryColor,),
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -73,19 +73,7 @@ class HomeScreen extends StatelessWidget {
                       'M Y  G O A L S',
                       style: titleFont1,
                     ),
-                    _goalBox.isEmpty
-                        ? Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 100.0),
-                              child: Text(
-                                'No goals here yet',
-                                style: defaultFont.copyWith(fontStyle: FontStyle.italic),
-                              ),
-                            ),
-                          )
-                        : GoalListView(
-                            key: const Key('list'),
-                          )
+                    _goalBox.isEmpty ? const NoGoalsText() : const GoalListview()
                   ],
                 ),
               )
@@ -102,12 +90,12 @@ class HomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               IconButton(
-                icon: Icon(Icons.home),
+                icon: const Icon(Icons.home),
                 onPressed: () {
-                 
+                  _goalBox.deleteFromDisk();
                 },
               ),
-              Icon(Icons.settings)
+              const Icon(Icons.settings)
             ],
           ),
         ),
@@ -116,30 +104,75 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class GoalListView extends StatelessWidget {
-  GoalListView({
+class NoGoalsText extends StatelessWidget {
+  const NoGoalsText({
     Key? key,
   }) : super(key: key);
-  final List<ReusableGoalCard> goalList = [];
-  final _goalBox = Hive.box('myGoalBox');
+
   @override
   Widget build(BuildContext context) {
-    _goalBox.toMap().forEach((key, value) {
-      goalList.add(ReusableGoalCard(
-        title: value['title'],
-        category: 'None',
-        creationDate: value['creationDate'],
-        dueBeforeDate: value['dueDate'],
-      ));
-    });
-    return ListView(
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 100.0),
+        child: Text(
+          'No goals here yet',
+          style: defaultFont.copyWith(fontStyle: FontStyle.italic),
+        ),
+      ),
+    );
+  }
+}
+ // Listview with all goal cards
+class GoalListview extends StatefulWidget {
+  const GoalListview({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<GoalListview> createState() => _TestListViewState();
+}
+
+class _TestListViewState extends State<GoalListview> {
+  final _goalBox = Hive.box('myGoalBox');
+
+  @override
+  Widget build(BuildContext context) {
+    final List<Widget> goalList = [];
+    Widget goalWidget = ListView(
       shrinkWrap: true,
       physics: const BouncingScrollPhysics(),
       children: goalList,
     );
+    createGoalCards() {
+      _goalBox.toMap().forEach((key, value) {
+        goalList.add(ReusableGoalCard(
+          title: value['title'],
+          timeSpan: value['timeSpan'],
+          creationDate: value['creationDate'],
+          dueBeforeDate: value['dueDate'],
+          onDelete: (() {
+            _goalBox.delete(value['title']);
+            setState(() {
+              goalWidget = goalList.isNotEmpty
+                  ? ListView(
+                      shrinkWrap: true,
+                      physics: const BouncingScrollPhysics(),
+                      children: goalList,
+                    )
+                  : const NoGoalsText();
+            });
+          }),
+        ));
+      });
+    }
+
+    createGoalCards();
+    return goalWidget;
+
+   
   }
 }
-
+//A path for the orange container as appbar
 class CustomClipperPath extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
@@ -162,17 +195,25 @@ class CustomClipperPath extends CustomClipper<Path> {
 
 class ReusableGoalCard extends HookWidget {
   final String title;
-  final String category;
+  final dynamic timeSpan;
   final String creationDate;
   final String dueBeforeDate;
+  final VoidCallback onDelete;
+
   ReusableGoalCard(
-      {Key? key, required this.title, required this.category, required this.creationDate, required this.dueBeforeDate})
+      {Key? key,
+      required this.title,
+      required this.timeSpan,
+      required this.creationDate,
+      required this.dueBeforeDate,
+      required this.onDelete})
       : super(key: key);
   final _goalBox = Hive.box('myGoalBox');
 
   @override
   Widget build(BuildContext context) {
     var isSelected = useState(false);
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: GestureDetector(
@@ -194,7 +235,7 @@ class ReusableGoalCard extends HookWidget {
                 const SizedBox(
                   height: 5,
                 ),
-                Text('Category: $category', style: GoogleFonts.dmSans(fontSize: 16)),
+                Text('time span: $timeSpan days', style: GoogleFonts.dmSans(fontSize: 16)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -211,17 +252,14 @@ class ReusableGoalCard extends HookWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton.icon(
-                        icon: Icon(Icons.check_box_outlined),
-                        label: Text('Mark as done'),
+                        icon: const Icon(Icons.check_box_outlined),
+                        label: const Text('Mark as done'),
                         onPressed: (() {}),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
-                      OutlinedButton(
-                        child: Text('Remove'),
-                        onPressed: () => _goalBox.delete(title),
-                      ),
+                      OutlinedButton(child: const Text('Remove'), onPressed: onDelete),
                     ],
                   ),
                 )

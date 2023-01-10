@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:goal_quest/constants.dart';
 import 'package:goal_quest/styles.dart';
 import 'package:hive/hive.dart';
 
-class GoalScreen extends StatelessWidget {
+class GoalScreen extends HookWidget {
   GoalScreen({super.key});
   final _goalBox = Hive.box('myGoalBox');
 
@@ -15,6 +16,7 @@ class GoalScreen extends StatelessWidget {
     final TextEditingController descriptionController = TextEditingController(text: goal['description']);
     final TextEditingController actionPlanController = TextEditingController(text: goal['actionPlan']);
     final TextEditingController dueDateController = TextEditingController(text: goal['dueDate']);
+    var dueDate = useState(dueDateController.text);
 
     var sizedBox = const SizedBox(
       height: 10,
@@ -63,7 +65,10 @@ class GoalScreen extends StatelessWidget {
                       'Description',
                       style: titleFont2,
                     ),
-                    ReusableEditableText(sampleTextController: descriptionController, maxLines: 5,),
+                    ReusableEditableText(
+                      sampleTextController: descriptionController,
+                      maxLines: 5,
+                    ),
                     sizedBox,
                     Text(
                       'Action plan',
@@ -80,15 +85,18 @@ class GoalScreen extends StatelessWidget {
                         Text('Created on: ${goal['creationDate']}', style: subtextFont),
                         GestureDetector(
                           onTap: () {
-                          int todayDate = DateTime.now().day;
-                    int thisYear = DateTime.now().year;
-                    int thisMonth = DateTime.now().month;
-                    datePicker(context, thisYear, thisMonth, todayDate).then((value) {
-                      value != null ? goal['dueDate'] = value : dueDateController.value = dueDateController.value;
-                    });
+                            int todayDate = DateTime.now().day;
+                            int thisYear = DateTime.now().year;
+                            int thisMonth = DateTime.now().month;
+                            datePicker(context, thisYear, thisMonth, todayDate).then((value) {
+                              value != null
+                                  ? dueDate.value =
+                                      '${value.day.toString().padLeft(2, '0')}-${value.month.toString().padLeft(2, '0')}-${value.year}'
+                                  : dueDateController.value = dueDateController.value;
+                            });
                           },
                           child: Text(
-                            'Target date: ${dueDateController.text}',
+                            'Target date: ${dueDate.value}',
                             style: subtextFont,
                           ),
                         )
@@ -101,12 +109,16 @@ class GoalScreen extends StatelessWidget {
             Center(
               child: OutlinedButton(
                 onPressed: () {
+                  var day = dueDate.value.substring(0, 2);
+                  var month = dueDate.value.substring(3, 5);
+                  var year =dueDate.value.substring(6);
                   var updates = {
                     'title': titleController.text,
                     'description': descriptionController.text,
                     'actionPlan': actionPlanController.text,
                     'creationDate': goal['creationDate'],
-                    'dueDate': dueDateController.text
+                    'dueDate': dueDate.value,
+                    'timeSpan': DateTime.parse('$year-$month-$day').difference(DateTime.now()).inDays
                   };
                   _goalBox.put(titleController.text, updates);
                   Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
@@ -116,11 +128,9 @@ class GoalScreen extends StatelessWidget {
                   style: defaultFont.copyWith(color: primaryColor),
                 ),
                 style: OutlinedButton.styleFrom(
-                  // backgroundColor: primaryColor,
-                 
+                    // backgroundColor: primaryColor,
 
-                ),
-              
+                    ),
               ),
             )
           ],
@@ -128,7 +138,8 @@ class GoalScreen extends StatelessWidget {
       ),
     );
   }
-   Future<DateTime?> datePicker(BuildContext context, int thisYear, int thisMonth, int todayDate) {
+
+  Future<DateTime?> datePicker(BuildContext context, int thisYear, int thisMonth, int todayDate) {
     return showDatePicker(
         context: context,
         initialDate: DateTime.now(),

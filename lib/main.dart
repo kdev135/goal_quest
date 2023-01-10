@@ -1,13 +1,27 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:goal_quest/home_screen.dart';
 import 'package:goal_quest/screens/goal_screen.dart';
 import 'package:goal_quest/screens/new_goal_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-void main() async{
- 
-   await Hive.initFlutter();
-   await Hive.openBox('myGoalBox');
+void main() async {
+  await Hive.initFlutter();
+  await Hive.openBox('myGoalBox');
+
+  AwesomeNotifications().initialize(
+    null,
+    [
+      NotificationChannel(
+          channelGroupKey: 'basic_channel_group',
+          channelKey: 'basic_channel',
+          channelName: 'Basic notifications',
+          channelDescription: 'Notification channel for basic tests',
+          defaultColor: Color(0xFF9D50DD),
+          ledColor: Colors.white)
+    ],
+  debug: true
+  );
   runApp(const MyApp());
 }
 
@@ -19,14 +33,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme:ThemeData.dark(),
-    initialRoute: '/',
+      theme: ThemeData.dark(),
+      initialRoute: '/',
       routes: {
-        '/': ((context) =>  HomeScreen()),
-        '/goal_screen':(context) => GoalScreen(),
-        '/new_goal_screen':(context) => NewGoalScreen()
+        '/': ((context) => HomeScreen()),
+        '/goal_screen': (context) => GoalScreen(),
+        '/new_goal_screen': (context) => NewGoalScreen()
       },
     );
   }
 }
-
