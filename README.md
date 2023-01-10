@@ -1,16 +1,6 @@
 # goal_quest
 
-A new Flutter project.
+Wish it. Want it. Get it.
+## What does it do?
+Write down your goals accurately and execute them effectively. This app allows for creation of personal goals metioning them by name,adding a detailed description,duration and finally a course of action to take to ensure they are achieved.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
