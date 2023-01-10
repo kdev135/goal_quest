@@ -1,6 +1,6 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
-import 'package:goal_quest/home_screen.dart';
+import 'package:goal_quest/screens/home_screen.dart';
 import 'package:goal_quest/screens/goal_screen.dart';
 import 'package:goal_quest/screens/new_goal_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';

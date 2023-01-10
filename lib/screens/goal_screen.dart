@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:goal_quest/constants.dart';
+import 'package:goal_quest/models/ui_models/editable_text_model.dart';
+import 'package:goal_quest/operations/date_picker_fn.dart';
 import 'package:goal_quest/styles.dart';
 import 'package:hive/hive.dart';
 
@@ -8,6 +10,9 @@ class GoalScreen extends HookWidget {
   GoalScreen({super.key});
   final _goalBox = Hive.box('myGoalBox');
 
+    final sizedBox = const SizedBox(
+      height: 10,
+    );
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments;
@@ -18,9 +23,6 @@ class GoalScreen extends HookWidget {
     final TextEditingController dueDateController = TextEditingController(text: goal['dueDate']);
     var dueDate = useState(dueDateController.text);
 
-    var sizedBox = const SizedBox(
-      height: 10,
-    );
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(
@@ -57,7 +59,7 @@ class GoalScreen extends HookWidget {
                       'Title',
                       style: titleFont2,
                     ),
-                    ReusableEditableText(
+                    EditableTextModel(
                       sampleTextController: titleController,
                     ),
                     sizedBox,
@@ -65,7 +67,7 @@ class GoalScreen extends HookWidget {
                       'Description',
                       style: titleFont2,
                     ),
-                    ReusableEditableText(
+                    EditableTextModel(
                       sampleTextController: descriptionController,
                       maxLines: 5,
                     ),
@@ -74,7 +76,7 @@ class GoalScreen extends HookWidget {
                       'Action plan',
                       style: titleFont2,
                     ),
-                    ReusableEditableText(
+                    EditableTextModel(
                       sampleTextController: actionPlanController,
                       maxLines: 5,
                     ),
@@ -123,14 +125,14 @@ class GoalScreen extends HookWidget {
                   _goalBox.put(titleController.text, updates);
                   Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
                 },
-                child: Text(
-                  'update',
-                  style: defaultFont.copyWith(color: primaryColor),
-                ),
                 style: OutlinedButton.styleFrom(
                     // backgroundColor: primaryColor,
 
                     ),
+                child: Text(
+                  'update',
+                  style: defaultFont.copyWith(color: primaryColor),
+                ),
               ),
             )
           ],
@@ -139,37 +141,5 @@ class GoalScreen extends HookWidget {
     );
   }
 
-  Future<DateTime?> datePicker(BuildContext context, int thisYear, int thisMonth, int todayDate) {
-    return showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(thisYear, thisMonth, todayDate),
-        lastDate: DateTime(2033));
-  }
-}
 
-class ReusableEditableText extends StatelessWidget {
-  const ReusableEditableText({Key? key, required this.sampleTextController, this.fontStyle, this.maxLines = 1})
-      : super(key: key);
-
-  final TextEditingController sampleTextController;
-  final TextStyle? fontStyle;
-  final int maxLines;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      color: interactiveFieldGrey,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: EditableText(
-            maxLines: maxLines,
-            controller: sampleTextController,
-            focusNode: FocusNode(canRequestFocus: true),
-            style: fontStyle ?? defaultFont,
-            cursorColor: Colors.orange,
-            backgroundCursorColor: Colors.green),
-      ),
-    );
-  }
 }

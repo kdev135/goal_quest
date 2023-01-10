@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:goal_quest/constants.dart';
+import 'package:goal_quest/models/ui_models/goal_prop_card_model.dart';
 import 'package:goal_quest/styles.dart';
 import 'package:hive/hive.dart';
+
+import '../operations/date_picker_fn.dart';
 
 class NewGoalScreen extends HookWidget {
   NewGoalScreen({Key? key}) : super(key: key);
@@ -38,18 +41,19 @@ class NewGoalScreen extends HookWidget {
         child: ListView(
           physics: const BouncingScrollPhysics(),
           children: [
+            // Form of properties of a new goal
             Form(
                 key: formKey,
                 autovalidateMode: AutovalidateMode.disabled,
                 child: Column(
                   children: [
-                    ReusableGoalPropCard(
+                    GoalPropCardModel(
                       textController: titleController,
                       title: 'My Goal',
                       description: '* The name of your goal. Keep it as short as possible but accurately descriptive.',
                       hintText: 'eg. Build a PC, write book',
                     ),
-                    ReusableGoalPropCard(
+                    GoalPropCardModel(
                       textController: descriptionController,
                       title: 'My goal description',
                       description:
@@ -58,7 +62,7 @@ class NewGoalScreen extends HookWidget {
                           'I will acquire the parts for my PC before  the end of July this year. The total budget is capped at \$ 1,000',
                       fieldMaxlines: 5,
                     ),
-                    ReusableGoalPropCard(
+                    GoalPropCardModel(
                       textController: actionPlanController,
                       title: 'My action plan',
                       label: 'Action plan',
@@ -70,6 +74,9 @@ class NewGoalScreen extends HookWidget {
                     ),
                   ],
                 )),
+
+            // Date selection for new goal
+
             Card(
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
@@ -97,7 +104,7 @@ class NewGoalScreen extends HookWidget {
                         style: defaultFont,
                       ),
                       Card(
-                       color: interactiveFieldGrey,
+                        color: interactiveFieldGrey,
                         child: ListTile(
                           dense: true,
                           leading: Text(
@@ -115,29 +122,29 @@ class NewGoalScreen extends HookWidget {
                 ),
               ),
             ),
+
+// Endof date selection
             Center(
               child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                   
-                  ),
+                  style: OutlinedButton.styleFrom(),
                   onPressed: () {
                     final formIsValid = formKey.currentState!.validate();
                     var creationDate =
                         '${DateTime.now().day.toString().padLeft(2, '0')}-${DateTime.now().month.toString().padLeft(2, '0')}-${DateTime.now().year}';
 
                     if (formIsValid) {
-                    
+                      // Create the new goal and commit to database
                       var newGoal = {
                         'title': titleController.text,
                         'description': descriptionController.text,
                         'actionPlan': actionPlanController.text,
                         'creationDate': creationDate,
                         'dueDate': formattedDate,
-                        'timeSpan' : targetDate.value.difference(DateTime.now()).inDays
+                        'timeSpan': targetDate.value.difference(DateTime.now()).inDays
                       };
-                      
-                     _goalBox.put(titleController.text, newGoal);
-                    
+
+                      _goalBox.put(titleController.text, newGoal);
+
                       formKey.currentState!.reset();
                       showDialog(
                           context: context,
@@ -189,102 +196,5 @@ class NewGoalScreen extends HookWidget {
     );
   }
 
-  Future<DateTime?> datePicker(BuildContext context, int thisYear, int thisMonth, int todayDate) {
-    return showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(thisYear, thisMonth, todayDate),
-        lastDate: DateTime(2033));
-  }
-}
-
-class ReusableGoalPropCard extends StatelessWidget {
-  const ReusableGoalPropCard(
-      {Key? key,
-      required this.textController,
-      required this.title,
-      this.label,
-      required this.description,
-      required this.hintText,
-      this.fieldMaxlines = 1})
-      : super(key: key);
-
-  final TextEditingController textController;
-  final String title;
-  final String? label;
-  final String description;
-  final String hintText;
-  final int fieldMaxlines;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10.0),
-              child: Text(
-                title,
-                style: titleFont2,
-              ),
-            ),
-            Text(
-              description,
-              style: defaultFont,
-            ),
-            ReusableTextField(
-              textController: textController,
-              label: label ?? title,
-              hintText: hintText,
-              maxlines: fieldMaxlines,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ReusableTextField extends StatelessWidget {
-  const ReusableTextField(
-      {Key? key, required this.textController, required this.label, required this.hintText, this.maxlines = 1})
-      : super(key: key);
-
-  final TextEditingController textController;
-  final String label;
-  final String hintText;
-  final int maxlines;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20, bottom: 20.0),
-      child: TextFormField(
-        controller: textController,
-        maxLines: maxlines,
-        textCapitalization: TextCapitalization.sentences,
-        textInputAction: TextInputAction.next,
-       
-        decoration: InputDecoration(
-            label: Text(label),
-            filled: true,
-            fillColor: interactiveFieldGrey,
-            floatingLabelBehavior: FloatingLabelBehavior.always,
-            floatingLabelStyle: textFieldLabelFont,
-            hintText: hintText,
-             border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10)))
-            ),
-        validator: (value) {
-          if (value == null || value.length < 5) {
-            return 'Please be more detailed';
-          } else {
-            return null;
-          }
-        },
-      ),
-    );
-  }
+  
 }
