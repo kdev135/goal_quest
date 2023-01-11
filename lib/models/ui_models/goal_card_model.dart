@@ -3,16 +3,14 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:goal_quest/styles.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class GoalCardModel
- extends HookWidget {
+class GoalCardModel extends HookWidget {
   final String title;
   final dynamic timeSpan;
   final String creationDate;
   final String dueBeforeDate;
   final VoidCallback onDelete;
 
-  GoalCardModel
-  (
+  GoalCardModel(
       {Key? key,
       required this.title,
       required this.timeSpan,
@@ -44,10 +42,12 @@ class GoalCardModel
                   style: titleFont2,
                   overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(
-                  height: 5,
+                
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical:10.0),
+                  child: Text('Time span: $timeSpan days [about ${(timeSpan / 31).round()} months]', style: defaultFont),
                 ),
-                Text('time span: $timeSpan days', style: defaultFont),
+              
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
