@@ -17,7 +17,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    
+
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
       floatingActionButton: FloatingActionButton(
@@ -27,7 +27,10 @@ class HomeScreen extends StatelessWidget {
         },
         child: const Icon(Icons.add),
       ),
-appBar: AppBar(elevation: 0.0,backgroundColor: primaryColor,),
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: primaryColor,
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -39,7 +42,7 @@ appBar: AppBar(elevation: 0.0,backgroundColor: primaryColor,),
                 clipper: CustomClipperPath(),
                 child: Container(
                   color: primaryColor,
-                  height: height / 3,
+                  height: height / 4,
                   width: width,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -51,7 +54,7 @@ appBar: AppBar(elevation: 0.0,backgroundColor: primaryColor,),
                           style: titleFont1,
                         ),
                         Text(
-                          '“Live as if you were to die tomorrow. Learn as if you were to live forever.”\n\n- Mahatma Gandhi',
+                          '"Whatever the mind of man can conceive and believe, it can achieve."\n\n- Napoleon Hill',
                           style: quoteFont,
                           textAlign: TextAlign.center,
                         ),
@@ -105,8 +108,7 @@ appBar: AppBar(elevation: 0.0,backgroundColor: primaryColor,),
   }
 }
 
-
- // Listview with all goal cards
+// Listview with all goal cards
 class GoalListview extends StatefulWidget {
   const GoalListview({
     Key? key,
@@ -152,10 +154,8 @@ class _TestListViewState extends State<GoalListview> {
 
     createGoalCards();
     return goalWidget;
-
-   
   }
 }
-//A path for the orange container as appbar
+
 
 
