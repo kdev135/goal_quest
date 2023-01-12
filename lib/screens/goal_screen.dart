@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:goal_quest/constants.dart';
@@ -71,20 +73,20 @@ class GoalScreen extends HookWidget {
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    sizedBox,
+                    
                     Text(
-                      'Title',
+                      '[${goal['title']}]',
                       style: titleFont2,
+                      textAlign: TextAlign.center,
                     ),
-                    EditableTextModel(
-                      sampleTextController: titleController,
-                    ),
+                   
                     sizedBox,
                     Text(
                       'Description',
                       style: titleFont2,
+                      textAlign: TextAlign.start,
                     ),
                     EditableTextModel(
                       sampleTextController: descriptionController,
@@ -94,6 +96,7 @@ class GoalScreen extends HookWidget {
                     Text(
                       'Action plan',
                       style: titleFont2,
+                      textAlign: TextAlign.start,
                     ),
                     EditableTextModel(
                       sampleTextController: actionPlanController,
@@ -144,13 +147,16 @@ class GoalScreen extends HookWidget {
                     ),
                     ListView.separated(
                       shrinkWrap: true,
-                      physics: const ClampingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       separatorBuilder: (context, index) => const SizedBox(
                         height: 20,
                         child: VerticalDivider(color: primaryColor),
                       ),
                       itemCount: reportList.length,
-                      itemBuilder: (context, index) => ReportContainerModel(reportList: reportList, index: index,),
+                      itemBuilder: (context, index) => ReportContainerModel(
+                        reportList: reportList,
+                        index: index,
+                      ),
                     ),
                     TextFieldModel(
                       textController: newReportController,
@@ -163,6 +169,7 @@ class GoalScreen extends HookWidget {
               ),
             ),
             UpdateButton(
+                oldTitle: args.toString(),
                 dueDate: dueDate,
                 newReportController: newReportController,
                 reportList: reportList,
@@ -219,18 +226,19 @@ class ReportContainerModel extends StatelessWidget {
 }
 
 class UpdateButton extends StatelessWidget {
-  const UpdateButton({
-    Key? key,
-    required this.dueDate,
-    required this.newReportController,
-    required this.reportList,
-    required this.creationDate,
-    required this.titleController,
-    required this.descriptionController,
-    required this.actionPlanController,
-    required this.goal,
-    required Box goalBox,
-  })  : _goalBox = goalBox,
+  const UpdateButton(
+      {Key? key,
+      required this.dueDate,
+      required this.newReportController,
+      required this.reportList,
+      required this.creationDate,
+      required this.titleController,
+      required this.descriptionController,
+      required this.actionPlanController,
+      required this.goal,
+      required Box goalBox,
+      this.oldTitle = ''})
+      : _goalBox = goalBox,
         super(key: key);
 
   final ValueNotifier<String> dueDate;
@@ -242,6 +250,7 @@ class UpdateButton extends StatelessWidget {
   final TextEditingController actionPlanController;
   final goal;
   final Box _goalBox;
+  final String oldTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -264,7 +273,11 @@ class UpdateButton extends StatelessWidget {
             'timeSpan': DateTime.parse('$year-$month-$day').difference(DateTime.now()).inDays,
             'reports': reportList
           };
+           _goalBox.delete(oldTitle);
+        
           _goalBox.put(titleController.text, updates);
+         
+
           Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
         },
         style: OutlinedButton.styleFrom(

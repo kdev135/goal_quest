@@ -156,6 +156,3 @@ class _TestListViewState extends State<GoalListview> {
     return goalWidget;
   }
 }
-
-
-
