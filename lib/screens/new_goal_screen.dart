@@ -49,17 +49,18 @@ class NewGoalScreen extends HookWidget {
                   children: [
                     GoalPropCardModel(
                       textController: titleController,
+                      maxLength: 45,
                       title: 'My Goal',
-                      description: '* The name of your goal. Keep it as short as possible but accurately descriptive.',
-                      hintText: 'eg. Build a PC, write book',
+                      description: '* The name of your goal. Keep it as short as possible but accurately descriptive. Remember, be realistic.',
+                      hintText: 'eg. Build a high-end PC, Write my motivational book',
                     ),
                     GoalPropCardModel(
                       textController: descriptionController,
                       title: 'My goal description',
                       description:
-                          '* Type a description of your goal. Be as detailed as possible without going off-topic. Declare it.',
+                          '* Type a description of your goal. Be as detailed as possible without making it too broad. \n*Declare as you write it.',
                       hintText:
-                          'I will acquire the parts for my PC before  the end of July this year. The total budget is capped at \$ 1,000',
+                          'eg. I will acquire the parts for my PC before  the end of July this year. The total budget is capped at \$ 2,000. My priorities are 3D rendering performance and high refresh rate gaming.',
                       fieldMaxlines: 5,
                     ),
                     GoalPropCardModel(
@@ -69,7 +70,7 @@ class NewGoalScreen extends HookWidget {
                       description:
                           '* How will you attain this goal? Mention the things you will do to ensure you attain your goal.',
                       hintText:
-                          'eg. I will set aside 8% of my monthly income to fund this goal. I will actively liase with my real estate agent to stay update on the available deals.',
+                          'eg. I will set aside 8% of my monthly income for the next 4 months to fund this project. I will get as much info as I can about pc builds from credible sources before buying parts in order to get as much value as possible from my build.',
                       fieldMaxlines: 5,
                     ),
                   ],
@@ -93,14 +94,14 @@ class NewGoalScreen extends HookWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Target date',
+                        'My target date',
                         style: titleFont2,
                       ),
                       const SizedBox(
                         height: 10,
                       ),
                       Text(
-                        'What is the target date you plan to achieve this goal before? [default: 6 months]',
+                        '* What is the latest date you plan to have achieve this goal before? [default: 6 months]',
                         style: defaultFont,
                       ),
                       Card(

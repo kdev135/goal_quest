@@ -12,7 +12,8 @@ class GoalPropCardModel extends StatelessWidget {
       this.label,
       required this.description,
       required this.hintText,
-      this.fieldMaxlines = 1})
+      this.fieldMaxlines = 1,
+       this.maxLength =700})
       : super(key: key);
 
   final TextEditingController textController;
@@ -21,7 +22,7 @@ class GoalPropCardModel extends StatelessWidget {
   final String description;
   final String hintText;
   final int fieldMaxlines;
-
+final int maxLength;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -46,6 +47,7 @@ class GoalPropCardModel extends StatelessWidget {
               label: label ?? title,
               hintText: hintText,
               maxlines: fieldMaxlines,
+              maxLength: maxLength,
             ),
           ],
         ),
