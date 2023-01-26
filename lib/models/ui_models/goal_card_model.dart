@@ -3,12 +3,14 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:goal_quest/styles.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+// The card to show pending goals on home_screen
 class GoalCardModel extends HookWidget {
   final String title;
   final dynamic timeSpan;
   final String creationDate;
   final String dueBeforeDate;
   final VoidCallback onDelete;
+  final VoidCallback? onMarked;
 
   GoalCardModel(
       {Key? key,
@@ -16,6 +18,7 @@ class GoalCardModel extends HookWidget {
       required this.timeSpan,
       required this.creationDate,
       required this.dueBeforeDate,
+      this.onMarked,
       required this.onDelete})
       : super(key: key);
   final _goalBox = Hive.box('myGoalBox');
@@ -26,7 +29,7 @@ class GoalCardModel extends HookWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
-      child: GestureDetector(
+      child: InkWell(
         onTap: () => isSelected.value
             ? isSelected.value = false
             : Navigator.pushNamed(context, '/goal_screen', arguments: title),
@@ -42,12 +45,11 @@ class GoalCardModel extends HookWidget {
                   style: titleFont2,
                   overflow: TextOverflow.ellipsis,
                 ),
-                
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical:10.0),
-                  child: Text('Time span: $timeSpan days [about ${(timeSpan / 31).round()} months]', style: defaultFont),
+                  padding: const EdgeInsets.symmetric(vertical: 5.0),
+                  child:
+                      Text('Time span: $timeSpan days [about ${(timeSpan / 31).round()} months]', style: defaultFont),
                 ),
-              
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -64,14 +66,13 @@ class GoalCardModel extends HookWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton.icon(
-                        icon: const Icon(Icons.check_box_outlined),
-                        label: const Text('Mark as done'),
-                        onPressed: (() {}),
-                      ),
+                          icon: const Icon(Icons.check_box_outlined),
+                          label: const Text('Mark as done'),
+                          onPressed: onMarked),
                       const SizedBox(
                         width: 10,
                       ),
-                      OutlinedButton(child: const Text('Remove'), onPressed: onDelete),
+                      OutlinedButton(onPressed: onDelete, child: const Text('Remove')),
                     ],
                   ),
                 )
