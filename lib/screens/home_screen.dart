@@ -7,9 +7,11 @@ import 'package:goal_quest/styles.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
 
+final achievedGoalBox = Hive.box('achievedGoalBox');
+final goalBox = Hive.box('myGoalBox');
+
 class HomeScreen extends StatelessWidget {
-  HomeScreen({Key? key}) : super(key: key);
-  final _goalBox = Hive.box('myGoalBox');
+  const HomeScreen({Key? key}) : super(key: key);
 
 // read box
 
@@ -77,7 +79,7 @@ class HomeScreen extends StatelessWidget {
                       'M Y  G O A L S',
                       style: titleFont1,
                     ),
-                    _goalBox.isEmpty ? const NoGoalsWidget() : const GoalListview()
+                    goalBox.isEmpty ? const NoGoalsWidget() : const GoalListview()
                   ],
                 ),
               )
@@ -94,9 +96,9 @@ class HomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               IconButton(
-                icon: const Icon(Icons.home),
+                icon: const Icon(Icons.checklist_sharp),
                 onPressed: () {
-                  _goalBox.deleteFromDisk();
+                  Navigator.pushNamed(context, '/completed_goals_screen');
                 },
               ),
               const Icon(Icons.settings)
@@ -108,7 +110,7 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-// Listview with all goal cards
+// Listview with all goal card widgets
 class GoalListview extends StatefulWidget {
   const GoalListview({
     Key? key,
@@ -119,7 +121,7 @@ class GoalListview extends StatefulWidget {
 }
 
 class _TestListViewState extends State<GoalListview> {
-  final _goalBox = Hive.box('myGoalBox');
+  final goalBox = Hive.box('myGoalBox');
 
   @override
   Widget build(BuildContext context) {
@@ -130,29 +132,43 @@ class _TestListViewState extends State<GoalListview> {
       children: goalList,
     );
     createGoalCards() {
-      _goalBox.toMap().forEach((key, value) {
-        goalList.add(GoalCardModel(
-          title: value['title'],
-          timeSpan: value['timeSpan'],
-          creationDate: value['creationDate'],
-          dueBeforeDate: value['dueDate'],
-          onDelete: (() {
-            _goalBox.delete(value['title']);
-            setState(() {
-              goalWidget = goalList.isNotEmpty
-                  ? ListView(
-                      shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
-                      children: goalList,
-                    )
-                  : const NoGoalsWidget();
-            });
-          }),
-        ));
+      goalBox.toMap().forEach((key, value) {
+        goalList.add(
+          GoalCardModel(
+            title: value['title'],
+            timeSpan: value['timeSpan'],
+            creationDate: value['creationDate'],
+            dueBeforeDate: value['dueDate'],
+            onDelete: (() {
+              goalBox.delete(value['title']);
+              setState(() {
+                rebuildGoalList(goalWidget, goalList);
+              });
+            }),
+            onMarked: () {
+              var finishedGoal = goalBox.get(value['title']);
+              achievedGoalBox.put(value['title'], finishedGoal);
+              goalBox.delete(value['title']);
+              setState(() {
+                rebuildGoalList(goalWidget, goalList);
+              });
+            },
+          ),
+        );
       });
     }
 
     createGoalCards();
     return goalWidget;
   }
+}
+
+void rebuildGoalList(var goalWidget, var goalList) {
+  goalWidget = !goalList.isNotEmpty
+      ? ListView(
+          shrinkWrap: true,
+          physics: const BouncingScrollPhysics(),
+          children: goalList,
+        )
+      : const NoGoalsWidget();
 }

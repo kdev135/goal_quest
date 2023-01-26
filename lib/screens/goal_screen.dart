@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:goal_quest/constants.dart';
@@ -9,6 +7,9 @@ import 'package:goal_quest/operations/date_picker_fn.dart';
 import 'package:goal_quest/styles.dart';
 import 'package:hive/hive.dart';
 
+
+// The screen allows modification of an existing goal. changes like description, target date and action plan.
+// New achieved milestones about the goal can be recorded on this page.
 class GoalScreen extends HookWidget {
   GoalScreen({super.key});
   final _goalBox = Hive.box('myGoalBox');
@@ -16,19 +17,8 @@ class GoalScreen extends HookWidget {
   final sizedBox = const SizedBox(
     height: 10,
   );
-  var creationDate =
+  final creationDate =
       '${DateTime.now().day.toString().padLeft(2, '0')}-${DateTime.now().month.toString().padLeft(2, '0')}-${DateTime.now().year}';
-  List<Map> myReports = [
-    {
-      'date': '1',
-      'details': 'Your separator can be any widget',
-    },
-    {
-      'date': '2',
-      'details': 'Yes It can be Text, Image, Container, FlutterLogo or any other widgets. 😄 😉 🍷',
-    },
-    {'date': '3', 'details': 'Hope this Quick Tip helps you.'}
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +54,7 @@ class GoalScreen extends HookWidget {
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           children: [
             Text(
-              'Tap on text to start editting',
+              'Tap to start editting where possible',
               textAlign: TextAlign.center,
               style: subtextFont.copyWith(fontSize: 14),
             ),
@@ -161,27 +151,29 @@ class GoalScreen extends HookWidget {
                     TextFieldModel(
                       textController: newReportController,
                       label: '',
-                      hintText: 'Tap here to enter new report.\n\n eg. I bought a new motherboard',
+                      hintText: 'Tap here to write a report.\n\n eg. Today, I bought a new motherboard from...',
                       maxlines: 3,
                     )
                   ],
                 ),
               ),
             ),
+            // Todo : move button navbar
             UpdateButton(
-                oldTitle: args.toString(),
-                dueDate: dueDate,
-                newReportController: newReportController,
-                reportList: reportList,
-                creationDate: creationDate,
-                titleController: titleController,
-                descriptionController: descriptionController,
-                actionPlanController: actionPlanController,
-                goal: goal,
-                goalBox: _goalBox)
+                  oldTitle: args.toString(),
+                  dueDate: dueDate,
+                  newReportController: newReportController,
+                  reportList: reportList,
+                  creationDate: creationDate,
+                  titleController: titleController,
+                  descriptionController: descriptionController,
+                  actionPlanController: actionPlanController,
+                  goal: goal,
+                  goalBox: _goalBox),
           ],
         ),
       ),
+      
     );
   }
 }
@@ -214,8 +206,8 @@ class ReportContainerModel extends StatelessWidget {
                   height: 20,
                 ),
                 Text(
-                  'Recorder on: ${reportList[index]['record_date']}',
-                  textAlign: TextAlign.end,
+                  'Report date: ${reportList[index]['record_date']}',
+                  textAlign: TextAlign.start,
                   style: subtextFont,
                 )
               ],
