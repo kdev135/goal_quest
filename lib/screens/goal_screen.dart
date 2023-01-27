@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:goal_quest/constants.dart';
@@ -6,7 +9,6 @@ import 'package:goal_quest/models/ui_models/text_field_model.dart';
 import 'package:goal_quest/operations/date_picker_fn.dart';
 import 'package:goal_quest/styles.dart';
 import 'package:hive/hive.dart';
-
 
 // The screen allows modification of an existing goal. changes like description, target date and action plan.
 // New achieved milestones about the goal can be recorded on this page.
@@ -65,13 +67,11 @@ class GoalScreen extends HookWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    
                     Text(
                       '[${goal['title']}]',
                       style: titleFont2,
                       textAlign: TextAlign.center,
                     ),
-                   
                     sizedBox,
                     Text(
                       'Description',
@@ -159,21 +159,24 @@ class GoalScreen extends HookWidget {
               ),
             ),
             // Todo : move button navbar
-            UpdateButton(
-                  oldTitle: args.toString(),
-                  dueDate: dueDate,
-                  newReportController: newReportController,
-                  reportList: reportList,
-                  creationDate: creationDate,
-                  titleController: titleController,
-                  descriptionController: descriptionController,
-                  actionPlanController: actionPlanController,
-                  goal: goal,
-                  goalBox: _goalBox),
           ],
         ),
       ),
-      
+      bottomNavigationBar: BottomAppBar(
+          child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: UpdateButton(
+            oldTitle: args.toString(),
+            dueDate: dueDate,
+            newReportController: newReportController,
+            reportList: reportList,
+            creationDate: creationDate,
+            titleController: titleController,
+            descriptionController: descriptionController,
+            actionPlanController: actionPlanController,
+            goal: goal,
+            goalBox: _goalBox),
+      )),
     );
   }
 }
@@ -218,7 +221,7 @@ class ReportContainerModel extends StatelessWidget {
 }
 
 class UpdateButton extends StatelessWidget {
-  const UpdateButton(
+  UpdateButton(
       {Key? key,
       required this.dueDate,
       required this.newReportController,
@@ -244,9 +247,17 @@ class UpdateButton extends StatelessWidget {
   final Box _goalBox;
   final String oldTitle;
 
+  final snackBar = const SnackBar(
+    content: Text('Goal updated successfully!'),
+    behavior: SnackBarBehavior.floating,
+    shape: StadiumBorder(),
+    margin: EdgeInsets.symmetric(horizontal: 60.0),
+  );
+
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return SizedBox(
+      width: 20,
       child: OutlinedButton(
         onPressed: () {
           var day = dueDate.value.substring(0, 2);
@@ -265,11 +276,12 @@ class UpdateButton extends StatelessWidget {
             'timeSpan': DateTime.parse('$year-$month-$day').difference(DateTime.now()).inDays,
             'reports': reportList
           };
-           _goalBox.delete(oldTitle);
-        
-          _goalBox.put(titleController.text, updates);
-         
+          _goalBox.delete(oldTitle);
 
+          _goalBox.put(titleController.text, updates);
+
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        
           Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
         },
         style: OutlinedButton.styleFrom(

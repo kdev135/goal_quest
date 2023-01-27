@@ -1,8 +1,11 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:goal_quest/components/custom_clip_path.dart';
 import 'package:goal_quest/components/no_goal_widget.dart';
 import 'package:goal_quest/models/ui_models/goal_card_model.dart';
 import 'package:goal_quest/constants.dart';
+import 'package:goal_quest/operations/notification_handler.dart';
+import 'package:goal_quest/operations/rebuild_goal_listview.dart';
 import 'package:goal_quest/styles.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
@@ -12,8 +15,6 @@ final goalBox = Hive.box('myGoalBox');
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
-
-// read box
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +102,10 @@ class HomeScreen extends StatelessWidget {
                   Navigator.pushNamed(context, '/completed_goals_screen');
                 },
               ),
-              const Icon(Icons.settings)
+              IconButton(
+                icon: Icon(Icons.settings),
+                onPressed: () {},
+              )
             ],
           ),
         ),
@@ -131,44 +135,43 @@ class _TestListViewState extends State<GoalListview> {
       physics: const BouncingScrollPhysics(),
       children: goalList,
     );
-    createGoalCards() {
-      goalBox.toMap().forEach((key, value) {
-        goalList.add(
-          GoalCardModel(
-            title: value['title'],
-            timeSpan: value['timeSpan'],
-            creationDate: value['creationDate'],
-            dueBeforeDate: value['dueDate'],
-            onDelete: (() {
-              goalBox.delete(value['title']);
-              setState(() {
-                rebuildGoalList(goalWidget, goalList);
-              });
-            }),
-            onMarked: () {
-              var finishedGoal = goalBox.get(value['title']);
-              achievedGoalBox.put(value['title'], finishedGoal);
-              goalBox.delete(value['title']);
-              setState(() {
-                rebuildGoalList(goalWidget, goalList);
-              });
-            },
-          ),
-        );
-      });
-    }
 
-    createGoalCards();
+    goalBox.toMap().forEach((key, value) {
+      goalList.add(
+        GoalCardModel(
+          title: value['title'],
+          timeSpan: value['timeSpan'],
+          creationDate: value['creationDate'],
+          dueBeforeDate: value['dueDate'],
+          onDelete: (() {
+            goalBox.delete(value['title']);
+            setState(() {
+              rebuildGoalList(goalWidget, goalList);
+            });
+          }),
+          onMarked: () {
+            var finishedGoal = goalBox.get(value['title']);
+            achievedGoalBox.put(value['title'], finishedGoal);
+            goalBox.delete(value['title']);
+            setState(() {
+              rebuildGoalList(goalWidget, goalList);
+            });
+          },
+        ),
+      );
+    });
+
     return goalWidget;
   }
 }
 
-void rebuildGoalList(var goalWidget, var goalList) {
-  goalWidget = !goalList.isNotEmpty
-      ? ListView(
-          shrinkWrap: true,
-          physics: const BouncingScrollPhysics(),
-          children: goalList,
-        )
-      : const NoGoalsWidget();
+notify() async {
+  print('here---${DateTime.now()}');
+  await AwesomeNotifications().createNotification(
+    content: NotificationContent(
+        id: 1,
+        channelKey: 'key1',
+        title: "You've got this!",
+        body: 'Whatever the mind of man can conceive and believe, it can achieve.'),
+  );
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:goal_quest/styles.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+
 
 // The card to show pending goals on home_screen
 class GoalCardModel extends HookWidget {
@@ -12,7 +12,7 @@ class GoalCardModel extends HookWidget {
   final VoidCallback onDelete;
   final VoidCallback? onMarked;
 
-  GoalCardModel(
+  const GoalCardModel(
       {Key? key,
       required this.title,
       required this.timeSpan,
@@ -21,7 +21,7 @@ class GoalCardModel extends HookWidget {
       this.onMarked,
       required this.onDelete})
       : super(key: key);
-  final _goalBox = Hive.box('myGoalBox');
+
 
   @override
   Widget build(BuildContext context) {
