@@ -1,36 +1,45 @@
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:goal_quest/constants.dart';
 import 'package:goal_quest/screens/completed_goals_screen.dart';
 import 'package:goal_quest/screens/home_screen.dart';
 import 'package:goal_quest/screens/goal_screen.dart';
 import 'package:goal_quest/screens/new_goal_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'operations/notification_handler.dart';
+
 void main() async {
   await Hive.initFlutter();
   await Hive.openBox('myGoalBox');
   await Hive.openBox('achievedGoalBox');
 
+  WidgetsFlutterBinding.ensureInitialized();
+  await AndroidAlarmManager.initialize();
+
   AwesomeNotifications().initialize(
-    null,
-    [
-      NotificationChannel(
-          channelGroupKey: 'basic_channel_group',
-          channelKey: 'basic_channel',
-          channelName: 'Basic notifications',
-          channelDescription: 'Notification channel for basic tests',
-          defaultColor: Color(0xFF9D50DD),
-          ledColor: Colors.white)
-    ],
-  debug: true
-  );
+      null,
+      [
+        NotificationChannel(
+            channelGroupKey: 'goal_channel_group',
+            channelKey: 'key1',
+            channelName: 'goal notifications',
+            channelDescription: 'goal notifications channel',
+            defaultColor: primaryColor,
+            ledColor: Colors.white)
+      ],
+      debug: true);
+
+// Schedule the morning alarm
+  scheduleMorningNotification();
+
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -42,7 +51,7 @@ class MyApp extends StatelessWidget {
         '/': ((context) => HomeScreen()),
         '/goal_screen': (context) => GoalScreen(),
         '/new_goal_screen': (context) => NewGoalScreen(),
-        '/completed_goals_screen':(context) => CompletedGoalsScreen()
+        '/completed_goals_screen': (context) => CompletedGoalsScreen()
       },
     );
   }
