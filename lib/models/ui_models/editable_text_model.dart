@@ -13,9 +13,10 @@ class EditableTextModel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       color: interactiveFieldGrey,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(10.0),
         child: EditableText(
             maxLines: maxLines,
             controller: sampleTextController,

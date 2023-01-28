@@ -62,6 +62,7 @@ class GoalScreen extends HookWidget {
             ),
             sizedBox,
             Card(
+                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Column(
@@ -122,6 +123,7 @@ class GoalScreen extends HookWidget {
             ),
             sizedBox,
             Card(
+                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Column(
@@ -163,6 +165,7 @@ class GoalScreen extends HookWidget {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
+        
           child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: UpdateButton(
