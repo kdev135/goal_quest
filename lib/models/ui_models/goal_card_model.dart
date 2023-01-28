@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:goal_quest/constants.dart';
 import 'package:goal_quest/styles.dart';
 
 
@@ -34,7 +35,9 @@ class GoalCardModel extends HookWidget {
             ? isSelected.value = false
             : Navigator.pushNamed(context, '/goal_screen', arguments: title),
         onLongPress: () => isSelected.value = true,
+     
         child: Card(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(

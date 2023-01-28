@@ -165,13 +165,4 @@ class _TestListViewState extends State<GoalListview> {
   }
 }
 
-notify() async {
-  print('here---${DateTime.now()}');
-  await AwesomeNotifications().createNotification(
-    content: NotificationContent(
-        id: 1,
-        channelKey: 'key1',
-        title: "You've got this!",
-        body: 'Whatever the mind of man can conceive and believe, it can achieve.'),
-  );
-}
+

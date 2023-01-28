@@ -80,6 +80,8 @@ class NewGoalScreen extends HookWidget {
             // Date selection for new goal
 
             Card(
+                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: GestureDetector(
@@ -106,6 +108,8 @@ class NewGoalScreen extends HookWidget {
                         style: defaultFont,
                       ),
                       Card(
+                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+
                         color: interactiveFieldGrey,
                         child: ListTile(
                           dense: true,
@@ -126,77 +130,82 @@ class NewGoalScreen extends HookWidget {
             ),
 
 // Endof date selection
-            Center(
-              child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(),
-                  onPressed: () {
-                    final formIsValid = formKey.currentState!.validate();
-                    var creationDate =
-                        '${DateTime.now().day.toString().padLeft(2, '0')}-${DateTime.now().month.toString().padLeft(2, '0')}-${DateTime.now().year}';
-
-                    if (formIsValid) {
-                      // Create the new goal and commit to database
-                      var newGoal = {
-                        'title': titleController.text,
-                        'description': descriptionController.text,
-                        'actionPlan': actionPlanController.text,
-                        'creationDate': creationDate,
-                        'dueDate': formattedDate,
-                        'timeSpan': targetDate.value.difference(DateTime.now()).inDays,
-                        'reports': [{'record_date':creationDate, 'report':' I created this goal!'}],
-                        
-                      };
-
-                      _goalBox.put(titleController.text, newGoal);
-
-                      formKey.currentState!.reset();
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Text(
-                                'New goal created',
-                                textAlign: TextAlign.center,
-                              ),
-                              content: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const Icon(
-                                    Icons.check_circle_rounded,
-                                    color: Colors.green,
-                                    size: 50,
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    'Great! Your new goal has been created successfully',
-                                    style: defaultFont,
-                                  )
-                                ],
-                              ),
-                              actions: [
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
-                                    },
-                                    child: Text(
-                                      'Ok',
-                                      style: defaultFont,
-                                    ))
-                              ],
-                            );
-                          });
-                    }
-                  },
-                  child: Text(
-                    'Create goal',
-                    style: defaultFont.copyWith(color: primaryColor),
-                  )),
-            )
+            
           ],
         ),
       )),
+      bottomNavigationBar: BottomAppBar(child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal:20.0),
+        child: SizedBox(
+          width: 20,
+          child: OutlinedButton(
+              style: OutlinedButton.styleFrom(),
+              onPressed: () {
+                final formIsValid = formKey.currentState!.validate();
+                var creationDate =
+                    '${DateTime.now().day.toString().padLeft(2, '0')}-${DateTime.now().month.toString().padLeft(2, '0')}-${DateTime.now().year}';
+
+                if (formIsValid) {
+                  // Create the new goal and commit to database
+                  var newGoal = {
+                    'title': titleController.text,
+                    'description': descriptionController.text,
+                    'actionPlan': actionPlanController.text,
+                    'creationDate': creationDate,
+                    'dueDate': formattedDate,
+                    'timeSpan': targetDate.value.difference(DateTime.now()).inDays,
+                    'reports': [{'record_date':creationDate, 'report':' I created this goal!'}],
+                    
+                  };
+
+                  _goalBox.put(titleController.text, newGoal);
+
+                  formKey.currentState!.reset();
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text(
+                            'New goal created',
+                            textAlign: TextAlign.center,
+                          ),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(
+                                Icons.check_circle_rounded,
+                                color: Colors.green,
+                                size: 50,
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                'Great! Your new goal has been created successfully',
+                                style: defaultFont,
+                              )
+                            ],
+                          ),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+                                },
+                                child: Text(
+                                  'Ok',
+                                  style: defaultFont,
+                                ))
+                          ],
+                        );
+                      });
+                }
+              },
+              child: Text(
+                'Create goal',
+                style: defaultFont.copyWith(color: primaryColor),
+              )),
+        ),
+      ),),
     );
   }
 }
