@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:goal_quest/models/ui_models/animated_page_title_model.dart';
 import 'package:goal_quest/screens/home_screen.dart';
 import 'package:goal_quest/styles.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class CompletedGoalsScreen extends StatefulWidget {
-  CompletedGoalsScreen({super.key});
+  const CompletedGoalsScreen({super.key});
 
   @override
   State<CompletedGoalsScreen> createState() => _CompletedGoalsScreenState();
@@ -18,10 +19,7 @@ class _CompletedGoalsScreenState extends State<CompletedGoalsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'C O M P L E T E D  G O A L S',
-          style: titleFont1,
-        ),
+        title: const AnimatedPageTitleModel(titleText: 'C O M P L E T E D  G O A L S',),
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
         centerTitle: true,
@@ -45,8 +43,9 @@ Column completeGoalCard() {
     cards.add(Padding(
       padding: const EdgeInsets.all(10.0),
       child: AnimatedSize(
-        duration: Duration(seconds: 1),
+        duration: const Duration(seconds: 1),
         child: Card(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           child: InkWell(
             onLongPress: (() {
               

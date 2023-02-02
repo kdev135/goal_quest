@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:goal_quest/constants.dart';
 import 'package:goal_quest/styles.dart';
 
-
 // The card to show pending goals on home_screen
 class GoalCardModel extends HookWidget {
   final String title;
@@ -23,10 +22,11 @@ class GoalCardModel extends HookWidget {
       required this.onDelete})
       : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     var isSelected = useState(false);
+    var timeMonths = (timeSpan / 31).round();
+    
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
@@ -35,7 +35,6 @@ class GoalCardModel extends HookWidget {
             ? isSelected.value = false
             : Navigator.pushNamed(context, '/goal_screen', arguments: title),
         onLongPress: () => isSelected.value = true,
-     
         child: Card(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           child: Padding(
@@ -48,10 +47,11 @@ class GoalCardModel extends HookWidget {
                   style: titleFont2,
                   overflow: TextOverflow.ellipsis,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5.0),
-                  child:
-                      Text('Time span: $timeSpan days [about ${(timeSpan / 31).round()} months]', style: defaultFont),
+                Divider(),
+                Text('Time span: $timeMonths months  [ $timeSpan days ]',
+                    style: defaultFont), 
+                SizedBox(
+                  height: 10,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

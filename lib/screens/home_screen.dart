@@ -2,6 +2,7 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:goal_quest/components/custom_clip_path.dart';
 import 'package:goal_quest/components/no_goal_widget.dart';
+import 'package:goal_quest/models/ui_models/animated_page_title_model.dart';
 import 'package:goal_quest/models/ui_models/goal_card_model.dart';
 import 'package:goal_quest/constants.dart';
 import 'package:goal_quest/operations/notification_handler.dart';
@@ -76,10 +77,7 @@ class HomeScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'M Y  G O A L S',
-                      style: titleFont1,
-                    ),
+                    const AnimatedPageTitleModel(titleText: 'M Y  G O A L S'),
                     goalBox.isEmpty ? const NoGoalsWidget() : const GoalListview()
                   ],
                 ),
@@ -103,7 +101,7 @@ class HomeScreen extends StatelessWidget {
                 },
               ),
               IconButton(
-                icon: Icon(Icons.settings),
+                icon: const Icon(Icons.settings),
                 onPressed: () {},
               )
             ],
@@ -164,5 +162,3 @@ class _TestListViewState extends State<GoalListview> {
     return goalWidget;
   }
 }
-
-

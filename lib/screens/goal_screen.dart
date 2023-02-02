@@ -1,6 +1,3 @@
-import 'dart:async';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:goal_quest/constants.dart';
@@ -9,6 +6,9 @@ import 'package:goal_quest/models/ui_models/text_field_model.dart';
 import 'package:goal_quest/operations/date_picker_fn.dart';
 import 'package:goal_quest/styles.dart';
 import 'package:hive/hive.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
+
+import '../models/ui_models/animated_page_title_model.dart';
 
 // The screen allows modification of an existing goal. changes like description, target date and action plan.
 // New achieved milestones about the goal can be recorded on this page.
@@ -40,10 +40,7 @@ class GoalScreen extends HookWidget {
         leading: BackButton(
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text(
-          'E D I T  MY  G O A L',
-          style: titleFont1,
-        ),
+        title: const AnimatedPageTitleModel(titleText: 'E D I T  M Y  G O A L',),
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
         centerTitle: true,
@@ -62,7 +59,7 @@ class GoalScreen extends HookWidget {
             ),
             sizedBox,
             Card(
-                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Column(
@@ -123,7 +120,7 @@ class GoalScreen extends HookWidget {
             ),
             sizedBox,
             Card(
-                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Column(
@@ -165,7 +162,6 @@ class GoalScreen extends HookWidget {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        
           child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: UpdateButton(
@@ -183,6 +179,7 @@ class GoalScreen extends HookWidget {
     );
   }
 }
+
 
 class ReportContainerModel extends StatelessWidget {
   const ReportContainerModel({Key? key, required this.reportList, required this.index}) : super(key: key);
@@ -284,7 +281,7 @@ class UpdateButton extends StatelessWidget {
           _goalBox.put(titleController.text, updates);
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        
+
           Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
         },
         style: OutlinedButton.styleFrom(
