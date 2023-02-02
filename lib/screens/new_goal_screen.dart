@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:goal_quest/constants.dart';
+import 'package:goal_quest/models/ui_models/animated_page_title_model.dart';
 import 'package:goal_quest/models/ui_models/goal_prop_card_model.dart';
 import 'package:goal_quest/styles.dart';
 import 'package:hive/hive.dart';
@@ -27,10 +28,7 @@ class NewGoalScreen extends HookWidget {
         leading: BackButton(
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text(
-          'C R E A T E  A  G O A L',
-          style: titleFont1,
-        ),
+        title: const AnimatedPageTitleModel(titleText:   'C R E A T E  A  N E W  G O A L',),
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
         centerTitle: true,
