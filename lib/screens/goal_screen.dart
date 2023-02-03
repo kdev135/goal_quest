@@ -10,8 +10,8 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 
 import '../models/ui_models/animated_page_title_model.dart';
 
-// The screen allows modification of an existing goal. changes like description, target date and action plan.
-// New achieved milestones about the goal can be recorded on this page.
+// The screen allows modification of an existing goalObject. changes like description, target date and action plan.
+// New achieved milestones about the goalObject can be recorded on this page.
 class GoalScreen extends HookWidget {
   GoalScreen({super.key});
   final _goalBox = Hive.box('myGoalBox');
@@ -24,16 +24,16 @@ class GoalScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    var newReport = useState({});
+ 
     final args = ModalRoute.of(context)!.settings.arguments;
-    var goal = _goalBox.get(args.toString());
-    final TextEditingController titleController = TextEditingController(text: goal['title']);
-    final TextEditingController descriptionController = TextEditingController(text: goal['description']);
-    final TextEditingController actionPlanController = TextEditingController(text: goal['actionPlan']);
-    final TextEditingController dueDateController = TextEditingController(text: goal['dueDate']);
+    var goalObject = _goalBox.get(args.toString());
+    final TextEditingController titleController = TextEditingController(text: goalObject['title']);
+    final TextEditingController descriptionController = TextEditingController(text: goalObject['description']);
+    final TextEditingController actionPlanController = TextEditingController(text: goalObject['actionPlan']);
+    final TextEditingController dueDateController = TextEditingController(text: goalObject['dueDate']);
     final TextEditingController newReportController = TextEditingController();
     var dueDate = useState(dueDateController.text);
-    var reportList = goal['reports'];
+    var reportList = goalObject['reports'];
 
     return Scaffold(
       appBar: AppBar(
@@ -66,7 +66,7 @@ class GoalScreen extends HookWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      '[${goal['title']}]',
+                      '[${goalObject['title']}]',
                       style: titleFont2,
                       textAlign: TextAlign.center,
                     ),
@@ -94,7 +94,7 @@ class GoalScreen extends HookWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Created on: ${goal['creationDate']}', style: subtextFont),
+                        Text('Created on: ${goalObject['creationDate']}', style: subtextFont),
                         GestureDetector(
                           onTap: () {
                             int todayDate = DateTime.now().day;
@@ -131,7 +131,7 @@ class GoalScreen extends HookWidget {
                       style: titleFont2,
                     ),
                     Text(
-                      '\nDid you make some progress towards achieving this goal? Write about it here.',
+                      '\nDid you make some progress towards achieving this goalObject? Write about it here.',
                       style: subtextFont,
                     ),
                     ListView.separated(
@@ -173,7 +173,7 @@ class GoalScreen extends HookWidget {
             titleController: titleController,
             descriptionController: descriptionController,
             actionPlanController: actionPlanController,
-            goal: goal,
+            goalObject: goalObject,
             goalBox: _goalBox),
       )),
     );
@@ -221,7 +221,7 @@ class ReportContainerModel extends StatelessWidget {
 }
 
 class UpdateButton extends StatelessWidget {
-  UpdateButton(
+  const UpdateButton(
       {Key? key,
       required this.dueDate,
       required this.newReportController,
@@ -230,7 +230,7 @@ class UpdateButton extends StatelessWidget {
       required this.titleController,
       required this.descriptionController,
       required this.actionPlanController,
-      required this.goal,
+      required this.goalObject,
       required Box goalBox,
       this.oldTitle = ''})
       : _goalBox = goalBox,
@@ -238,21 +238,14 @@ class UpdateButton extends StatelessWidget {
 
   final ValueNotifier<String> dueDate;
   final TextEditingController newReportController;
-  final reportList;
+  final dynamic reportList;
   final String creationDate;
   final TextEditingController titleController;
   final TextEditingController descriptionController;
   final TextEditingController actionPlanController;
-  final goal;
+  final dynamic goalObject;
   final Box _goalBox;
   final String oldTitle;
-
-  final snackBar = const SnackBar(
-    content: Text('Goal updated successfully!'),
-    behavior: SnackBarBehavior.floating,
-    shape: StadiumBorder(),
-    margin: EdgeInsets.symmetric(horizontal: 60.0),
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -264,14 +257,14 @@ class UpdateButton extends StatelessWidget {
           var month = dueDate.value.substring(3, 5);
           var year = dueDate.value.substring(6);
 
-          newReportController.text.isNotEmpty
+          newReportController.text.trim().isNotEmpty // Ensure there is actual data
               ? reportList.add({'record_date': creationDate, 'report': newReportController.text})
               : null;
           var updates = {
             'title': titleController.text,
             'description': descriptionController.text,
             'actionPlan': actionPlanController.text,
-            'creationDate': goal['creationDate'],
+            'creationDate': goalObject['creationDate'],
             'dueDate': dueDate.value,
             'timeSpan': DateTime.parse('$year-$month-$day').difference(DateTime.now()).inDays,
             'reports': reportList
@@ -280,7 +273,7 @@ class UpdateButton extends StatelessWidget {
 
           _goalBox.put(titleController.text, updates);
 
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        
 
           Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
         },

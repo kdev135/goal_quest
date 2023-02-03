@@ -1,9 +1,14 @@
+import 'dart:async';
+
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:goal_quest/constants.dart';
 import 'package:goal_quest/styles.dart';
 
 // The card to show pending goals on home_screen
+final confettiController = ConfettiController(duration: const Duration(seconds: 5));
+
 class GoalCardModel extends HookWidget {
   final String title;
   final dynamic timeSpan;
@@ -12,21 +17,22 @@ class GoalCardModel extends HookWidget {
   final VoidCallback onDelete;
   final VoidCallback? onMarked;
 
-  const GoalCardModel(
-      {Key? key,
-      required this.title,
-      required this.timeSpan,
-      required this.creationDate,
-      required this.dueBeforeDate,
-      this.onMarked,
-      required this.onDelete})
-      : super(key: key);
+  const GoalCardModel({
+    Key? key,
+    required this.title,
+    required this.timeSpan,
+    required this.creationDate,
+    required this.dueBeforeDate,
+    this.onMarked,
+    required this.onDelete,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var isSelected = useState(false);
+
+    var isCelebrating = useState(false);
     var timeMonths = (timeSpan / 31).round();
-    
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
@@ -47,10 +53,11 @@ class GoalCardModel extends HookWidget {
                   style: titleFont2,
                   overflow: TextOverflow.ellipsis,
                 ),
-                Divider(),
-                Text('Time span: $timeMonths months  [ $timeSpan days ]',
-                    style: defaultFont), 
-                SizedBox(
+                const Divider(
+                  height: 10,
+                ),
+                Text('Allocated time: $timeMonths months  [ $timeSpan days ]', style: defaultFont),
+                const SizedBox(
                   height: 10,
                 ),
                 Row(
@@ -71,11 +78,16 @@ class GoalCardModel extends HookWidget {
                       TextButton.icon(
                           icon: const Icon(Icons.check_box_outlined),
                           label: const Text('Mark as done'),
-                          onPressed: onMarked),
+                          onPressed: (() {
+                            // onMarked;
+                            confettiController.play();
+                            isCelebrating.value = !isCelebrating.value;
+                           
+                          })),
                       const SizedBox(
                         width: 10,
                       ),
-                      OutlinedButton(onPressed: onDelete, child: const Text('Remove')),
+                      TextButton(onPressed: onDelete, child: const Text('Remove')),
                     ],
                   ),
                 )
