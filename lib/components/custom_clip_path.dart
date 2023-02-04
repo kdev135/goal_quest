@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Create the curver quote background on homepage
 class CustomClipperPath extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {

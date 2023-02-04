@@ -18,6 +18,18 @@ class _TestListViewState extends State<GoalListview> {
   final _goalBox = Hive.box('myGoalBox');
 
   @override
+  void initState() {
+    super.initState();
+    confettiController.duration;
+  }
+
+  @override
+  void dispose() {
+    confettiController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final List<Widget> goalList = [];
     Widget goalWidget = ListView(
