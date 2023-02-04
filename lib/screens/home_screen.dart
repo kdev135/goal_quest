@@ -1,13 +1,10 @@
-
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:goal_quest/components/custom_clip_path.dart';
 import 'package:goal_quest/components/no_goal_widget.dart';
 import 'package:goal_quest/models/ui_models/animated_page_title_model.dart';
 import 'package:goal_quest/models/ui_models/goal_card_model.dart';
 import 'package:goal_quest/constants.dart';
-import 'package:goal_quest/operations/create_star_confetti.dart';
 import 'package:goal_quest/operations/rebuild_goal_listview.dart';
 import 'package:goal_quest/styles.dart';
 
@@ -16,15 +13,19 @@ import 'package:hive_flutter/hive_flutter.dart';
 final achievedGoalBox = Hive.box('achievedGoalBox');
 final goalBox = Hive.box('myGoalBox');
 
-class HomeScreen extends HookWidget {
-  HomeScreen({Key? key}) : super(key: key);
-//Todo : Dispose confetti controller
-  
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-   
 
     return Stack(
       children: [
@@ -92,7 +93,7 @@ class HomeScreen extends HookWidget {
               ),
             ),
           ),
-          
+
           // Bottom navigation buttons here
           bottomNavigationBar: BottomAppBar(
             shape: const CircularNotchedRectangle(),
@@ -110,9 +111,8 @@ class HomeScreen extends HookWidget {
                   IconButton(
                     icon: const Icon(Icons.settings),
                     onPressed: () {
-                    
                       // print(isCelebrating.value);
-                      
+
                       // Navigator.pushNamed(context, '/settings_screen');
                     },
                   )
@@ -121,19 +121,15 @@ class HomeScreen extends HookWidget {
             ),
           ),
         ),
-            Align(
-              alignment: Alignment.topCenter,
-              child: ConfettiWidget(
-                confettiController: confettiController,
-                
-              blastDirectionality: BlastDirectionality.explosive,
-              createParticlePath: createStarConfetti,
-                
-                
-                
-               
-              ),
-            ),
+        Align(
+          alignment: Alignment.topCenter,
+          child: ConfettiWidget(
+            confettiController: confettiController,
+            numberOfParticles: 30,
+            blastDirectionality: BlastDirectionality.explosive,
+            // createParticlePath: createStarConfetti,
+          ),
+        ),
       ],
     );
   }

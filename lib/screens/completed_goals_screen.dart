@@ -12,17 +12,21 @@ class CompletedGoalsScreen extends StatefulWidget {
 }
 
 class _CompletedGoalsScreenState extends State<CompletedGoalsScreen> {
-  final _achievedGoalBox = Hive.box('achievedGoalBox');
   final List<String> selectedItems = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const AnimatedPageTitleModel(titleText: 'C O M P L E T E D  G O A L S',),
+        title: const AnimatedPageTitleModel(
+          titleText: 'A T T A I N E D  G O A L S',
+        ),
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
         centerTitle: true,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => achievedGoalBox.clear(),
       ),
       body:
           // If no completed goals, show this
@@ -30,14 +34,16 @@ class _CompletedGoalsScreenState extends State<CompletedGoalsScreen> {
           // Completed goals exist? show this
           ListView(
         shrinkWrap: true,
-        children: [completeGoalCard()],
+        children: [completeGoalCard(context)],
       ),
     );
   }
 }
 
-Column completeGoalCard() {
+Column completeGoalCard(BuildContext context) {
   List<Widget> cards = [];
+
+
 
   achievedGoalBox.toMap().forEach((key, value) {
     cards.add(Padding(
@@ -45,10 +51,35 @@ Column completeGoalCard() {
       child: AnimatedSize(
         duration: const Duration(seconds: 1),
         child: Card(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           child: InkWell(
-            onLongPress: (() {
-              
+            onTap: (() {
+              // Todo : add reports & achievement time to alert dialog
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return  AlertDialog(
+                      content: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                            Text(
+                    key.toString(),
+                    style: titleFont2,
+                  ),
+                  const Divider(),
+                  Text('Goal Description', style: titleFont2,),
+                   Text('${value['description']}', style: subtextFont),
+                   const Divider(),
+                   Text('Action Plan', style: titleFont2,),
+                   Text('${value['actionPlan']}', style: subtextFont),
+                     const Divider(),
+                  
+                   Text('Allocated time: ${value['timeSpan']} days [${(value['timeSpan']/31).round()} months]', style: subtextFont),
+                        ],
+                      ),
+
+                    );
+                  });
             }),
             child: Padding(
               padding: const EdgeInsets.all(10.0),

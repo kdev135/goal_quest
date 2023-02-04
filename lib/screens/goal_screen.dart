@@ -6,7 +6,6 @@ import 'package:goal_quest/models/ui_models/text_field_model.dart';
 import 'package:goal_quest/operations/date_picker_fn.dart';
 import 'package:goal_quest/styles.dart';
 import 'package:hive/hive.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 
 import '../models/ui_models/animated_page_title_model.dart';
 
@@ -78,7 +77,7 @@ class GoalScreen extends HookWidget {
                     ),
                     EditableTextModel(
                       sampleTextController: descriptionController,
-                      maxLines: 5,
+                      maxLines: 8,
                     ),
                     sizedBox,
                     Text(
@@ -131,11 +130,18 @@ class GoalScreen extends HookWidget {
                       style: titleFont2,
                     ),
                     Text(
-                      '\nDid you make some progress towards achieving this goalObject? Write about it here.',
+                      '\nDid you make some progress towards achieving this goal? Write about it here. [Latest report apprears first]',
                       style: subtextFont,
+                    ),
+                     TextFieldModel(
+                      textController: newReportController,
+                      label: '',
+                      hintText: 'Tap here to write a report.\n\n eg. Today, I bought a new motherboard from...',
+                      maxlines: 3,
                     ),
                     ListView.separated(
                       shrinkWrap: true,
+                      reverse: true,
                       physics: const BouncingScrollPhysics(),
                       separatorBuilder: (context, index) => const SizedBox(
                         height: 20,
@@ -147,12 +153,7 @@ class GoalScreen extends HookWidget {
                         index: index,
                       ),
                     ),
-                    TextFieldModel(
-                      textController: newReportController,
-                      label: '',
-                      hintText: 'Tap here to write a report.\n\n eg. Today, I bought a new motherboard from...',
-                      maxlines: 3,
-                    )
+                   
                   ],
                 ),
               ),

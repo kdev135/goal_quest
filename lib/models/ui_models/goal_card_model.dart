@@ -1,9 +1,6 @@
-import 'dart:async';
-
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:goal_quest/constants.dart';
 import 'package:goal_quest/styles.dart';
 
 // The card to show pending goals on home_screen
@@ -79,15 +76,20 @@ class GoalCardModel extends HookWidget {
                           icon: const Icon(Icons.check_box_outlined),
                           label: const Text('Mark as done'),
                           onPressed: (() {
-                            // onMarked;
+                            onMarked!();
+                            isSelected.value = false;
                             confettiController.play();
                             isCelebrating.value = !isCelebrating.value;
-                           
                           })),
                       const SizedBox(
                         width: 10,
                       ),
-                      TextButton(onPressed: onDelete, child: const Text('Remove')),
+                      TextButton(
+                          onPressed: () {
+                            onDelete();
+                            isSelected.value = false;
+                          },
+                          child: const Text('Remove')),
                     ],
                   ),
                 )
