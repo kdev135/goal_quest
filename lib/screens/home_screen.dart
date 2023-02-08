@@ -10,8 +10,7 @@ import 'package:goal_quest/styles.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
 
-final achievedGoalBox = Hive.box('achievedGoalBox');
-final goalBox = Hive.box('myGoalBox');
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -30,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Stack(
       children: [
         Scaffold(
+
           floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
           floatingActionButton: FloatingActionButton(
             tooltip: 'Create a new goal',
@@ -41,6 +41,8 @@ class _HomeScreenState extends State<HomeScreen> {
           appBar: AppBar(
             elevation: 0.0,
             backgroundColor: primaryColor,
+          title: Image.asset('assets/gq_logo.png'),
+          centerTitle: true,
           ),
           body: SafeArea(
             child: SingleChildScrollView(

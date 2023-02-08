@@ -1,4 +1,5 @@
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:goal_quest/constants.dart';
@@ -16,25 +17,28 @@ void main() async {
   await Hive.openBox('myGoalBox');
   await Hive.openBox('achievedGoalBox');
 
-  WidgetsFlutterBinding.ensureInitialized();
-  await AndroidAlarmManager.initialize();
-
-  AwesomeNotifications().initialize(
+  await AwesomeNotifications().initialize(
       null,
       [
         NotificationChannel(
-            channelGroupKey: 'goal_channel_group',
-            channelKey: 'key1',
-            channelName: 'goal notifications',
-            channelDescription: 'goal notifications channel',
-            defaultColor: primaryColor,
-            ledColor: Colors.white)
+          channelGroupKey: 'goal_channel_group',
+          channelKey: 'key2',
+          channelName: 'goal notifications',
+          channelDescription: 'goal notifications channel',
+          defaultColor: primaryColor,
+        )
       ],
       debug: true);
 
-// Schedule the morning & evening notifications
-  scheduleMorningNotification();
-  scheduleEveningNotifications();
+  WidgetsFlutterBinding.ensureInitialized();
+  await AndroidAlarmManager.initialize().then(
+    (value) {
+      // Schedule the morning & evening notifications
+
+      scheduleMorningNotification();
+      scheduleEveningNotifications();
+    },
+  );
 
   runApp(const MyApp());
 }
@@ -46,15 +50,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Goal Quest',
       theme: ThemeData.dark(),
-      initialRoute: '/',
+      home: AnimatedSplashScreen(
+       
+          splash: Image.asset('assets/gq_logo.png'),
+          nextScreen: const HomeScreen(),
+          splashTransition: SplashTransition.sizeTransition,
+          backgroundColor: primaryColor),
       routes: {
-        '/': ((context) =>  HomeScreen()),
+        // '/': ((context) => const HomeScreen()),
         '/goal_screen': (context) => GoalScreen(),
         '/new_goal_screen': (context) => NewGoalScreen(),
         '/completed_goals_screen': (context) => const CompletedGoalsScreen(),
-       '/settings_screen':(context) => const SettingsScreen()
+        '/settings_screen': (context) => const SettingsScreen()
       },
     );
   }

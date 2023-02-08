@@ -6,7 +6,7 @@ morningNotification() async {
   await AwesomeNotifications().createNotification(
     content: NotificationContent(
         id: 1,
-        channelKey: 'key1',
+        channelKey: 'key2',
         title: "You've got this!",
         body: 'Whatever the mind of man can conceive and believe, it can achieve.'),
   );
@@ -16,7 +16,7 @@ eveningNotification() async {
   await AwesomeNotifications().createNotification(
     content: NotificationContent(
         id: 2,
-        channelKey: 'key1',
+        channelKey: 'key2',
         title: "How was your day?",
         body: 'Did you make some progress today? Great! Note it down.'),
   );
