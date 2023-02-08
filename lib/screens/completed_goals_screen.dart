@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:goal_quest/components/no_goal_widget.dart';
 import 'package:goal_quest/models/ui_models/animated_page_title_model.dart';
-import 'package:goal_quest/screens/home_screen.dart';
+
 import 'package:goal_quest/styles.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+
+import '../constants.dart';
+
 
 class CompletedGoalsScreen extends StatefulWidget {
   const CompletedGoalsScreen({super.key});
@@ -25,12 +28,11 @@ class _CompletedGoalsScreenState extends State<CompletedGoalsScreen> {
         shadowColor: Colors.transparent,
         centerTitle: true,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => achievedGoalBox.clear(),
-      ),
+    
       body:
+      achievedGoalBox.length == 0 ?
           // If no completed goals, show this
-
+          const NoGoalsWidget():
           // Completed goals exist? show this
           ListView(
         shrinkWrap: true,
