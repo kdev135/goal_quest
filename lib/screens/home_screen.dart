@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
           appBar: AppBar(
             elevation: 0.0,
             backgroundColor: primaryColor,
-          title: Image.asset('assets/gq_logo.png'),
+         
           centerTitle: true,
           ),
           body: SafeArea(
