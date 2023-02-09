@@ -19,14 +19,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-   
-  }
-
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -47,6 +39,10 @@ class _HomeScreenState extends State<HomeScreen> {
             elevation: 0.0,
             backgroundColor: primaryColor,
             centerTitle: true,
+            title: Image.asset(
+              'assets/gq_round.png',
+              scale: 3.5,
+            ),
           ),
           body: SafeArea(
             child: SingleChildScrollView(
@@ -118,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     icon: const Icon(Icons.settings),
                     onPressed: () {
                       // print(isCelebrating.value);
-                      getQuote();
+                      Navigator.pushNamed(context, '/settings_screen');
                       // Navigator.pushNamed(context, '/settings_screen');
                     },
                   )
@@ -131,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
           alignment: Alignment.topCenter,
           child: ConfettiWidget(
             confettiController: confettiController,
-            numberOfParticles: 30,
+
             blastDirectionality: BlastDirectionality.explosive,
             // createParticlePath: createStarConfetti,
           ),

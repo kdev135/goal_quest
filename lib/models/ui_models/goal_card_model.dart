@@ -78,7 +78,7 @@ class GoalCardModel extends HookWidget {
                           onPressed: (() {
                             onMarked!();
                             isSelected.value = false;
-                            confettiController.play();
+                            // confettiController.play(); //!Causing crash
                             isCelebrating.value = !isCelebrating.value;
                           })),
                       const SizedBox(

@@ -8,7 +8,7 @@ void getQuote() async {
     var response = await Dio().get(
         'https://api.quotable.io/random?maxLength=105&tags=inspiration|success|motivational');
     await quoteBox.put('newQuote', '${response.data["content"]}\n\n- ${response.data["author"]}');
-    print(response);
+    
   } catch (e) {
     print(e);
   }

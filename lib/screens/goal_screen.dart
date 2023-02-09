@@ -40,8 +40,8 @@ class GoalScreen extends HookWidget {
           onPressed: () => Navigator.pop(context),
         ),
         title: const AnimatedPageTitleModel(titleText: 'E D I T  M Y  G O A L',),
-        backgroundColor: Colors.transparent,
-        shadowColor: Colors.transparent,
+        // backgroundColor: Colors.transparent,
+        // shadowColor: Colors.transparent,
         centerTitle: true,
       ),
       body: Padding(
@@ -276,7 +276,7 @@ class UpdateButton extends StatelessWidget {
 
         
 
-          Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+          Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
         },
         style: OutlinedButton.styleFrom(
             // backgroundColor: primaryColor,
