@@ -35,7 +35,6 @@ void main() async {
   await AndroidAlarmManager.initialize().then(
     (value) {
       // Schedule the morning & evening notifications
-
       scheduleMorningNotification();
       scheduleEveningNotifications();
     },
@@ -54,13 +53,15 @@ class MyApp extends StatelessWidget {
       title: 'Goal Quest',
       theme: ThemeData.dark(),
       home: AnimatedSplashScreen(
-       
-          splash: Image.asset('assets/gq_logo.png'),
+          splash: Image.asset(
+            'assets/gq_round.png',
+            scale: 0.1,
+          ),
           nextScreen: const HomeScreen(),
-          splashTransition: SplashTransition.sizeTransition,
+          splashTransition: SplashTransition.scaleTransition,
           backgroundColor: primaryColor),
       routes: {
-        // '/': ((context) => const HomeScreen()),
+        '/home': ((context) => const HomeScreen()),
         '/goal_screen': (context) => GoalScreen(),
         '/new_goal_screen': (context) => NewGoalScreen(),
         '/completed_goals_screen': (context) => const CompletedGoalsScreen(),

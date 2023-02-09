@@ -22,7 +22,7 @@ class TextFieldModel extends StatelessWidget {
         maxLines: maxlines,
         maxLength:maxLength ,
         textCapitalization: TextCapitalization.sentences,
-        textInputAction: TextInputAction.next,
+        textInputAction: TextInputAction.newline,
         decoration: InputDecoration(
             label: Text(label),
             filled: true,
