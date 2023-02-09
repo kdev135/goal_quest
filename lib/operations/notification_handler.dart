@@ -1,5 +1,10 @@
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:goal_quest/constants.dart';
+import 'package:goal_quest/operations/fetch_quote_data.dart';
+
+String morningQuote = quoteData ?? defaultQuote;
+String morningNotificationBody = morningQuote.split('\n').first;
 
 // The notification handler
 morningNotification() async {
@@ -8,7 +13,7 @@ morningNotification() async {
         id: 1,
         channelKey: 'key2',
         title: "You've got this!",
-        body: 'Whatever the mind of man can conceive and believe, it can achieve.'),
+        body: morningNotificationBody),
   );
 }
 
@@ -54,6 +59,7 @@ void scheduleEveningNotifications() {
   if (time.isBefore(now)) {
     time = time.add(const Duration(hours: 24));
   }
+  getQuote();
 
   AndroidAlarmManager.periodic(
     const Duration(hours: 24), // Time between notifications (interval)
