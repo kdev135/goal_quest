@@ -16,6 +16,7 @@ void main() async {
   await Hive.initFlutter();
   await Hive.openBox('myGoalBox');
   await Hive.openBox('achievedGoalBox');
+  await Hive.openBox('quoteBox');
 
   await AwesomeNotifications().initialize(
       null,

@@ -5,12 +5,11 @@ import 'package:goal_quest/components/no_goal_widget.dart';
 import 'package:goal_quest/models/ui_models/animated_page_title_model.dart';
 import 'package:goal_quest/models/ui_models/goal_card_model.dart';
 import 'package:goal_quest/constants.dart';
+import 'package:goal_quest/operations/fetch_quote_data.dart';
 import 'package:goal_quest/operations/rebuild_goal_listview.dart';
 import 'package:goal_quest/styles.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
-
-
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -20,6 +19,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+   
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +35,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return Stack(
       children: [
         Scaffold(
-
           floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
           floatingActionButton: FloatingActionButton(
             tooltip: 'Create a new goal',
@@ -41,8 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
           appBar: AppBar(
             elevation: 0.0,
             backgroundColor: primaryColor,
-         
-          centerTitle: true,
+            centerTitle: true,
           ),
           body: SafeArea(
             child: SingleChildScrollView(
@@ -67,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               style: titleFont1,
                             ),
                             Text(
-                              '"Whatever the mind of man can conceive and believe, it can achieve."\n\n- Napoleon Hill',
+                              quoteData ?? defaultQuote,
                               style: quoteFont,
                               textAlign: TextAlign.center,
                             ),
@@ -114,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     icon: const Icon(Icons.settings),
                     onPressed: () {
                       // print(isCelebrating.value);
-
+                      getQuote();
                       // Navigator.pushNamed(context, '/settings_screen');
                     },
                   )
