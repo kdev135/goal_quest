@@ -16,14 +16,13 @@ void main() async {
   await Hive.initFlutter();
   await Hive.openBox('myGoalBox');
   await Hive.openBox('achievedGoalBox');
-  await Hive.openBox('quoteBox');
 
   await AwesomeNotifications().initialize(
       null,
       [
         NotificationChannel(
           channelGroupKey: 'goal_channel_group',
-          channelKey: 'key2',
+          channelKey: 'key1',
           channelName: 'goal notifications',
           channelDescription: 'goal notifications channel',
           defaultColor: primaryColor,
@@ -32,13 +31,10 @@ void main() async {
       debug: true);
 
   WidgetsFlutterBinding.ensureInitialized();
-  await AndroidAlarmManager.initialize().then(
-    (value) {
-      // Schedule the morning & evening notifications
+  await AndroidAlarmManager.initialize();
+     // Schedule the morning & evening notifications
       scheduleMorningNotification();
       scheduleEveningNotifications();
-    },
-  );
 
   runApp(const MyApp());
 }
@@ -54,7 +50,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark(),
       home: AnimatedSplashScreen(
           splash: Image.asset(
-            'assets/gq_round.png',
+            'assets/round_logo.png',
             scale: 0.1,
           ),
           nextScreen: const HomeScreen(),

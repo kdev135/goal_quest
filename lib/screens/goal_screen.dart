@@ -52,7 +52,7 @@ class GoalScreen extends HookWidget {
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           children: [
             Text(
-              'Tap to start editting where possible',
+              'Tap to start editting where necessary',
               textAlign: TextAlign.center,
               style: subtextFont.copyWith(fontSize: 14),
             ),
@@ -65,13 +65,14 @@ class GoalScreen extends HookWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      '[${goalObject['title']}]',
-                      style: titleFont2,
+                      '${goalObject['title']}',
+                      style: titleFont2.copyWith(fontStyle: FontStyle.italic),
                       textAlign: TextAlign.center,
                     ),
                     sizedBox,
+                    sizedBox,
                     Text(
-                      'Description',
+                      'Goal description',
                       style: titleFont2,
                       textAlign: TextAlign.start,
                     ),
@@ -252,7 +253,7 @@ class UpdateButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 20,
-      child: OutlinedButton(
+      child: ElevatedButton(
         onPressed: () {
           var day = dueDate.value.substring(0, 2);
           var month = dueDate.value.substring(3, 5);
@@ -279,12 +280,12 @@ class UpdateButton extends StatelessWidget {
           Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
         },
         style: OutlinedButton.styleFrom(
-            // backgroundColor: primaryColor,
+            backgroundColor: primaryColor,
 
             ),
         child: Text(
           'update',
-          style: defaultFont.copyWith(color: primaryColor),
+          style: defaultFont,
         ),
       ),
     );

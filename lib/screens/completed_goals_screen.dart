@@ -6,7 +6,6 @@ import 'package:goal_quest/styles.dart';
 
 import '../constants.dart';
 
-
 class CompletedGoalsScreen extends StatefulWidget {
   const CompletedGoalsScreen({super.key});
 
@@ -20,6 +19,7 @@ class _CompletedGoalsScreenState extends State<CompletedGoalsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       appBar: AppBar(
         title: const AnimatedPageTitleModel(
           titleText: 'A T T A I N E D  G O A L S',
@@ -28,24 +28,22 @@ class _CompletedGoalsScreenState extends State<CompletedGoalsScreen> {
         shadowColor: Colors.transparent,
         centerTitle: true,
       ),
-    
-      body:
-      achievedGoalBox.length == 0 ?
+      body: achievedGoalBox.length == 0
+          ?
           // If no completed goals, show this
-          const NoGoalsWidget():
+          const NoGoalsWidget()
+          :
           // Completed goals exist? show this
           ListView(
-        shrinkWrap: true,
-        children: [completeGoalCard(context)],
-      ),
+              shrinkWrap: true,
+              children: [completeGoalCard(context)],
+            ),
     );
   }
 }
 
 Column completeGoalCard(BuildContext context) {
   List<Widget> cards = [];
-
-
 
   achievedGoalBox.toMap().forEach((key, value) {
     cards.add(Padding(
@@ -60,26 +58,32 @@ Column completeGoalCard(BuildContext context) {
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return  AlertDialog(
+                    return AlertDialog(
                       content: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                            Text(
-                    key.toString(),
-                    style: titleFont2,
-                  ),
-                  const Divider(),
-                  Text('Goal Description', style: titleFont2,),
-                   Text('${value['description']}', style: subtextFont),
-                   const Divider(),
-                   Text('Action Plan', style: titleFont2,),
-                   Text('${value['actionPlan']}', style: subtextFont),
-                     const Divider(),
-                  
-                   Text('Allocated time: ${value['timeSpan']} days [${(value['timeSpan']/31).round()} months]', style: subtextFont),
+                          Text(
+                            key.toString(),
+                            style: titleFont2,
+                          ),
+                          const Divider(),
+                          Text(
+                            'Goal Description',
+                            style: titleFont2,
+                          ),
+                          Text('${value['description']}', style: subtextFont),
+                          const Divider(),
+                          Text(
+                            'Action Plan',
+                            style: titleFont2,
+                          ),
+                          Text('${value['actionPlan']}', style: subtextFont),
+                          const Divider(),
+                          Text('Allocated time: ${value['timeSpan']} days [${(value['timeSpan'] / 31).round()} months]',
+                              style: defaultFont),
+                          Text('Achievement time: ${value['achievementTime']} days', style: defaultFont),
                         ],
                       ),
-
                     );
                   });
             }),
