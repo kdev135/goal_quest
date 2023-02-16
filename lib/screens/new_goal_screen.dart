@@ -40,7 +40,6 @@ class NewGoalScreen extends HookWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 15.0),
         child: ListView(
           physics: const BouncingScrollPhysics(),
-          
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           children: [
             // Form of properties of a new goal
@@ -54,16 +53,16 @@ class NewGoalScreen extends HookWidget {
                       maxLength: 45,
                       title: 'My Goal',
                       description:
-                          '* The name of your goal. Keep it as short as possible but accurately descriptive. Remember to be realistic.',
-                      hintText: 'eg. Build a high-end PC, Write my motivational book',
+                          'The name of your goal. Keep it as short as possible but accurately descriptive. Remember to be realistic.',
+                      hintText: 'eg. Build a high-end PC, Write a motivational book',
                     ),
                     GoalPropCardModel(
                       textController: descriptionController,
                       title: 'My goal description',
                       description:
-                          '* Type a description of your goal. Be as detailed as possible without making it too broad. \n*Declare as you write it.',
+                          'Write details about your goal. Be as detailed as possible without making it too broad. \nWrite it with cofident words.',
                       hintText:
-                          'eg. I will acquire the parts for my PC before  the end of July this year. The total budget is capped at \$ 2,000. My usage priorities are 3D rendering performance and high refresh rate gaming.',
+                          'eg.\nI will acquire the parts for my PC before  the end of July this year. The total budget is capped at \$ 2,000. My usage priorities are 3D rendering performance and high refresh rate gaming.',
                       fieldMaxlines: 5,
                     ),
                     GoalPropCardModel(
@@ -71,9 +70,9 @@ class NewGoalScreen extends HookWidget {
                       title: 'My action plan',
                       label: 'Action plan',
                       description:
-                          '* How will you attain this goal? Mention the exact things you will do to ensure you attain your goal.',
+                          'How will you attain this goal? Mention the exact things you will do to ensure you attain your goal.',
                       hintText:
-                          'eg. I will set aside 8% of my monthly income for the next 4 months to fund this project. I will get as much info as I can about pc builds from credible sources before buying parts in order to get as much value as possible from my build.',
+                          'eg.\n- I will set aside 8% of my monthly income for the next 4 months to fund this project.\n- I wll build assistant platforms to get part combinations. ',
                       fieldMaxlines: 5,
                     ),
                   ],
@@ -105,7 +104,7 @@ class NewGoalScreen extends HookWidget {
                         height: 10,
                       ),
                       Text(
-                        '* What is the latest date you plan to have achieve this goal before? [default: 6 months]\n',
+                        'What is the latest date you plan to have achieve this goal before? [default: 6 months]\n',
                         style: defaultFont,
                       ),
                       Card(
@@ -129,7 +128,7 @@ class NewGoalScreen extends HookWidget {
               ),
             ),
 
-// Endof date selection
+// End of date selection
           ],
         ),
       )),
@@ -138,8 +137,11 @@ class NewGoalScreen extends HookWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: SizedBox(
             width: 20,
-            child: OutlinedButton(
-                style: OutlinedButton.styleFrom(),
+            child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: primaryColor,
+                  
+                ),
                 onPressed: () {
                   final formIsValid = formKey.currentState!.validate();
                   var creationDate =
@@ -191,7 +193,6 @@ class NewGoalScreen extends HookWidget {
                               TextButton(
                                   onPressed: () {
                                     Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-                                  
                                   },
                                   child: Text(
                                     'Ok',
@@ -204,7 +205,7 @@ class NewGoalScreen extends HookWidget {
                 },
                 child: Text(
                   'Create goal',
-                  style: defaultFont.copyWith(color: primaryColor),
+                  style: defaultFont,
                 )),
           ),
         ),

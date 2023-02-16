@@ -6,6 +6,8 @@ import 'package:goal_quest/models/ui_models/animated_page_title_model.dart';
 import 'package:goal_quest/models/ui_models/goal_card_model.dart';
 import 'package:goal_quest/constants.dart';
 import 'package:goal_quest/operations/fetch_quote_data.dart';
+import 'package:goal_quest/operations/get_achievement_time.dart';
+
 import 'package:goal_quest/operations/rebuild_goal_listview.dart';
 import 'package:goal_quest/styles.dart';
 
@@ -19,6 +21,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  var quoteData = defaultQuote;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchNewQuote();
+  }
+
+  Future<void> fetchNewQuote() async {
+    String fetchedData = await fetchQuoteData();
+    setState(() {
+      quoteData = fetchedData;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -40,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
             backgroundColor: primaryColor,
             centerTitle: true,
             title: Image.asset(
-              'assets/gq_round.png',
+              'assets/round_logo.png',
               scale: 3.5,
             ),
           ),
@@ -67,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               style: titleFont1,
                             ),
                             Text(
-                              quoteData ?? defaultQuote,
+                              quoteData,
                               style: quoteFont,
                               textAlign: TextAlign.center,
                             ),
@@ -104,18 +121,20 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
+                  
                   IconButton(
                     icon: const Icon(Icons.checklist_sharp),
                     onPressed: () {
                       Navigator.pushNamed(context, '/completed_goals_screen');
                     },
                   ),
+
                   IconButton(
                     icon: const Icon(Icons.settings),
                     onPressed: () {
-                      // print(isCelebrating.value);
+                  
                       Navigator.pushNamed(context, '/settings_screen');
-                      // Navigator.pushNamed(context, '/settings_screen');
+                      
                     },
                   )
                 ],
@@ -137,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-// Listview with all goal card widgets
+// A Listview with all goal cards
 class GoalListview extends StatefulWidget {
   const GoalListview({
     Key? key,
@@ -159,6 +178,7 @@ class _TestListViewState extends State<GoalListview> {
       children: goalList,
     );
 
+// Create a goal for each goal
     goalBox.toMap().forEach((key, value) {
       goalList.add(
         GoalCardModel(
@@ -172,8 +192,12 @@ class _TestListViewState extends State<GoalListview> {
               rebuildGoalList(goalWidget, goalList);
             });
           }),
+
+// Do this when  goal is marked as done
           onMarked: () {
             var finishedGoal = goalBox.get(value['title']);
+            String achievementTime = getAchievementTime(dateToFormat: finishedGoal['creationDate']);
+            finishedGoal['achievementTime'] = achievementTime; // Time taken to achieve the goal
             achievedGoalBox.put(value['title'], finishedGoal);
             goalBox.delete(value['title']);
             setState(() {
@@ -183,7 +207,6 @@ class _TestListViewState extends State<GoalListview> {
         ),
       );
     });
-
     return goalWidget;
   }
 }

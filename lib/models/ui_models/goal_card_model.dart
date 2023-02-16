@@ -27,7 +27,6 @@ class GoalCardModel extends HookWidget {
   @override
   Widget build(BuildContext context) {
     var isSelected = useState(false);
-
     var isCelebrating = useState(false);
     var timeMonths = (timeSpan / 31).round();
 
