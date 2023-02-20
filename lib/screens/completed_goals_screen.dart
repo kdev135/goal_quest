@@ -36,6 +36,7 @@ class _CompletedGoalsScreenState extends State<CompletedGoalsScreen> {
           // Completed goals exist? show this
           ListView(
               shrinkWrap: true,
+              physics: const  BouncingScrollPhysics(),
               children: [completeGoalCard(context)],
             ),
     );
@@ -96,10 +97,11 @@ Column completeGoalCard(BuildContext context) {
                     key.toString(),
                     style: titleFont2,
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  const Divider(),
                   Text('Time span: ${value['timeSpan']} days'),
+                  const SizedBox(height:5),
+                  Text('Time span: ${value['achievementTime']} days'),
+                  const SizedBox(height: 10,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

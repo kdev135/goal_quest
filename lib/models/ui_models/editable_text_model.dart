@@ -21,6 +21,7 @@ class EditableTextModel extends StatelessWidget {
             maxLines: maxLines,
             controller: sampleTextController,
             focusNode: FocusNode(canRequestFocus: true),
+            scrollPhysics: const BouncingScrollPhysics(),
             style: fontStyle ?? defaultFont,
             cursorColor: Colors.orange,
             backgroundCursorColor: Colors.green),
