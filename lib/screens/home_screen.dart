@@ -47,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
           floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
           floatingActionButton: FloatingActionButton(
             tooltip: 'Create a new goal',
+            backgroundColor: interactiveColor,
             onPressed: () {
               Navigator.pushNamed(context, '/new_goal_screen');
             },
@@ -103,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const AnimatedPageTitleModel(titleText: 'M Y  G O A L S'),
+                         Text( 'M Y  G O A L S', style: titleFont1,),
                         goalBox.isEmpty ? const NoGoalsWidget() : const GoalListview()
                       ],
                     ),
@@ -121,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  
+
                   IconButton(
                     icon: const Icon(Icons.checklist_sharp),
                     onPressed: () {
@@ -130,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
 
                   IconButton(
-                    icon: const Icon(Icons.settings),
+                    icon: const Icon(Icons.info_outline),
                     onPressed: () {
                   
                       Navigator.pushNamed(context, '/settings_screen');

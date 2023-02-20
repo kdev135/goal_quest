@@ -52,19 +52,22 @@ class GoalCardModel extends HookWidget {
                 const Divider(
                   height: 10,
                 ),
-                Text('Allocated time: $timeMonths months  [ $timeSpan days ]', style: defaultFont),
+                Text('Allocated time: $timeSpan days  [ $timeMonths months ]', style: defaultFont),
                 const SizedBox(
                   height: 10,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Created on: $creationDate', style: subtextFont),
-                    Text(
-                      'Target date: $dueBeforeDate',
-                      style: subtextFont,
-                    )
-                  ],
+                FittedBox(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Created on: $creationDate', style: subtextFont),
+                      SizedBox(width:10),
+                      Text(
+                        'Target date: $dueBeforeDate',
+                        style: subtextFont,
+                      )
+                    ],
+                  ),
                 ),
                 Visibility(
                   visible: isSelected.value,

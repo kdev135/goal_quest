@@ -9,7 +9,7 @@ class AnimatedPageTitleModel extends StatelessWidget {
     required this.titleText,
   }) : super(key: key);
 
- final  String titleText;
+ final  String titleText ;
 
   @override
   Widget build(BuildContext context) {

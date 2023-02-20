@@ -17,7 +17,7 @@ eveningNotification() async {
         id: 2,
         channelKey: 'key1',
         title: "How was your day?",
-        body: 'Did you make some progress today? Great! Note it down.'),
+        body: 'Did you make progress today? Great! Note it down.'),
   );
 }
 

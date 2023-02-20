@@ -60,8 +60,9 @@ flutter_icons:
   ios: true
   remove_alpha_ios: true
   background_color: '#CF6F19'
-  adaptive_icon_background: '#CF6F19'
-  image_path: "assets/icon/round_logo.png"
+  image_path: "assets/icon/app_icon.png"
+  adaptive_icon_foreground: "assets/icon/app_icon.png"
+  adaptive_icon_background: '#CF6F19' 
   min_sdk_android: 21
 
 # For information on the generic Dart part of this file, see the

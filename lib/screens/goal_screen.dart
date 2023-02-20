@@ -88,31 +88,34 @@ class GoalScreen extends HookWidget {
                     ),
                     EditableTextModel(
                       sampleTextController: actionPlanController,
-                      maxLines: 5,
+                      maxLines: 8,
                     ),
                     sizedBox,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Created on: ${goalObject['creationDate']}', style: subtextFont),
-                        GestureDetector(
-                          onTap: () {
-                            int todayDate = DateTime.now().day;
-                            int thisYear = DateTime.now().year;
-                            int thisMonth = DateTime.now().month;
-                            datePicker(context, thisYear, thisMonth, todayDate).then((value) {
-                              value != null
-                                  ? dueDate.value =
-                                      '${value.day.toString().padLeft(2, '0')}-${value.month.toString().padLeft(2, '0')}-${value.year}'
-                                  : dueDateController.value = dueDateController.value;
-                            });
-                          },
-                          child: Text(
-                            'Target date: ${dueDate.value}',
-                            style: subtextFont,
-                          ),
-                        )
-                      ],
+                    FittedBox(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Created on: ${goalObject['creationDate']}', style: subtextFont),
+                          SizedBox(width: 10,),
+                          GestureDetector(
+                            onTap: () {
+                              int todayDate = DateTime.now().day;
+                              int thisYear = DateTime.now().year;
+                              int thisMonth = DateTime.now().month;
+                              datePicker(context, thisYear, thisMonth, todayDate).then((value) {
+                                value != null
+                                    ? dueDate.value =
+                                        '${value.day.toString().padLeft(2, '0')}-${value.month.toString().padLeft(2, '0')}-${value.year}'
+                                    : dueDateController.value = dueDateController.value;
+                              });
+                            },
+                            child: Text(
+                              'Target date: ${dueDate.value}',
+                              style: subtextFont,
+                            ),
+                          )
+                        ],
+                      ),
                     )
                   ],
                 ),
@@ -279,13 +282,13 @@ class UpdateButton extends StatelessWidget {
 
           Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
         },
-        style: OutlinedButton.styleFrom(
-            backgroundColor: primaryColor,
+        style:ElevatedButton.styleFrom(
+            backgroundColor: interactiveColor,
 
             ),
         child: Text(
           'update',
-          style: defaultFont,
+          style: titleFont2,
         ),
       ),
     );

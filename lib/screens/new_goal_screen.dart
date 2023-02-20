@@ -54,15 +54,15 @@ class NewGoalScreen extends HookWidget {
                       title: 'My Goal',
                       description:
                           'The name of your goal. Keep it as short as possible but accurately descriptive. Remember to be realistic.',
-                      hintText: 'eg. Build a high-end PC, Write a motivational book',
+                      hintText: 'eg. Get my body weight to 60 Kgs, Learn to code in Python',
                     ),
                     GoalPropCardModel(
                       textController: descriptionController,
                       title: 'My goal description',
                       description:
-                          'Write details about your goal. Be as detailed as possible without making it too broad. \nWrite it with cofident words.',
+                          'Provide a comprehensive description of your goal, including as much detail as possible while also avoiding going out of scope. Use positive and decisive language. You can make changes later.',
                       hintText:
-                          'eg.\nI will acquire the parts for my PC before  the end of July this year. The total budget is capped at \$ 2,000. My usage priorities are 3D rendering performance and high refresh rate gaming.',
+                          'eg.\nI want to get and maintain my weight at around 60 kgs from the current 78 kgs before June. I want to be fit enough to finish the August Half marathon while maintaining a steady pace.',
                       fieldMaxlines: 5,
                     ),
                     GoalPropCardModel(
@@ -70,9 +70,9 @@ class NewGoalScreen extends HookWidget {
                       title: 'My action plan',
                       label: 'Action plan',
                       description:
-                          'How will you attain this goal? Mention the exact things you will do to ensure you attain your goal.',
+                          'What exact actions will you take to reach your goal? Please describe in detail what you plan to do. If your plan is not quite clear now, you can update it later.',
                       hintText:
-                          'eg.\n- I will set aside 8% of my monthly income for the next 4 months to fund this project.\n- I wll build assistant platforms to get part combinations. ',
+                          'eg.\n- I will change my diet immediately with the help of a professional in that area.\n- I will join a gym and spend at least 2 hours working-out every day.',
                       fieldMaxlines: 5,
                     ),
                   ],
@@ -139,7 +139,7 @@ class NewGoalScreen extends HookWidget {
             width: 20,
             child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: primaryColor,
+                  backgroundColor: interactiveColor,
                   
                 ),
                 onPressed: () {
@@ -205,7 +205,7 @@ class NewGoalScreen extends HookWidget {
                 },
                 child: Text(
                   'Create goal',
-                  style: defaultFont,
+                  style: titleFont2,
                 )),
           ),
         ),

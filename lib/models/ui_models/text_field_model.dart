@@ -4,7 +4,12 @@ import 'package:goal_quest/styles.dart';
 
 class TextFieldModel extends StatelessWidget {
   const TextFieldModel(
-      {Key? key, required this.textController, required this.label, required this.hintText, this.maxlines = 1, this.maxLength=700})
+      {Key? key,
+      required this.textController,
+      required this.label,
+      required this.hintText,
+      this.maxlines = 1,
+      this.maxLength = 700})
       : super(key: key);
 
   final TextEditingController textController;
@@ -20,18 +25,17 @@ class TextFieldModel extends StatelessWidget {
       child: TextFormField(
         controller: textController,
         maxLines: maxlines,
-        maxLength:maxLength ,
+        maxLength: maxLength,
         textCapitalization: TextCapitalization.sentences,
         textInputAction: TextInputAction.newline,
+        cursorColor: primaryColor,
         decoration: InputDecoration(
-            label: Text(label),
             filled: true,
             fillColor: interactiveFieldGrey,
-            floatingLabelBehavior: FloatingLabelBehavior.always,
-            floatingLabelStyle: textFieldLabelFont,
             hintText: hintText,
             hintStyle: subtextFont,
-            border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10)))),
+            border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+            focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: interactiveColor))),
         validator: (value) {
           if (value == null || value.length < 5) {
             return 'Please be more detailed';
