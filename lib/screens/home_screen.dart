@@ -2,7 +2,6 @@ import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:goal_quest/components/custom_clip_path.dart';
 import 'package:goal_quest/components/no_goal_widget.dart';
-import 'package:goal_quest/models/ui_models/animated_page_title_model.dart';
 import 'package:goal_quest/models/ui_models/goal_card_model.dart';
 import 'package:goal_quest/constants.dart';
 import 'package:goal_quest/operations/fetch_quote_data.dart';
@@ -104,7 +103,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                         Text( 'M Y  G O A L S', style: titleFont1,),
+                        Text(
+                          'M Y  G O A L S',
+                          style: titleFont1,
+                        ),
                         goalBox.isEmpty ? const NoGoalsWidget() : const GoalListview()
                       ],
                     ),
@@ -122,20 +124,20 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-
                   IconButton(
                     icon: const Icon(Icons.checklist_sharp),
                     onPressed: () {
                       Navigator.pushNamed(context, '/completed_goals_screen');
                     },
                   ),
-
                   IconButton(
                     icon: const Icon(Icons.info_outline),
-                    onPressed: () {
-                  
-                      Navigator.pushNamed(context, '/settings_screen');
-                      
+                    onPressed: () async {
+                      var quote = await fetchQuoteData();
+                      setState(() {
+                        quoteData = quote;
+                      });
+                      // Navigator.pushNamed(context, '/settings_screen');
                     },
                   )
                 ],

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:goal_quest/components/no_goal_widget.dart';
 
-void rebuildGoalList(var goalWidget, var goalList) {
+void rebuildGoalList(Widget goalWidget, List<Widget> goalList) {
   goalWidget = goalList.isNotEmpty
       ? ListView(
           shrinkWrap: true,

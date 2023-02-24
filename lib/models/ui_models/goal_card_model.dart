@@ -28,7 +28,8 @@ class GoalCardModel extends HookWidget {
   Widget build(BuildContext context) {
     var isSelected = useState(false);
     var isCelebrating = useState(false);
-    var timeMonths = (timeSpan / 31).round();
+    var timeMonths = (timeSpan / 31).floor();
+  
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
@@ -61,7 +62,7 @@ class GoalCardModel extends HookWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Created on: $creationDate', style: subtextFont),
-                      SizedBox(width:10),
+                      SizedBox(width: 10),
                       Text(
                         'Target date: $dueBeforeDate',
                         style: subtextFont,
@@ -76,7 +77,10 @@ class GoalCardModel extends HookWidget {
                     children: [
                       TextButton.icon(
                           icon: const Icon(Icons.check_box_outlined),
-                          label: const Text('Mark as done'),
+                          label: Text(
+                            'Mark as done',
+                            style: defaultFont,
+                          ),
                           onPressed: (() {
                             onMarked!();
                             isSelected.value = false;
@@ -91,7 +95,10 @@ class GoalCardModel extends HookWidget {
                             onDelete();
                             isSelected.value = false;
                           },
-                          child: const Text('Remove')),
+                          child: Text(
+                            'Remove',
+                            style: defaultFont.copyWith(color: Colors.red),
+                          )),
                     ],
                   ),
                 )
