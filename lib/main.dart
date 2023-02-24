@@ -17,25 +17,34 @@ void main() async {
   await Hive.openBox('myGoalBox');
   await Hive.openBox('achievedGoalBox');
 
+// Initialize notifications
   await AwesomeNotifications().initialize(
       null,
       [
         NotificationChannel(
-          channelGroupKey: 'goal_channel_group',
-          channelKey: 'key1',
-          channelName: 'goal notifications',
-          channelDescription: 'goal notifications channel',
-          defaultColor: primaryColor,
-        )
+            channelGroupKey: 'goal_channel_group',
+            channelKey: 'key1',
+            channelName: 'goal notifications',
+            channelDescription: 'goal notifications channel',
+            defaultColor: primaryColor,
+            importance: NotificationImportance.High,
+           )
       ],
       debug: true);
 
   WidgetsFlutterBinding.ensureInitialized();
   await AndroidAlarmManager.initialize();
-     // Schedule the morning & evening notifications
+
+// check notification permission
+  AwesomeNotifications().isNotificationAllowed().then((isAllowed) async {
+    if (!isAllowed) {
+      await AwesomeNotifications().requestPermissionToSendNotifications();
+    } else {
+      // Schedule the morning & evening notifications
       scheduleMorningNotification();
       scheduleEveningNotifications();
-
+    }
+  });
   runApp(const MyApp());
 }
 
@@ -60,7 +69,7 @@ class MyApp extends StatelessWidget {
         '/home': ((context) => const HomeScreen()),
         '/goal_screen': (context) => GoalScreen(),
         '/new_goal_screen': (context) => NewGoalScreen(),
-        '/completed_goals_screen': (context) => const CompletedGoalsScreen(),
+        '/completed_goals_screen': (context) => CompletedGoalsScreen(),
         '/settings_screen': (context) => const SettingsScreen()
       },
     );

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:goal_quest/components/no_goal_widget.dart';
 import 'package:goal_quest/models/ui_models/animated_page_title_model.dart';
+import 'package:goal_quest/operations/rebuild_goal_listview.dart';
 
 import 'package:goal_quest/styles.dart';
 
 import '../constants.dart';
 
 class CompletedGoalsScreen extends StatefulWidget {
-  const CompletedGoalsScreen({super.key});
+  CompletedGoalsScreen({super.key});
 
   @override
   State<CompletedGoalsScreen> createState() => _CompletedGoalsScreenState();
@@ -18,36 +19,83 @@ class _CompletedGoalsScreenState extends State<CompletedGoalsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // var items = useState(achievedGoalBox.values.length);
     return Scaffold(
-      
-      appBar: AppBar(
-        title: const AnimatedPageTitleModel(
-          titleText: 'A T T A I N E D  G O A L S',
+        appBar: AppBar(
+          title: const AnimatedPageTitleModel(
+            titleText: ' A T T A I N E D  G O A L S',
+          ),
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          centerTitle: true,
         ),
-        backgroundColor: Colors.transparent,
-        shadowColor: Colors.transparent,
-        centerTitle: true,
-      ),
-      body: achievedGoalBox.length == 0
-          ?
-          // If no completed goals, show this
-          const NoGoalsWidget()
-          :
-          // Completed goals exist? show this
-          ListView(
-              shrinkWrap: true,
-              physics: const  BouncingScrollPhysics(),
-              children: [completeGoalCard(context)],
-            ),
-    );
+        body: achievedGoalBox.length == 0
+            ?
+            // If no completed goals, show this
+            const NoGoalsWidget()
+            : const AchievedGoalListView()
+
+        // goals exist? show this
+
+        );
   }
 }
 
-Column completeGoalCard(BuildContext context) {
+Column completeGoalCard(BuildContext context, itemCount) {
   List<Widget> cards = [];
 
-  achievedGoalBox.toMap().forEach((key, value) {
-    cards.add(Padding(
+  achievedGoalBox.toMap().forEach((key, mapValue) {
+    cards.add(AchievedGoalCard(
+      mapValue: mapValue,
+    ));
+  });
+  return Column(
+    children: cards,
+  );
+}
+
+class AchievedGoalListView extends StatefulWidget {
+  const AchievedGoalListView({super.key});
+
+  @override
+  State<AchievedGoalListView> createState() => _AchievedGoalListViewState();
+}
+
+class _AchievedGoalListViewState extends State<AchievedGoalListView> {
+  @override
+  Widget build(BuildContext context) {
+    final List<AchievedGoalCard> goalList = [];
+    Widget goalWidget = ListView(
+      shrinkWrap: true,
+      physics: const BouncingScrollPhysics(),
+      children: goalList,
+    );
+
+    achievedGoalBox.toMap().forEach((key, mapValue) {
+      goalList.add(AchievedGoalCard(
+        mapValue: mapValue,
+        action: () {
+          setState(() {
+            rebuildGoalList(goalWidget, goalList);
+          });
+        },
+      ));
+    });
+    return goalWidget;
+  }
+}
+
+class AchievedGoalCard extends StatelessWidget {
+  AchievedGoalCard({
+    required this.mapValue,
+    this.action,
+    super.key,
+  });
+  var mapValue;
+  Function? action;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
       padding: const EdgeInsets.all(10.0),
       child: AnimatedSize(
         duration: const Duration(seconds: 1),
@@ -64,7 +112,7 @@ Column completeGoalCard(BuildContext context) {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            key.toString(),
+                            mapValue['title'],
                             style: titleFont2,
                           ),
                           const Divider(),
@@ -72,17 +120,33 @@ Column completeGoalCard(BuildContext context) {
                             'Goal Description',
                             style: titleFont2,
                           ),
-                          Text('${value['description']}', style: subtextFont),
+                          Text('${mapValue['description']}', style: subtextFont),
                           const Divider(),
                           Text(
                             'Action Plan',
                             style: titleFont2,
                           ),
-                          Text('${value['actionPlan']}', style: subtextFont),
+                          Text('${mapValue['actionPlan']}', style: subtextFont),
                           const Divider(),
-                          Text('Allocated time: ${value['timeSpan']} days [${(value['timeSpan'] / 31).round()} months]',
+                          Text(
+                              'Allocated time: ${mapValue['timeSpan']} days [${(mapValue['timeSpan'] / 31).round()} months]',
                               style: defaultFont),
-                          Text('Achievement time: ${value['achievementTime']} days', style: defaultFont),
+                          Text('Achievement time: ${mapValue['achievementTime']} days', style: defaultFont),
+                          Visibility(
+                              child: Row(
+                            children: [
+                              TextButton(
+                                  onPressed: () {
+                                    achievedGoalBox.delete(mapValue['title']);
+                                    action!();
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text(
+                                    'Delete',
+                                    style: defaultFont.copyWith(color: Colors.red),
+                                  ))
+                            ],
+                          ))
                         ],
                       ),
                     );
@@ -94,20 +158,22 @@ Column completeGoalCard(BuildContext context) {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    key.toString(),
+                    mapValue['title'],
                     style: titleFont2,
                   ),
                   const Divider(),
-                  Text('Time span: ${value['timeSpan']} days'),
-                  const SizedBox(height:5),
-                  Text('Time span: ${value['achievementTime']} days'),
-                  const SizedBox(height: 10,),
+                  Text('Time span: ${mapValue['timeSpan']} days'),
+                  const SizedBox(height: 5),
+                  Text('Time span: ${mapValue['achievementTime']} days'),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Created on: ${value['creationDate']}', style: subtextFont),
+                      Text('Created on: ${mapValue['creationDate']}', style: subtextFont),
                       Text(
-                        'Target date: ${value['dueDate']}',
+                        'Target date: ${mapValue['dueDate']}',
                         style: subtextFont,
                       )
                     ],
@@ -118,9 +184,6 @@ Column completeGoalCard(BuildContext context) {
           ),
         ),
       ),
-    ));
-  });
-  return Column(
-    children: cards,
-  );
+    );
+  }
 }

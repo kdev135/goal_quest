@@ -10,6 +10,7 @@ class SettingsScreen extends HookWidget {
    
     return Scaffold(
       appBar: AppBar(title: const AnimatedPageTitleModel(titleText: 'S E T T I N G S'),centerTitle: true,),
+      body: const Center(child: Text('Coming soon'),),
     );
   }
 }

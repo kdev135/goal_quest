@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.goal_quest">
    <application
-        android:label="goalQuest"
+        android:label="Goal quest"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
@@ -49,7 +49,9 @@
 </receiver>
 
     </application>
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
 </manifest>

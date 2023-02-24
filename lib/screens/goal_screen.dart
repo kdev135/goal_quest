@@ -23,7 +23,6 @@ class GoalScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
- 
     final args = ModalRoute.of(context)!.settings.arguments;
     var goalObject = _goalBox.get(args.toString());
     final TextEditingController titleController = TextEditingController(text: goalObject['title']);
@@ -39,7 +38,9 @@ class GoalScreen extends HookWidget {
         leading: BackButton(
           onPressed: () => Navigator.pop(context),
         ),
-        title: const AnimatedPageTitleModel(titleText: 'E D I T  M Y  G O A L',),
+        title: const AnimatedPageTitleModel(
+          titleText: 'E D I T  M Y  G O A L',
+        ),
         // backgroundColor: Colors.transparent,
         // shadowColor: Colors.transparent,
         centerTitle: true,
@@ -96,13 +97,20 @@ class GoalScreen extends HookWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text('Created on: ${goalObject['creationDate']}', style: subtextFont),
-                          SizedBox(width: 10,),
+                          const SizedBox(
+                            width: 10,
+                          ),
                           GestureDetector(
                             onTap: () {
-                              int todayDate = DateTime.now().day;
-                              int thisYear = DateTime.now().year;
-                              int thisMonth = DateTime.now().month;
-                              datePicker(context, thisYear, thisMonth, todayDate).then((value) {
+
+                             // split target date for picker
+                              List<String> targetDate = dueDate.value.split('-');
+                               int day = int.parse(targetDate[0]);
+                              int year = int.parse(targetDate[2]);
+                              int month = int.parse(targetDate[1]);
+                              
+                              //jump to target date in date picker
+                              datePicker(context, year, month, day).then((value) {
                                 value != null
                                     ? dueDate.value =
                                         '${value.day.toString().padLeft(2, '0')}-${value.month.toString().padLeft(2, '0')}-${value.year}'
@@ -137,7 +145,7 @@ class GoalScreen extends HookWidget {
                       '\nDid you make some progress towards achieving this goal? Write about it here. [Latest report apprears first]',
                       style: subtextFont,
                     ),
-                     TextFieldModel(
+                    TextFieldModel(
                       textController: newReportController,
                       label: '',
                       hintText: 'Tap here to write a report.\n\n eg. Today, I bought a new motherboard from...',
@@ -157,7 +165,6 @@ class GoalScreen extends HookWidget {
                         index: index,
                       ),
                     ),
-                   
                   ],
                 ),
               ),
@@ -184,7 +191,6 @@ class GoalScreen extends HookWidget {
     );
   }
 }
-
 
 class ReportContainerModel extends StatelessWidget {
   const ReportContainerModel({Key? key, required this.reportList, required this.index}) : super(key: key);
@@ -278,14 +284,11 @@ class UpdateButton extends StatelessWidget {
 
           _goalBox.put(titleController.text, updates);
 
-        
-
           Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
         },
-        style:ElevatedButton.styleFrom(
-            backgroundColor: interactiveColor,
-
-            ),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: interactiveColor,
+        ),
         child: Text(
           'update',
           style: titleFont2,
