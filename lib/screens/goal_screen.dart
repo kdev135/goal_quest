@@ -39,7 +39,7 @@ class GoalScreen extends HookWidget {
           onPressed: () => Navigator.pop(context),
         ),
         title: const AnimatedPageTitleModel(
-          titleText: 'E D I T  M Y  G O A L',
+          titleText: 'U P D A T E  M Y  G O A L',
         ),
         // backgroundColor: Colors.transparent,
         // shadowColor: Colors.transparent,

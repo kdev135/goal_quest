@@ -132,12 +132,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   IconButton(
                     icon: const Icon(Icons.info_outline),
+                    tooltip: 'How it works',
                     onPressed: () async {
-                      var quote = await fetchQuoteData();
-                      setState(() {
-                        quoteData = quote;
-                      });
-                      // Navigator.pushNamed(context, '/settings_screen');
+                   
+                      Navigator.pushNamed(context, '/settings_screen');
                     },
                   )
                 ],
