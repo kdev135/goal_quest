@@ -20,7 +20,7 @@ class NewGoalScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     ValueNotifier<DateTime> targetDate =
-        useState(DateTime.now().add(const Duration(days: 186))); // Default of 6 months from now.
+        useState(DateTime.now().add(const Duration(days: 187))); // Default of 6 months from now.
     String formattedDate =
         '${targetDate.value.day.toString().padLeft(2, '0')}-${targetDate.value.month.toString().padLeft(2, '0')}-${targetDate.value.year}';
     return Scaffold(
