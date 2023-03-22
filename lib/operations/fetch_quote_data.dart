@@ -7,10 +7,10 @@ Future<String> fetchQuoteData({String? quote}) async {
   try {
     var response =
         await Dio().get('https://api.quotable.io/random?maxLength=105&tags=inspiration|success|motivational');
-    theQuote ='${response.data["content"]}\n\n- ${response.data["author"]}';
+    theQuote = '${response.data["content"]}\n\n- ${response.data["author"]}';
     quote = '${response.data["content"]}\n\n- ${response.data["author"]}';
   } catch (e) {
-    print(e);
+    return defaultQuote;
   }
   return theQuote;
 }

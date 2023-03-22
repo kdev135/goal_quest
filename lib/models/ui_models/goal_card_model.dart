@@ -1,10 +1,6 @@
-import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:goal_quest/styles.dart';
-
-// The card to show pending goals on home_screen
-final confettiController = ConfettiController(duration: const Duration(seconds: 5));
 
 class GoalCardModel extends HookWidget {
   final String title;
@@ -28,8 +24,7 @@ class GoalCardModel extends HookWidget {
   Widget build(BuildContext context) {
     var isSelected = useState(false);
     var isCelebrating = useState(false);
-    var timeMonths = (timeSpan / 31).floor();
-  
+    var timeMonths = (timeSpan / 30).floor();
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
@@ -53,7 +48,10 @@ class GoalCardModel extends HookWidget {
                 const Divider(
                   height: 10,
                 ),
-                Text('Allocated time: $timeSpan days  [ $timeMonths months ]', style: defaultFont),
+                // show set time in months
+                Text(
+                    'Allocated time: $timeSpan days  [ ${timeMonths < 1 ? "Less than a month" : "about $timeMonths months"} ]',
+                    style: defaultFont),
                 const SizedBox(
                   height: 10,
                 ),
@@ -62,7 +60,7 @@ class GoalCardModel extends HookWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Created on: $creationDate', style: subtextFont),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Text(
                         'Target date: $dueBeforeDate',
                         style: subtextFont,
@@ -84,7 +82,7 @@ class GoalCardModel extends HookWidget {
                           onPressed: (() {
                             onMarked!();
                             isSelected.value = false;
-                            // confettiController.play(); //!Causing crash
+
                             isCelebrating.value = !isCelebrating.value;
                           })),
                       const SizedBox(

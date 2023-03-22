@@ -1,4 +1,3 @@
-import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:goal_quest/components/custom_clip_path.dart';
 import 'package:goal_quest/components/no_goal_widget.dart';
@@ -6,6 +5,7 @@ import 'package:goal_quest/models/ui_models/goal_card_model.dart';
 import 'package:goal_quest/constants.dart';
 import 'package:goal_quest/operations/fetch_quote_data.dart';
 import 'package:goal_quest/operations/get_achievement_time.dart';
+import 'package:goal_quest/operations/notification_handler.dart';
 
 import 'package:goal_quest/operations/rebuild_goal_listview.dart';
 import 'package:goal_quest/styles.dart';
@@ -66,7 +66,6 @@ class _HomeScreenState extends State<HomeScreen> {
               physics: const BouncingScrollPhysics(),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                // physics: const BouncingScrollPhysics(),
                 children: [
                   ClipPath(
                     clipper: CustomClipperPath(),
@@ -134,22 +133,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     icon: const Icon(Icons.info_outline),
                     tooltip: 'How it works',
                     onPressed: () async {
-                   
+                      
                       Navigator.pushNamed(context, '/settings_screen');
                     },
                   )
                 ],
               ),
             ),
-          ),
-        ),
-        Align(
-          alignment: Alignment.topCenter,
-          child: ConfettiWidget(
-            confettiController: confettiController,
-
-            blastDirectionality: BlastDirectionality.explosive,
-            // createParticlePath: createStarConfetti,
           ),
         ),
       ],
@@ -189,6 +179,7 @@ class _TestListViewState extends State<GoalListview> {
           dueBeforeDate: value['dueDate'],
           onDelete: (() {
             goalBox.delete(value['title']);
+
             setState(() {
               rebuildGoalList(goalWidget, goalList);
             });

@@ -8,7 +8,7 @@ import 'package:goal_quest/styles.dart';
 import '../constants.dart';
 
 class CompletedGoalsScreen extends StatefulWidget {
-  CompletedGoalsScreen({super.key});
+  const CompletedGoalsScreen({super.key});
 
   @override
   State<CompletedGoalsScreen> createState() => _CompletedGoalsScreenState();
@@ -86,13 +86,13 @@ class _AchievedGoalListViewState extends State<AchievedGoalListView> {
 }
 
 class AchievedGoalCard extends StatelessWidget {
-  AchievedGoalCard({
+  const AchievedGoalCard({
     required this.mapValue,
     this.action,
     super.key,
   });
-  var mapValue;
-  Function? action;
+  final dynamic mapValue;
+ final Function? action;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -112,7 +112,7 @@ class AchievedGoalCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            mapValue['title'],
+                           '[ ${ mapValue['title']} ]',
                             style: titleFont2,
                           ),
                           const Divider(),
@@ -164,7 +164,7 @@ class AchievedGoalCard extends StatelessWidget {
                   const Divider(),
                   Text('Time span: ${mapValue['timeSpan']} days'),
                   const SizedBox(height: 5),
-                  Text('Time span: ${mapValue['achievementTime']} days'),
+                  Text('Achievement time: ${mapValue['achievementTime']} days'),
                   const SizedBox(
                     height: 10,
                   ),

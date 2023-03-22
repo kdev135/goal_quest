@@ -142,7 +142,7 @@ class GoalScreen extends HookWidget {
                       style: titleFont2,
                     ),
                     Text(
-                      '\nDid you make some progress towards achieving this goal? Write about it here. [Latest report apprears first]',
+                      '\nDid you make some progress towards achieving this goal? Write about it here. [Latest report appears first]',
                       style: subtextFont,
                     ),
                     TextFieldModel(
@@ -169,7 +169,7 @@ class GoalScreen extends HookWidget {
                 ),
               ),
             ),
-            // Todo : move button navbar
+         
           ],
         ),
       ),

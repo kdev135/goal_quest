@@ -184,7 +184,7 @@ class NewGoalScreen extends HookWidget {
                                   height: 10,
                                 ),
                                 Text(
-                                  'Great! Your new goal has been created successfully',
+                                  'Congratulations! Your new goal has been created successfully. You can make it!',
                                   style: defaultFont,
                                 )
                               ],

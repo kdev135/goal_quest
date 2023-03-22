@@ -22,13 +22,13 @@ void main() async {
       null,
       [
         NotificationChannel(
-            channelGroupKey: 'goal_channel_group',
-            channelKey: 'key1',
-            channelName: 'goal notifications',
-            channelDescription: 'goal notifications channel',
-            defaultColor: primaryColor,
-            importance: NotificationImportance.High,
-           )
+          channelGroupKey: 'goal_channel_group',
+          channelKey: notificationKey,
+          channelName: 'goal notifications',
+          channelDescription: 'goal notifications channel',
+          defaultColor: primaryColor,
+          importance: NotificationImportance.High
+        )
       ],
       debug: true);
 
@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
         '/home': ((context) => const HomeScreen()),
         '/goal_screen': (context) => GoalScreen(),
         '/new_goal_screen': (context) => NewGoalScreen(),
-        '/completed_goals_screen': (context) => CompletedGoalsScreen(),
+        '/completed_goals_screen': (context) => const CompletedGoalsScreen(),
         '/settings_screen': (context) => const SettingsScreen()
       },
     );
