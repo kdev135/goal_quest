@@ -4,6 +4,7 @@
 *.jks
 *.pyc
 *.swp
+*.exe
 .DS_Store
 .atom/
 .buildlog/
@@ -45,3 +46,15 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+# Windows folders
+Desktop.ini
+$RECYCLE.BIN/
+Thumbs.db
+ehthumbs.db
+System Volume Information/
+
+# macOS folders
+.DS_Store
+.AppleDouble
+.Trashes
+__MACOSX/
