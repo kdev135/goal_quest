@@ -87,7 +87,7 @@ class ExpandablePanelModel extends StatelessWidget {
             Expandable(
               // <-- Driven by ExpandableController from ExpandableNotifier
               collapsed: ExpandableButton(
-                // <-- Expands when tapped on the cover photo
+                // <-- Expands when tapped 
                 child: ListTile(
                   title: Text(
                     title,

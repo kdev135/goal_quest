@@ -27,7 +27,7 @@ void main() async {
           channelName: 'goal notifications',
           channelDescription: 'goal notifications channel',
           defaultColor: primaryColor,
-          importance: NotificationImportance.High
+         
         )
       ],
       debug: true);
