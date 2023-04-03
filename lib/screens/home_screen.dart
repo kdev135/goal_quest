@@ -5,7 +5,6 @@ import 'package:goal_quest/models/ui_models/goal_card_model.dart';
 import 'package:goal_quest/constants.dart';
 import 'package:goal_quest/operations/fetch_quote_data.dart';
 import 'package:goal_quest/operations/get_achievement_time.dart';
-import 'package:goal_quest/operations/notification_handler.dart';
 
 import 'package:goal_quest/operations/rebuild_goal_listview.dart';
 import 'package:goal_quest/styles.dart';
@@ -133,7 +132,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     icon: const Icon(Icons.info_outline),
                     tooltip: 'How it works',
                     onPressed: () async {
-                      
                       Navigator.pushNamed(context, '/settings_screen');
                     },
                   )

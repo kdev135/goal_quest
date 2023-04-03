@@ -23,7 +23,7 @@ morningNotification() async {
     ),
   );
 }
-
+ 
 
 eveningNotification() async {
   await AwesomeNotifications().createNotification(

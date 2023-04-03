@@ -35,16 +35,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AndroidAlarmManager.initialize();
 
-// check notification permission
-  AwesomeNotifications().isNotificationAllowed().then((isAllowed) async {
-    if (!isAllowed) {
-      await AwesomeNotifications().requestPermissionToSendNotifications();
-    } else {
+
       // Schedule the morning & evening notifications
       scheduleMorningNotification();
       scheduleEveningNotifications();
-    }
-  });
+
   runApp(const MyApp());
 }
 
