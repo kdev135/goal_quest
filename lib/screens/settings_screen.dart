@@ -1,4 +1,4 @@
- import 'package:expandable/expandable.dart';
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:goal_quest/constants.dart';
@@ -7,7 +7,8 @@ import 'package:goal_quest/styles.dart';
 
 class SettingsScreen extends HookWidget {
   const SettingsScreen({Key? key}) : super(key: key);
-  final appDescription = 'Welcome to Goal Quest - the app that empowers you to achieve your dreams! With Goal Quest, you can set personalized goals and track your progress towards them, helping you stay accountable and motivated. Whether you want to write a book, save up for a new car, or learn a new skill, Goal Quest is the perfect companion for your journey towards personal growth and success. Remember, you have got what it takes to achieve your true potential.';
+  final appDescription =
+      'Welcome to Goal Quest - the app that empowers you to achieve your dreams! With Goal Quest, you can set personalized goals and track your progress towards them, helping you stay accountable and motivated. Whether you want to write a book, save up for a new car, or learn a new skill, Goal Quest is the perfect companion for your journey towards personal growth and success. Remember, you have got what it takes to achieve your true potential.';
   final homeScreenText =
       'This is where you view the goals that you are yet to achieve.\n You can hold down on a goal to view possible actions. You can also tap on it to open it on the update screen. \nThe first icon button on the left of the bottom navigation bar will open the screen where you view your achieved goals. The larger centred button can be tapped to start creating a new goal. The button on the right opens this screen.';
 
@@ -34,14 +35,20 @@ class SettingsScreen extends HookWidget {
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: Text(appDescription, style: defaultFont,),
+                  child: Text(
+                    appDescription,
+                    style: defaultFont,
+                  ),
                 ),
               ),
               const SizedBox(
                 height: 20,
-             
               ),
-              Text('A P P  S C R E E N S', style: titleFont2,textAlign: TextAlign.center,),
+              Text(
+                'A P P  S C R E E N S',
+                style: titleFont2,
+                textAlign: TextAlign.center,
+              ),
               ExpandablePanelModel(
                 title: 'Home screen',
                 longText: homeScreenText,
@@ -85,9 +92,9 @@ class ExpandablePanelModel extends StatelessWidget {
               height: 05,
             ),
             Expandable(
-              // <-- Driven by ExpandableController from ExpandableNotifier
+// <-- Driven by ExpandableController from ExpandableNotifier
               collapsed: ExpandableButton(
-                // <-- Expands when tapped 
+                // <-- Expands when tapped
                 child: ListTile(
                   title: Text(
                     title,
@@ -110,10 +117,10 @@ class ExpandablePanelModel extends StatelessWidget {
                   ),
                   Text(
                     longText,
-                    style: defaultFont,
+                    style: defaultFont.copyWith(color: Colors.grey.shade300),
                   ),
                   ExpandableButton(
-                    // <-- Collapses when tapped on
+// <-- Collapses when tapped on
                     child: Center(
                         child: Text(
                       'show less',

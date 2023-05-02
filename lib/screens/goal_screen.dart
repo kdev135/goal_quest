@@ -6,6 +6,7 @@ import 'package:goal_quest/models/ui_models/text_field_model.dart';
 import 'package:goal_quest/operations/date_picker_fn.dart';
 import 'package:goal_quest/styles.dart';
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 
 import '../models/ui_models/animated_page_title_model.dart';
 
@@ -18,8 +19,7 @@ class GoalScreen extends HookWidget {
   final sizedBox = const SizedBox(
     height: 10,
   );
-  final creationDate =
-      '${DateTime.now().day.toString().padLeft(2, '0')}-${DateTime.now().month.toString().padLeft(2, '0')}-${DateTime.now().year}';
+
 
   @override
   Widget build(BuildContext context) {
@@ -102,13 +102,12 @@ class GoalScreen extends HookWidget {
                           ),
                           GestureDetector(
                             onTap: () {
-
-                             // split target date for picker
+                              // split target date for picker
                               List<String> targetDate = dueDate.value.split('-');
-                               int day = int.parse(targetDate[0]);
+                              int day = int.parse(targetDate[0]);
                               int year = int.parse(targetDate[2]);
                               int month = int.parse(targetDate[1]);
-                              
+
                               //jump to target date in date picker
                               datePicker(context, year, month, day).then((value) {
                                 value != null
@@ -169,7 +168,6 @@ class GoalScreen extends HookWidget {
                 ),
               ),
             ),
-         
           ],
         ),
       ),
@@ -181,7 +179,7 @@ class GoalScreen extends HookWidget {
             dueDate: dueDate,
             newReportController: newReportController,
             reportList: reportList,
-            creationDate: creationDate,
+            creationDate: goalObject["creationDate"],
             titleController: titleController,
             descriptionController: descriptionController,
             actionPlanController: actionPlanController,
@@ -264,10 +262,11 @@ class UpdateButton extends StatelessWidget {
       width: 20,
       child: ElevatedButton(
         onPressed: () {
-          var day = dueDate.value.substring(0, 2);
-          var month = dueDate.value.substring(3, 5);
-          var year = dueDate.value.substring(6);
-
+          // convert the creation & due dates to a DateTime objects
+          DateFormat inputFormat = DateFormat("dd-MM-yyyy");
+          DateTime formattedDueDate = inputFormat.parse(dueDate.value);
+          DateTime formattedCreationDate = inputFormat.parse(creationDate);
+        
           newReportController.text.trim().isNotEmpty // Ensure there is actual data
               ? reportList.add({'record_date': creationDate, 'report': newReportController.text})
               : null;
@@ -277,7 +276,7 @@ class UpdateButton extends StatelessWidget {
             'actionPlan': actionPlanController.text,
             'creationDate': goalObject['creationDate'],
             'dueDate': dueDate.value,
-            'timeSpan': DateTime.parse('$year-$month-$day').difference(DateTime.now()).inDays,
+            'timeSpan': formattedDueDate.difference(formattedCreationDate).inDays,
             'reports': reportList
           };
           _goalBox.delete(oldTitle);

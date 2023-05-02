@@ -8,5 +8,5 @@ void rebuildGoalList(Widget goalWidget, List<Widget> goalList) {
           physics: const BouncingScrollPhysics(),
           children: goalList,
         )
-      : const NoGoalsWidget();
+      : const NoGoalsWidget(message: "",);
 }

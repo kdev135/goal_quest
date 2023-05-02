@@ -32,7 +32,7 @@ class _CompletedGoalsScreenState extends State<CompletedGoalsScreen> {
         body: achievedGoalBox.length == 0
             ?
             // If no completed goals, show this
-            const NoGoalsWidget()
+            const NoGoalsWidget(message: "Achieved goals will appear here",)
             : const AchievedGoalListView()
 
         // goals exist? show this

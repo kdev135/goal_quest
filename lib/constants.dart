@@ -10,4 +10,4 @@ final goalBox = Hive.box('myGoalBox'); // return the Hive box with unachieved go
 // Get the stored quote from hive box
 const defaultQuote = 'The most effective way to do it, is to do it.\n\n- Ameilia Earhart';
 const logoIconPath = 'assets/icon/round_logo.png';
-const notificationKey = 'key10';
+const notificationKey = 'key1';

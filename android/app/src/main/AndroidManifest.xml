@@ -11,7 +11,8 @@
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
-         
+          android:showWhenLocked="true"
+          android:turnScreenOn="true"
             android:windowSoftInputMode="adjustResize">
             
             <!-- Specifies an Android theme to apply to this Activity as soon as
@@ -22,6 +23,10 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
+           <meta-data android:name="com.google.firebase.messaging.default_notification_icon" 
+           android:resource="@drawable/ic_launcher_foreground" />
+          <meta-data android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/ic_launcher_background" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -32,6 +37,7 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+          
        
         <service
     android:name="dev.fluttercommunity.plus.androidalarmmanager.AlarmService"
@@ -45,7 +51,7 @@
     android:enabled="false"
     android:exported="false">
     <intent-filter>
-        <action android:name="android.intent.action.BOOT_COMPLETED" />
+         <action android:name="android.intent.action.BOOT_COMPLETED"></action>
     </intent-filter>
 </receiver>
 

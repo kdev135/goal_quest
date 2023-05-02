@@ -41,7 +41,7 @@ final int maxLength;
             ),
             Text(
               description,
-              style: defaultFont,
+              style: defaultFont.copyWith(color: Colors.grey.shade400),
             ),
             TextFieldModel(
               textController: textController,

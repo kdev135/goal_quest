@@ -5,6 +5,9 @@ import 'package:goal_quest/models/ui_models/goal_card_model.dart';
 import 'package:goal_quest/constants.dart';
 import 'package:goal_quest/operations/fetch_quote_data.dart';
 import 'package:goal_quest/operations/get_achievement_time.dart';
+import 'package:goal_quest/operations/notification_handler.dart';
+
+import 'package:goal_quest/operations/notification_service.dart';
 
 import 'package:goal_quest/operations/rebuild_goal_listview.dart';
 import 'package:goal_quest/styles.dart';
@@ -105,7 +108,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           'M Y  G O A L S',
                           style: titleFont1,
                         ),
-                        goalBox.isEmpty ? const NoGoalsWidget() : const GoalListview()
+                        goalBox.isEmpty
+                            ? const NoGoalsWidget(
+                                message: 'Tap on the  ➕  icon to create a goal',
+                              )
+                            : const GoalListview()
                       ],
                     ),
                   )
@@ -125,7 +132,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   IconButton(
                     icon: const Icon(Icons.checklist_sharp),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/completed_goals_screen');
+                      // Navigator.pushNamed(context, '/completed_goals_screen');
+                      // NotificationService().showNotification(title: 'This is it');
+                      showMorningNotification();
                     },
                   ),
                   IconButton(

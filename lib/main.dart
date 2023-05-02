@@ -1,8 +1,9 @@
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:goal_quest/constants.dart';
+import 'package:goal_quest/operations/notification_service.dart';
 import 'package:goal_quest/screens/completed_goals_screen.dart';
 import 'package:goal_quest/screens/home_screen.dart';
 import 'package:goal_quest/screens/goal_screen.dart';
@@ -18,29 +19,23 @@ void main() async {
   await Hive.openBox('achievedGoalBox');
 
 // Initialize notifications
-  await AwesomeNotifications().initialize(
-      null,
-      [
-        NotificationChannel(
-          channelGroupKey: 'goal_channel_group',
-          channelKey: notificationKey,
-          channelName: 'goal notifications',
-          channelDescription: 'goal notifications channel',
-          defaultColor: primaryColor,
-         
-        )
-      ],
-      debug: true);
-
   WidgetsFlutterBinding.ensureInitialized();
-  await AndroidAlarmManager.initialize();
+  await NotificationService().initNotification();
+
+  // Schedule the morning & evening notifications
+  scheduleMorningNotification();
+  scheduleEveningNotifications();
 
 
-      // Schedule the morning & evening notifications
-      scheduleMorningNotification();
-      scheduleEveningNotifications();
+ AndroidAlarmManager.initialize().then((value) {
+    runApp(const MyApp());
+  });
 
-  runApp(const MyApp());
+  // Request permission to show notifications
+  // FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  // flutterLocalNotificationsPlugin
+  //     .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()!
+  //     .requestPermission();
 }
 
 class MyApp extends StatelessWidget {
@@ -70,3 +65,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+

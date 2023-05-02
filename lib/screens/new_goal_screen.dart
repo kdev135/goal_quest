@@ -155,7 +155,7 @@ class NewGoalScreen extends HookWidget {
                       'actionPlan': actionPlanController.text,
                       'creationDate': creationDate,
                       'dueDate': formattedDate,
-                      'timeSpan': targetDate.value.difference(DateTime.now()).inDays,
+                      'timeSpan': targetDate.value.difference((DateTime.now())).inDays,
                       'reports': [
                         {'record_date': creationDate, 'report': ' I created this goal!'}
                       ],

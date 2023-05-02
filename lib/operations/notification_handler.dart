@@ -1,79 +1,74 @@
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
-import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:goal_quest/constants.dart';
+
 import 'package:goal_quest/operations/fetch_quote_data.dart';
+import 'package:goal_quest/operations/notification_service.dart';
 
 // The notification handler
-
-
-morningNotification() async {
+@pragma('vm:entry-point')
+void showMorningNotification() async {
   final quoteData = await fetchQuoteData();
   String morningNotificationBody = quoteData.split('\n').first;
-  await AwesomeNotifications().createNotification(
-    content: NotificationContent(
-      id: 1,
-      channelKey: notificationKey,
-      groupKey: notificationKey,
-      title: "You've got this!",
-      body: morningNotificationBody,
-      largeIcon: 'resource://drawable/ic_launcher_foreground',
-    
-   
-    
-    ),
+  await NotificationService().showNotification(
+    id: 0,
+    title: "You are awesome!",
+    body: morningNotificationBody,
+    payload: "what is it",
   );
-}
- 
 
-eveningNotification() async {
-  await AwesomeNotifications().createNotification(
-    content: NotificationContent(
-      id: 2,
-      channelKey: notificationKey,
-      title: "How was your day?",
-      body: 'Did you make progress today? Great! Note it down.',
-      largeIcon: 'resource://drawable/ic_launcher_foreground',
-     
-    ),
+}
+
+
+@pragma('vm:entry-point')
+showEveningNotification() async {
+  await NotificationService().showNotification(
+    id: 1,
+    title: "How was your day?",
+    body: "Don't forget to record your progress",
   );
 }
+
+// setup the daily 8am notification
 
 /// Trigger morning notification
-void scheduleMorningNotification() {
-  const int mornAlarmId = 0;
-// Create a DateTime object for 8:00 AM
+void scheduleMorningNotification() async {
+  const int morningAlarmId = 0;
   DateTime now = DateTime.now();
-  DateTime time = DateTime(now.year, now.month, now.day, 08, 00, 00);
-// Check if the time is already past. If schedule for the new time
-  if (time.isBefore(now)) {
-    time = time.add(const Duration(hours: 24));
+  DateTime scheduledTime = DateTime(now.year, now.month, now.day, 07, 30, 0);
+  if (scheduledTime.isBefore(now)) {
+    scheduledTime = scheduledTime.add(Duration(days: 1));
   }
-
-  AndroidAlarmManager.periodic(
-    const Duration(hours: 24), // Time between notifications (interval)
-    mornAlarmId,
-    morningNotification,
-
-    startAt: time,
+  await AndroidAlarmManager.periodic(
+    const Duration(days: 1),
+    morningAlarmId,
+    showMorningNotification,
+    startAt: scheduledTime,
+    allowWhileIdle: true,
+    exact: true,
+    wakeup: true,
+    rescheduleOnReboot: true,
   );
+  print('Morning notification scheduled for ${scheduledTime.toString()}');
 }
 
 /// Schedule the evening alarm
-void scheduleEveningNotifications() {
+void scheduleEveningNotifications() async {
   const int eveAlarmId = 1;
 
   DateTime now = DateTime.now();
-  DateTime time = DateTime(now.year, now.month, now.day, 20, 00, 00);
+  DateTime time = DateTime(now.year, now.month, now.day, 19, 00, 00);
 
   // Check if the time is already past. If true schedule for the new time
   if (time.isBefore(now)) {
     time = time.add(const Duration(hours: 24));
   }
 
-  AndroidAlarmManager.periodic(
-    const Duration(hours: 24), // Time between notifications (interval)
+  await AndroidAlarmManager.periodic(
+    const Duration(days: 1),
     eveAlarmId,
-    eveningNotification,
+    showEveningNotification,
     startAt: time,
+    exact: true,
+    wakeup: true,
   );
+  print('Evening notification scheduled for ${time.toString()}');
 }
