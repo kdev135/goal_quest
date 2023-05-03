@@ -19,23 +19,24 @@ void main() async {
   await Hive.openBox('achievedGoalBox');
 
 // Initialize notifications
-  WidgetsFlutterBinding.ensureInitialized();
-  await NotificationService().initNotification();
+await NotificationService().initNotification();
+
+WidgetsFlutterBinding.ensureInitialized();
+  
 
   // Schedule the morning & evening notifications
   scheduleMorningNotification();
   scheduleEveningNotifications();
-
 
  AndroidAlarmManager.initialize().then((value) {
     runApp(const MyApp());
   });
 
   // Request permission to show notifications
-  // FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-  // flutterLocalNotificationsPlugin
-  //     .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()!
-  //     .requestPermission();
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = NotificationService.notificationsPlugin;
+  flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()!
+      .requestPermission();
 }
 
 class MyApp extends StatelessWidget {

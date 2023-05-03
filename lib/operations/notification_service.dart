@@ -3,10 +3,11 @@ import 'package:goal_quest/constants.dart';
 
 class NotificationService {
   //create instance of the flutter local notification
-  final FlutterLocalNotificationsPlugin notificationsPlugin = FlutterLocalNotificationsPlugin();
+ static final FlutterLocalNotificationsPlugin notificationsPlugin = FlutterLocalNotificationsPlugin();
 
   Future<void> initNotification() async {
-    AndroidInitializationSettings initializationSettingsAndroid = const AndroidInitializationSettings('ic_launcher_monochrome');
+    AndroidInitializationSettings initializationSettingsAndroid =
+        const AndroidInitializationSettings('ic_launcher_monochrome');
 
     var initializationSettingsIOS = DarwinInitializationSettings(
       requestAlertPermission: true,
@@ -24,12 +25,13 @@ class NotificationService {
 
   notificationDetails() {
     return const NotificationDetails(
-        android: AndroidNotificationDetails('mornNotificationId', 'mornNotificationChannel',
-            importance: Importance.max, color:primaryColor, icon: 'ic_launcher_monochrome' ),
+        android: AndroidNotificationDetails('goalNotificationId', 'goalNotificationChannel',
+            importance: Importance.max, color: primaryColor, icon: 'ic_launcher_monochrome'),
         iOS: DarwinNotificationDetails());
   }
 
   Future showNotification({int id = 0, String? title, String? body, String? payload}) async {
+    print("======shownotifcation called=======");
     return await notificationsPlugin.show(id, title, body, notificationDetails());
   }
 }

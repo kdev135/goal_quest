@@ -10,20 +10,18 @@ void showMorningNotification() async {
   String morningNotificationBody = quoteData.split('\n').first;
   await NotificationService().showNotification(
     id: 0,
-    title: "You are awesome!",
+    title: "You have what it takes!",
     body: morningNotificationBody,
-    payload: "what is it",
   );
-
 }
-
 
 @pragma('vm:entry-point')
 showEveningNotification() async {
+
   await NotificationService().showNotification(
     id: 1,
     title: "How was your day?",
-    body: "Don't forget to record your progress",
+    body: "Remember to record your milestones",
   );
 }
 
