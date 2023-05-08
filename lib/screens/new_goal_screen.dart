@@ -53,16 +53,16 @@ class NewGoalScreen extends HookWidget {
                       maxLength: 45,
                       title: 'My Goal',
                       description:
-                          'The name of your goal. Keep it as short as possible but accurately descriptive. Remember to be realistic.',
-                      hintText: 'eg. Get my body weight to 60 Kgs, Learn to code in Python',
+                          'The title of your goal. Keep it short but accurately descriptive. Keep it realistic and attainable.',
+                      hintText: 'eg. Plan a wedding for 50 guests, Learn to ride a motorbike',
                     ),
                     GoalPropCardModel(
                       textController: descriptionController,
                       title: 'My goal description',
                       description:
-                          'Provide a comprehensive description of your goal, including as much detail as possible while also avoiding going out of scope. Use positive and decisive language. You can make changes later.',
+                          'Provide a comprehensive description of your goal. Mention aspects such as the project timeline, a budget and the specific target you intend to hit with this goal. You can update the description later after creating this goal.',
                       hintText:
-                          'eg.\nI want to get and maintain my weight at around 60 kgs from the current 78 kgs before June. I want to be fit enough to finish the August Half marathon while maintaining a steady pace.',
+                          'eg.\nBudget: \$30,000. Timeline: 9 months. The goal is to create a memorable and stress-free wedding experience for the bride and groom and their guests. The budget includes venue rental, catering, decorations, transportation, and accommodations...',
                       fieldMaxlines: 5,
                     ),
                     GoalPropCardModel(
@@ -70,9 +70,9 @@ class NewGoalScreen extends HookWidget {
                       title: 'My action plan',
                       label: 'Action plan',
                       description:
-                          'What exact actions will you take to reach your goal? Please describe in detail what you plan to do. If your plan is not quite clear now, you can update it later.',
+                          'What exact steps will you take to reach your goal? Please describe in detail what you plan to do. Your plan details can always be modified later.',
                       hintText:
-                          'eg.\n- I will change my diet immediately with the help of a professional in that area.\n- I will join a gym and spend at least 2 hours working-out every day.',
+                          "eg.\n- Determine the wedding location and date based on the preference of the couple.\n- Create a guest list and send out save-the-date invitations to the guests ...",
                       fieldMaxlines: 5,
                     ),
                   ],
@@ -104,7 +104,7 @@ class NewGoalScreen extends HookWidget {
                         height: 10,
                       ),
                       Text(
-                        'What is the latest date you plan to have achieve this goal before? [default: 6 months]\n',
+                        'What is the latest date you plan to have achieved this goal? [default timeline: 6 months from now]\n',
                         style: defaultFont,
                       ),
                       Card(
@@ -140,7 +140,6 @@ class NewGoalScreen extends HookWidget {
             child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: interactiveColor,
-                  
                 ),
                 onPressed: () {
                   final formIsValid = formKey.currentState!.validate();

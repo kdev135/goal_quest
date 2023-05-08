@@ -6,11 +6,9 @@ import 'package:goal_quest/constants.dart';
 import 'package:goal_quest/operations/fetch_quote_data.dart';
 import 'package:goal_quest/operations/get_achievement_time.dart';
 import 'package:goal_quest/operations/notification_handler.dart';
-
-import 'package:goal_quest/operations/notification_service.dart';
-
 import 'package:goal_quest/operations/rebuild_goal_listview.dart';
 import 'package:goal_quest/styles.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -84,6 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               'Hello there, Friend!',
                               style: titleFont1,
                             ),
+                            
                             Text(
                               quoteData,
                               style: quoteFont,
@@ -132,8 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   IconButton(
                     icon: const Icon(Icons.checklist_sharp),
                     onPressed: () {
-                      // Navigator.pushNamed(context, '/completed_goals_screen');
-                      // NotificationService().showNotification(title: 'This is it');
+                      Navigator.pushNamed(context, '/completed_goals_screen');
                       showMorningNotification();
                     },
                   ),

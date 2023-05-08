@@ -33,7 +33,7 @@ void scheduleMorningNotification() async {
   DateTime now = DateTime.now();
   DateTime scheduledTime = DateTime(now.year, now.month, now.day, 07, 30, 0);
   if (scheduledTime.isBefore(now)) {
-    scheduledTime = scheduledTime.add(Duration(days: 1));
+    scheduledTime = scheduledTime.add(const Duration(days: 1));
   }
   await AndroidAlarmManager.periodic(
     const Duration(days: 1),
@@ -45,7 +45,6 @@ void scheduleMorningNotification() async {
     wakeup: true,
     rescheduleOnReboot: true,
   );
-  print('Morning notification scheduled for ${scheduledTime.toString()}');
 }
 
 /// Schedule the evening alarm
@@ -68,5 +67,4 @@ void scheduleEveningNotifications() async {
     exact: true,
     wakeup: true,
   );
-  print('Evening notification scheduled for ${time.toString()}');
 }
