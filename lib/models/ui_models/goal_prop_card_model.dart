@@ -3,7 +3,6 @@ import 'package:goal_quest/styles.dart';
 
 import 'text_field_model.dart';
 
-// Model for goal property fields on new_goal_screen. Contains description, title and text field of new goals
 class GoalPropCardModel extends StatelessWidget {
   const GoalPropCardModel(
       {Key? key,

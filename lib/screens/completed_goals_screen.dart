@@ -19,7 +19,7 @@ class _CompletedGoalsScreenState extends State<CompletedGoalsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // var items = useState(achievedGoalBox.values.length);
+
     return Scaffold(
         appBar: AppBar(
           title: const AnimatedPageTitleModel(
@@ -31,11 +31,11 @@ class _CompletedGoalsScreenState extends State<CompletedGoalsScreen> {
         ),
         body: achievedGoalBox.length == 0
             ?
-            // If no completed goals, show this
+        
             const NoGoalsWidget(message: "Achieved goals will appear here",)
             : const AchievedGoalListView()
 
-        // goals exist? show this
+  
 
         );
   }
@@ -103,7 +103,7 @@ class AchievedGoalCard extends StatelessWidget {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           child: InkWell(
             onTap: (() {
-              // Todo : add reports & achievement time to alert dialog
+           
               showDialog(
                   context: context,
                   builder: (BuildContext context) {

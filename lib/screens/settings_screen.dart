@@ -92,9 +92,9 @@ class ExpandablePanelModel extends StatelessWidget {
               height: 05,
             ),
             Expandable(
-// <-- Driven by ExpandableController from ExpandableNotifier
+
               collapsed: ExpandableButton(
-                // <-- Expands when tapped
+          
                 child: ListTile(
                   title: Text(
                     title,
@@ -120,7 +120,7 @@ class ExpandablePanelModel extends StatelessWidget {
                     style: defaultFont.copyWith(color: Colors.grey.shade300),
                   ),
                   ExpandableButton(
-// <-- Collapses when tapped on
+
                     child: Center(
                         child: Text(
                       'show less',

@@ -10,8 +10,6 @@ import 'package:intl/intl.dart';
 
 import '../models/ui_models/animated_page_title_model.dart';
 
-// The screen allows modification of an existing goalObject. changes like description, target date and action plan.
-// New achieved milestones about the goalObject can be recorded on this page.
 class GoalScreen extends HookWidget {
   GoalScreen({super.key});
   final _goalBox = Hive.box('myGoalBox');
@@ -41,8 +39,7 @@ class GoalScreen extends HookWidget {
         title: const AnimatedPageTitleModel(
           titleText: 'U P D A T E  M Y  G O A L',
         ),
-        // backgroundColor: Colors.transparent,
-        // shadowColor: Colors.transparent,
+     
         centerTitle: true,
       ),
       body: Padding(

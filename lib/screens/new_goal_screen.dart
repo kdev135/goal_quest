@@ -20,7 +20,7 @@ class NewGoalScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     ValueNotifier<DateTime> targetDate =
-        useState(DateTime.now().add(const Duration(days: 187))); // Default of 6 months from now.
+        useState(DateTime.now().add(const Duration(days: 187))); 
     String formattedDate =
         '${targetDate.value.day.toString().padLeft(2, '0')}-${targetDate.value.month.toString().padLeft(2, '0')}-${targetDate.value.year}';
     return Scaffold(
@@ -31,8 +31,7 @@ class NewGoalScreen extends HookWidget {
         title: const AnimatedPageTitleModel(
           titleText: 'C R E A T E  A  N E W  G O A L',
         ),
-        // backgroundColor: Colors.transparent,
-        // shadowColor: Colors.transparent,
+
         centerTitle: true,
       ),
       body: SafeArea(
@@ -78,7 +77,6 @@ class NewGoalScreen extends HookWidget {
                   ],
                 )),
 
-            // Date selection for new goal
 
             Card(
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -128,7 +126,6 @@ class NewGoalScreen extends HookWidget {
               ),
             ),
 
-// End of date selection
           ],
         ),
       )),

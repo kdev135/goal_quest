@@ -8,7 +8,7 @@ import 'package:goal_quest/operations/get_achievement_time.dart';
 import 'package:goal_quest/operations/notification_handler.dart';
 import 'package:goal_quest/operations/rebuild_goal_listview.dart';
 import 'package:goal_quest/styles.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
+
 
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -97,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  // Body with goal cards
+           
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Column(
@@ -120,7 +120,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
 
-          // Bottom navigation buttons here
           bottomNavigationBar: BottomAppBar(
             shape: const CircularNotchedRectangle(),
             child: SizedBox(
@@ -152,7 +151,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-// A Listview with all goal cards
 class GoalListview extends StatefulWidget {
   const GoalListview({
     Key? key,

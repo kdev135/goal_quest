@@ -3,7 +3,7 @@ import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:goal_quest/operations/fetch_quote_data.dart';
 import 'package:goal_quest/operations/notification_service.dart';
 
-// The notification handler
+
 @pragma('vm:entry-point')
 void showMorningNotification() async {
   final quoteData = await fetchQuoteData();
@@ -25,9 +25,7 @@ showEveningNotification() async {
   );
 }
 
-// setup the daily 8am notification
 
-/// Trigger morning notification
 void scheduleMorningNotification() async {
   const int morningAlarmId = 0;
   DateTime now = DateTime.now();
@@ -47,14 +45,12 @@ void scheduleMorningNotification() async {
   );
 }
 
-/// Schedule the evening alarm
 void scheduleEveningNotifications() async {
   const int eveAlarmId = 1;
 
   DateTime now = DateTime.now();
   DateTime time = DateTime(now.year, now.month, now.day, 19, 00, 00);
 
-  // Check if the time is already past. If true schedule for the new time
   if (time.isBefore(now)) {
     time = time.add(const Duration(hours: 24));
   }

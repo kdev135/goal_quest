@@ -18,13 +18,12 @@ void main() async {
   await Hive.openBox('myGoalBox');
   await Hive.openBox('achievedGoalBox');
 
-// Initialize notifications
+
 await NotificationService().initNotification();
 
 WidgetsFlutterBinding.ensureInitialized();
   
 
-  // Schedule the morning & evening notifications
   scheduleMorningNotification();
   scheduleEveningNotifications();
 
@@ -32,7 +31,6 @@ WidgetsFlutterBinding.ensureInitialized();
     runApp(const MyApp());
   });
 
-  // Request permission to show notifications
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = NotificationService.notificationsPlugin;
   flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()!
