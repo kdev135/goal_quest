@@ -37,7 +37,7 @@ class SettingsScreen extends HookWidget {
                   padding: const EdgeInsets.all(10.0),
                   child: Text(
                     appDescription,
-                    style: defaultFont,
+                    style: bodyTextStyle,
                   ),
                 ),
               ),
@@ -92,9 +92,7 @@ class ExpandablePanelModel extends StatelessWidget {
               height: 05,
             ),
             Expandable(
-
               collapsed: ExpandableButton(
-          
                 child: ListTile(
                   title: Text(
                     title,
@@ -102,9 +100,9 @@ class ExpandablePanelModel extends StatelessWidget {
                   ),
                   trailing: Text(
                     'read more...',
-                    style: subtextFont.copyWith(color: primaryColor),
+                    style: subtextTextStyle.copyWith(color: kCAccentOrange),
                   ),
-                  subtitle: Text(previewText, style: defaultFont),
+                  subtitle: Text(previewText, style: bodyTextStyle),
                 ),
               ),
               expanded: Padding(
@@ -117,14 +115,13 @@ class ExpandablePanelModel extends StatelessWidget {
                   ),
                   Text(
                     longText,
-                    style: defaultFont.copyWith(color: Colors.grey.shade300),
+                    style: bodyTextStyle.copyWith(color: Colors.grey.shade300),
                   ),
                   ExpandableButton(
-
                     child: Center(
                         child: Text(
                       'show less',
-                      style: subtextFont,
+                      style: subtextTextStyle,
                     )),
                   ),
                 ]),

@@ -9,7 +9,6 @@ import 'package:goal_quest/operations/notification_handler.dart';
 import 'package:goal_quest/operations/rebuild_goal_listview.dart';
 import 'package:goal_quest/styles.dart';
 
-
 import 'package:hive_flutter/hive_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -40,113 +39,97 @@ class _HomeScreenState extends State<HomeScreen> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
 
-    return Stack(
-      children: [
-        Scaffold(
-          floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
-          floatingActionButton: FloatingActionButton(
-            tooltip: 'Create a new goal',
-            backgroundColor: interactiveColor,
-            onPressed: () {
-              Navigator.pushNamed(context, '/new_goal_screen');
-            },
-            child: const Icon(Icons.add),
-          ),
-          appBar: AppBar(
-            elevation: 0.0,
-            backgroundColor: primaryColor,
-            centerTitle: true,
-            title: Image.asset(
-              'assets/round_logo.png',
-              scale: 3.5,
-            ),
-          ),
-          body: SafeArea(
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ClipPath(
-                    clipper: CustomClipperPath(),
-                    child: Container(
-                      color: primaryColor,
-                      height: height / 4,
-                      width: width,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text(
-                              'Hello there, Friend!',
-                              style: titleFont1,
-                            ),
-                            
-                            Text(
-                              quoteData,
-                              style: quoteFont,
-                              textAlign: TextAlign.center,
-                            ),
-                            Text(
-                              '',
-                              style: quoteFont,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-           
-                  Padding(
+    return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
+      floatingActionButton: FloatingActionButton(
+        tooltip: 'Create a new goal',
+        backgroundColor: kCPrimaryCTAColor,
+        onPressed: () {
+          Navigator.pushNamed(context, '/new_goal_screen');
+        },
+        child: const Icon(Icons.add),
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipPath(
+                clipper: CustomClipperPath(),
+                child: Container(
+                  decoration:
+                      BoxDecoration(image: DecorationImage(image: AssetImage('assets/ss.jpg'), fit: BoxFit.fill)),
+                  height: height / 3,
+                  width: width,
+                  child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Text(
-                          'M Y  G O A L S',
-                          style: titleFont1,
+                          'Hello there, friend!',
+                          style: titleTextStyle1,
                         ),
-                        goalBox.isEmpty
-                            ? const NoGoalsWidget(
-                                message: 'Tap on the  ➕  icon to create a goal',
-                              )
-                            : const GoalListview()
+                        Text(
+                          quoteData,
+                          style: quoteTextStyle,
+                          textAlign: TextAlign.center,
+                        ),
+                        Text(
+                          '',
+                          style: quoteTextStyle,
+                        ),
                       ],
                     ),
-                  )
-                ],
-              ),
-            ),
-          ),
-
-          bottomNavigationBar: BottomAppBar(
-            shape: const CircularNotchedRectangle(),
-            child: SizedBox(
-              height: 50,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.checklist_sharp),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/completed_goals_screen');
-                      showMorningNotification();
-                    },
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.info_outline),
-                    tooltip: 'How it works',
-                    onPressed: () async {
-                      Navigator.pushNamed(context, '/settings_screen');
-                    },
-                  )
-                ],
+                ),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'M Y  G O A L S',
+                      style: titleTextStyle1,
+                    ),
+                    goalBox.isEmpty
+                        ? const NoGoalsWidget(
+                            message: 'Tap on the  ➕  icon to create a goal',
+                          )
+                        : const GoalListview()
+                  ],
+                ),
+              )
+            ],
           ),
         ),
-      ],
+      ),
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        child: SizedBox(
+          height: 50,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.checklist_sharp),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/completed_goals_screen');
+                },
+              ),
+              IconButton(
+                icon: const Icon(Icons.info_outline),
+                tooltip: 'How it works',
+                onPressed: () async {
+                  Navigator.pushNamed(context, '/settings_screen');
+                },
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

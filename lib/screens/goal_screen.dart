@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:goal_quest/constants.dart';
 import 'package:goal_quest/models/ui_models/editable_text_model.dart';
 import 'package:goal_quest/models/ui_models/text_field_model.dart';
+import 'package:goal_quest/operations/date_format.dart';
 import 'package:goal_quest/operations/date_picker_fn.dart';
 import 'package:goal_quest/styles.dart';
 import 'package:hive/hive.dart';
@@ -17,7 +18,6 @@ class GoalScreen extends HookWidget {
   final sizedBox = const SizedBox(
     height: 10,
   );
-
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,6 @@ class GoalScreen extends HookWidget {
         title: const AnimatedPageTitleModel(
           titleText: 'U P D A T E  M Y  G O A L',
         ),
-     
         centerTitle: true,
       ),
       body: Padding(
@@ -52,7 +51,7 @@ class GoalScreen extends HookWidget {
             Text(
               'Tap to start editting where necessary',
               textAlign: TextAlign.center,
-              style: subtextFont.copyWith(fontSize: 14),
+              style: subtextTextStyle.copyWith(fontSize: 14),
             ),
             sizedBox,
             Card(
@@ -93,7 +92,7 @@ class GoalScreen extends HookWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Created on: ${goalObject['creationDate']}', style: subtextFont),
+                          Text('Created on: ${goalObject['creationDate']}', style: subtextTextStyle),
                           const SizedBox(
                             width: 10,
                           ),
@@ -115,7 +114,7 @@ class GoalScreen extends HookWidget {
                             },
                             child: Text(
                               'Target date: ${dueDate.value}',
-                              style: subtextFont,
+                              style: subtextTextStyle,
                             ),
                           )
                         ],
@@ -134,17 +133,17 @@ class GoalScreen extends HookWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'My progress',
+                      'My progress report',
                       style: titleFont2,
                     ),
                     Text(
-                      '\nDid you make some progress towards achieving this goal? Write about it here. [Latest report appears first]',
-                      style: subtextFont,
+                      'Did you make some progress towards achieving this goal? Record it here. [Latest report appears first]',
+                      style: subtextTextStyle,
                     ),
                     TextFieldModel(
                       textController: newReportController,
                       label: '',
-                      hintText: 'Tap here to write a report.\n\n eg. Today, I bought a new motherboard from...',
+                      hintText: 'eg. Today, I read 3 chapters of Atomic Habits and learnt that habits are the compound interest of self-improvement. Small changes can lead to remarkable results over time',
                       maxlines: 3,
                     ),
                     ListView.separated(
@@ -152,8 +151,8 @@ class GoalScreen extends HookWidget {
                       reverse: true,
                       physics: const BouncingScrollPhysics(),
                       separatorBuilder: (context, index) => const SizedBox(
-                        height: 20,
-                        child: VerticalDivider(color: primaryColor),
+                        height: 10,
+                        child: VerticalDivider(color: kCAccentOrange),
                       ),
                       itemCount: reportList.length,
                       itemBuilder: (context, index) => ReportContainerModel(
@@ -209,7 +208,7 @@ class ReportContainerModel extends StatelessWidget {
                 Text(
                   '${reportList[index]['report']}',
                   textAlign: TextAlign.justify,
-                  style: defaultFont,
+                  style: bodyTextStyle,
                 ),
                 const SizedBox(
                   height: 20,
@@ -217,7 +216,7 @@ class ReportContainerModel extends StatelessWidget {
                 Text(
                   'Report date: ${reportList[index]['record_date']}',
                   textAlign: TextAlign.start,
-                  style: subtextFont,
+                  style: subtextTextStyle,
                 )
               ],
             ),
@@ -225,21 +224,20 @@ class ReportContainerModel extends StatelessWidget {
     );
   }
 }
-
 class UpdateButton extends StatelessWidget {
-  const UpdateButton(
-      {Key? key,
-      required this.dueDate,
-      required this.newReportController,
-      required this.reportList,
-      required this.creationDate,
-      required this.titleController,
-      required this.descriptionController,
-      required this.actionPlanController,
-      required this.goalObject,
-      required Box goalBox,
-      this.oldTitle = ''})
-      : _goalBox = goalBox,
+  const UpdateButton({
+    Key? key,
+    required this.dueDate,
+    required this.newReportController,
+    required this.reportList,
+    required this.creationDate,
+    required this.titleController,
+    required this.descriptionController,
+    required this.actionPlanController,
+    required this.goalObject,
+    required Box goalBox,
+    this.oldTitle = '',
+  })  : _goalBox = goalBox,
         super(key: key);
 
   final ValueNotifier<String> dueDate;
@@ -255,41 +253,44 @@ class UpdateButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 20,
-      child: ElevatedButton(
-        onPressed: () {
-          // convert the creation & due dates to a DateTime objects
-          DateFormat inputFormat = DateFormat("dd-MM-yyyy");
-          DateTime formattedDueDate = inputFormat.parse(dueDate.value);
-          DateTime formattedCreationDate = inputFormat.parse(creationDate);
-        
-          newReportController.text.trim().isNotEmpty // Ensure there is actual data
-              ? reportList.add({'record_date': creationDate, 'report': newReportController.text})
-              : null;
-          var updates = {
-            'title': titleController.text,
-            'description': descriptionController.text,
-            'actionPlan': actionPlanController.text,
-            'creationDate': goalObject['creationDate'],
-            'dueDate': dueDate.value,
-            'timeSpan': formattedDueDate.difference(formattedCreationDate).inDays,
-            'reports': reportList
-          };
-          _goalBox.delete(oldTitle);
-
-          _goalBox.put(titleController.text, updates);
-
-          Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: interactiveColor,
-        ),
-        child: Text(
-          'update',
-          style: titleFont2,
-        ),
+    return ElevatedButton(
+      onPressed: () => _updateGoal(context),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: kCPrimaryCTAColor,
+        foregroundColor: Colors.white,
+        shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(10))
+      ),
+      child: Text(
+        'update',
+        style: titleFont2,
       ),
     );
+  }
+
+  void _updateGoal(BuildContext context) {
+    DateTime formattedDueDate = dateToDateTimeObject(dueDate.value);
+    DateTime formattedCreationDate = dateToDateTimeObject(creationDate);
+
+    if (newReportController.text.trim().isNotEmpty) {
+      reportList.add({
+        'record_date': customDateFormat(DateTime.now()),
+        'report': newReportController.text
+      });
+    }
+
+    var updates = {
+      'title': titleController.text,
+      'description': descriptionController.text,
+      'actionPlan': actionPlanController.text,
+      'creationDate': goalObject['creationDate'],
+      'dueDate': dueDate.value,
+      'timeSpan': formattedDueDate.difference(formattedCreationDate).inDays,
+      'reports': reportList
+    };
+
+    _goalBox.delete(oldTitle);
+    _goalBox.put(titleController.text, updates);
+
+    Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
   }
 }

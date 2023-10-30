@@ -14,55 +14,54 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'operations/notification_handler.dart';
 
 void main() async {
-  await Hive.initFlutter();
-  await Hive.openBox('myGoalBox');
-  await Hive.openBox('achievedGoalBox');
-
-
-await NotificationService().initNotification();
-
-WidgetsFlutterBinding.ensureInitialized();
-  
-
-  scheduleMorningNotification();
-  scheduleEveningNotifications();
-
- AndroidAlarmManager.initialize().then((value) {
-    runApp(const MyApp());
-  });
-
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = NotificationService.notificationsPlugin;
-  flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()!
-      .requestPermission();
+  await _initializeApp();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Goal Quest',
-      theme: ThemeData.dark(),
+      theme: ThemeData.dark(useMaterial3: true),
       home: AnimatedSplashScreen(
-          splash: Image.asset(
-            'assets/round_logo.png',
-            scale: 0.1,
-          ),
-          nextScreen: const HomeScreen(),
-          splashTransition: SplashTransition.scaleTransition,
-          backgroundColor: primaryColor),
+        splash: Image.asset(
+          'assets/round_logo.png',
+          scale: 0.1,
+        ),
+        nextScreen: const HomeScreen(),
+        splashTransition: SplashTransition.scaleTransition,
+        duration: 500,
+        backgroundColor: kCAccentOrange,
+      ),
       routes: {
-        '/home': ((context) => const HomeScreen()),
-        '/goal_screen': (context) => GoalScreen(),
-        '/new_goal_screen': (context) => NewGoalScreen(),
-        '/completed_goals_screen': (context) => const CompletedGoalsScreen(),
-        '/settings_screen': (context) => const SettingsScreen()
+        '/home': (_) => const HomeScreen(),
+        '/goal_screen': (_) => GoalScreen(),
+        '/new_goal_screen': (_) => NewGoalScreen(),
+        '/completed_goals_screen': (_) => const CompletedGoalsScreen(),
+        '/settings_screen': (_) => const SettingsScreen(),
       },
     );
   }
 }
 
+// initialize the flutter app
+Future<void> _initializeApp() async {
+  await Hive.initFlutter();
+  await Hive.openBox('myGoalBox');
+  await Hive.openBox('achievedGoalBox');
+  WidgetsFlutterBinding.ensureInitialized();
+  scheduleMorningNotification();
+  scheduleEveningNotifications();
+  await NotificationService().initNotification();
 
+  await AndroidAlarmManager.initialize();
+
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = NotificationService.notificationsPlugin;
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()!
+      .requestPermission();
+}

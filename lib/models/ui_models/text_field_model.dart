@@ -28,14 +28,14 @@ class TextFieldModel extends StatelessWidget {
         maxLength: maxLength,
         textCapitalization: TextCapitalization.sentences,
         textInputAction: TextInputAction.newline,
-        cursorColor: primaryColor,
+        cursorColor: kCAccentOrange,
         decoration: InputDecoration(
             filled: true,
             fillColor: interactiveFieldGrey,
             hintText: hintText,
-            hintStyle: subtextFont,
+            hintStyle: subtextTextStyle,
             border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-            focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: interactiveColor))),
+            focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: kCPrimaryCTAColor))),
         validator: (value) {
           if (value == null || value.length < 5) {
             return 'Please be more detailed';

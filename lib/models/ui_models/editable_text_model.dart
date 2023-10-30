@@ -13,7 +13,7 @@ class EditableTextModel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       color: interactiveFieldGrey,
       child: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -22,8 +22,8 @@ class EditableTextModel extends StatelessWidget {
             controller: sampleTextController,
             focusNode: FocusNode(canRequestFocus: true),
             scrollPhysics: const BouncingScrollPhysics(),
-            style: fontStyle ?? defaultFont,
-            cursorColor: Colors.orange,
+            style: fontStyle ?? bodyTextStyle.copyWith(color: kCLightGrey),
+            cursorColor: kCAccentOrange,
             backgroundCursorColor: Colors.green),
       ),
     );

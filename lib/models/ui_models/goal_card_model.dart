@@ -51,7 +51,7 @@ class GoalCardModel extends HookWidget {
                 // show set time in months
                 Text(
                     'Allocated time: $timeSpan days  [ ${timeMonths < 1 ? "Less than a month" : "about $timeMonths months"} ]',
-                    style: defaultFont),
+                    style: bodyTextStyle),
                 const SizedBox(
                   height: 10,
                 ),
@@ -59,11 +59,11 @@ class GoalCardModel extends HookWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Created on: $creationDate', style: subtextFont),
+                      Text('Created on: $creationDate', style: subtextTextStyle),
                       const SizedBox(width: 10),
                       Text(
                         'Target date: $dueBeforeDate',
-                        style: subtextFont,
+                        style: subtextTextStyle,
                       )
                     ],
                   ),
@@ -77,7 +77,7 @@ class GoalCardModel extends HookWidget {
                           icon: const Icon(Icons.check_box_outlined),
                           label: Text(
                             'Mark as done',
-                            style: defaultFont,
+                            style: bodyTextStyle,
                           ),
                           onPressed: (() {
                             onMarked!();
@@ -95,7 +95,7 @@ class GoalCardModel extends HookWidget {
                           },
                           child: Text(
                             'Remove',
-                            style: defaultFont.copyWith(color: Colors.red),
+                            style: bodyTextStyle.copyWith(color: Colors.red),
                           )),
                     ],
                   ),

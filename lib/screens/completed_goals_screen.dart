@@ -19,7 +19,6 @@ class _CompletedGoalsScreenState extends State<CompletedGoalsScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: AppBar(
           title: const AnimatedPageTitleModel(
@@ -30,14 +29,10 @@ class _CompletedGoalsScreenState extends State<CompletedGoalsScreen> {
           centerTitle: true,
         ),
         body: achievedGoalBox.length == 0
-            ?
-        
-            const NoGoalsWidget(message: "Achieved goals will appear here",)
-            : const AchievedGoalListView()
-
-  
-
-        );
+            ? const NoGoalsWidget(
+                message: "Achieved goals will appear here",
+              )
+            : const AchievedGoalListView());
   }
 }
 
@@ -92,7 +87,7 @@ class AchievedGoalCard extends StatelessWidget {
     super.key,
   });
   final dynamic mapValue;
- final Function? action;
+  final Function? action;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -103,7 +98,6 @@ class AchievedGoalCard extends StatelessWidget {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           child: InkWell(
             onTap: (() {
-           
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -112,7 +106,7 @@ class AchievedGoalCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                           '[ ${ mapValue['title']} ]',
+                            '[ ${mapValue['title']} ]',
                             style: titleFont2,
                           ),
                           const Divider(),
@@ -120,18 +114,18 @@ class AchievedGoalCard extends StatelessWidget {
                             'Goal Description',
                             style: titleFont2,
                           ),
-                          Text('${mapValue['description']}', style: subtextFont),
+                          Text('${mapValue['description']}', style: subtextTextStyle),
                           const Divider(),
                           Text(
                             'Action Plan',
                             style: titleFont2,
                           ),
-                          Text('${mapValue['actionPlan']}', style: subtextFont),
+                          Text('${mapValue['actionPlan']}', style: subtextTextStyle),
                           const Divider(),
                           Text(
                               'Allocated time: ${mapValue['timeSpan']} days [${(mapValue['timeSpan'] / 31).round()} months]',
-                              style: defaultFont),
-                          Text('Achievement time: ${mapValue['achievementTime']} days', style: defaultFont),
+                              style: bodyTextStyle),
+                          Text('Achievement time: ${mapValue['achievementTime']} days', style: bodyTextStyle),
                           Visibility(
                               child: Row(
                             children: [
@@ -143,7 +137,7 @@ class AchievedGoalCard extends StatelessWidget {
                                   },
                                   child: Text(
                                     'Delete',
-                                    style: defaultFont.copyWith(color: Colors.red),
+                                    style: bodyTextStyle.copyWith(color: Colors.red),
                                   ))
                             ],
                           ))
@@ -171,10 +165,10 @@ class AchievedGoalCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Created on: ${mapValue['creationDate']}', style: subtextFont),
+                      Text('Created on: ${mapValue['creationDate']}', style: subtextTextStyle),
                       Text(
                         'Target date: ${mapValue['dueDate']}',
-                        style: subtextFont,
+                        style: subtextTextStyle,
                       )
                     ],
                   )

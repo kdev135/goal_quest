@@ -19,8 +19,7 @@ class NewGoalScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    ValueNotifier<DateTime> targetDate =
-        useState(DateTime.now().add(const Duration(days: 187))); 
+    ValueNotifier<DateTime> targetDate = useState(DateTime.now().add(const Duration(days: 187)));
     String formattedDate =
         '${targetDate.value.day.toString().padLeft(2, '0')}-${targetDate.value.month.toString().padLeft(2, '0')}-${targetDate.value.year}';
     return Scaffold(
@@ -31,7 +30,6 @@ class NewGoalScreen extends HookWidget {
         title: const AnimatedPageTitleModel(
           titleText: 'C R E A T E  A  N E W  G O A L',
         ),
-
         centerTitle: true,
       ),
       body: SafeArea(
@@ -50,7 +48,7 @@ class NewGoalScreen extends HookWidget {
                     GoalPropCardModel(
                       textController: titleController,
                       maxLength: 45,
-                      title: 'My Goal',
+                      title: 'Goal name',
                       description:
                           'The title of your goal. Keep it short but accurately descriptive. Keep it realistic and attainable.',
                       hintText: 'eg. Plan a wedding for 50 guests, Learn to ride a motorbike',
@@ -77,7 +75,6 @@ class NewGoalScreen extends HookWidget {
                   ],
                 )),
 
-
             Card(
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
               child: Padding(
@@ -103,7 +100,7 @@ class NewGoalScreen extends HookWidget {
                       ),
                       Text(
                         'What is the latest date you plan to have achieved this goal? [default timeline: 6 months from now]\n',
-                        style: defaultFont,
+                        style: bodyTextStyle,
                       ),
                       Card(
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -112,11 +109,11 @@ class NewGoalScreen extends HookWidget {
                           dense: true,
                           leading: Text(
                             'Tap to set target date:',
-                            style: defaultFont,
+                            style: bodyTextStyle,
                           ),
                           title: Text(
                             formattedDate,
-                            style: defaultFont.copyWith(color: Colors.orange[200]),
+                            style: bodyTextStyle.copyWith(color: Colors.orange[200]),
                           ),
                         ),
                       ),
@@ -125,7 +122,6 @@ class NewGoalScreen extends HookWidget {
                 ),
               ),
             ),
-
           ],
         ),
       )),
@@ -136,7 +132,9 @@ class NewGoalScreen extends HookWidget {
             width: 20,
             child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: interactiveColor,
+                  backgroundColor: kCPrimaryCTAColor,
+                   foregroundColor: Colors.white,
+        shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(10))
                 ),
                 onPressed: () {
                   final formIsValid = formKey.currentState!.validate();
@@ -181,7 +179,7 @@ class NewGoalScreen extends HookWidget {
                                 ),
                                 Text(
                                   'Congratulations! Your new goal has been created successfully. You can make it!',
-                                  style: defaultFont,
+                                  style: bodyTextStyle,
                                 )
                               ],
                             ),
@@ -192,7 +190,7 @@ class NewGoalScreen extends HookWidget {
                                   },
                                   child: Text(
                                     'Ok',
-                                    style: defaultFont,
+                                    style: bodyTextStyle,
                                   ))
                             ],
                           );
