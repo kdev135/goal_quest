@@ -5,7 +5,6 @@ import 'package:goal_quest/models/ui_models/goal_card_model.dart';
 import 'package:goal_quest/constants.dart';
 import 'package:goal_quest/operations/fetch_quote_data.dart';
 import 'package:goal_quest/operations/get_achievement_time.dart';
-import 'package:goal_quest/operations/notification_handler.dart';
 import 'package:goal_quest/operations/rebuild_goal_listview.dart';
 import 'package:goal_quest/styles.dart';
 
@@ -59,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 clipper: CustomClipperPath(),
                 child: Container(
                   decoration:
-                      BoxDecoration(image: DecorationImage(image: AssetImage('assets/ss.jpg'), fit: BoxFit.fill)),
+                      const BoxDecoration(image: DecorationImage(image: AssetImage('assets/ss.jpg'), fit: BoxFit.fill)),
                   height: height / 3,
                   width: width,
                   child: Padding(
@@ -107,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
+    
         child: SizedBox(
           height: 50,
           child: Row(

@@ -3,13 +3,14 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:goal_quest/constants.dart';
+import 'package:goal_quest/operations/check_platform.dart';
 import 'package:goal_quest/operations/notification_service.dart';
 import 'package:goal_quest/screens/completed_goals_screen.dart';
 import 'package:goal_quest/screens/home_screen.dart';
 import 'package:goal_quest/screens/goal_screen.dart';
 import 'package:goal_quest/screens/new_goal_screen.dart';
 import 'package:goal_quest/screens/settings_screen.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive/hive.dart';
 
 import 'operations/notification_handler.dart';
 
@@ -50,10 +51,15 @@ class MyApp extends StatelessWidget {
 
 // initialize the flutter app
 Future<void> _initializeApp() async {
-  await Hive.initFlutter();
+  
   await Hive.openBox('myGoalBox');
   await Hive.openBox('achievedGoalBox');
-  WidgetsFlutterBinding.ensureInitialized();
+
+  final currentPlatform = checkPlatform();
+
+  if (currentPlatform !=RunningPlatform.web) {
+    
+     WidgetsFlutterBinding.ensureInitialized();
   scheduleMorningNotification();
   scheduleEveningNotifications();
   await NotificationService().initNotification();
@@ -64,4 +70,6 @@ Future<void> _initializeApp() async {
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()!
       .requestPermission();
+  }
+ 
 }
