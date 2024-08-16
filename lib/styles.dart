@@ -1,11 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:goal_quest/constants.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-final TextStyle titleTextStyle1 = GoogleFonts.nunito(fontSize: 20, fontWeight: FontWeight.bold);
-final TextStyle quoteTextStyle = GoogleFonts.nunito(fontSize: 14, fontStyle: FontStyle.italic, fontWeight: FontWeight.w600);
-final TextStyle subtextTextStyle = GoogleFonts.nunito(fontSize: 14, color: kCLightGrey);
-final TextStyle titleFont2 = GoogleFonts.nunito(fontSize: 18, fontWeight: FontWeight.w600);
-final TextStyle bodyTextStyle = GoogleFonts.nunito(
-  fontSize: 14,
-);
+class AppTextStyles {
+  static const TextStyle headline1 = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w600,
+  ); // For primary page titles
+
+  static const TextStyle headline2 = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+  ); // For secondary page titles or section headers
+
+  static const TextStyle headline3 = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+  ); // For tertiary page titles or content blocks
+
+static const TextStyle headline4 = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+  ); // For section lables eg. a form section
+
+  static const TextStyle bodyText1 = TextStyle(
+    fontSize: 14,
+    letterSpacing: 1,fontWeight: FontWeight.w400
+  ); // For main body text
+
+  static const TextStyle bodyText2 = TextStyle(
+    fontSize: 12,
+
+  ); // For secondary body text or supporting information
+
+  static const TextStyle buttonText = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+  ); // For button text
+
+  static const TextStyle captionText =
+      TextStyle(fontSize: 12, fontWeight: FontWeight.w300); // For small details or captions
+
+  static const TextStyle labelText = TextStyle(
+    fontSize: 14,
+    letterSpacing:1,
+    fontWeight: FontWeight.w500,
+  ); // For form labels or other descriptive text
+}

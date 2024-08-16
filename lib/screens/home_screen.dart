@@ -6,12 +6,17 @@ import 'package:goal_quest/constants.dart';
 import 'package:goal_quest/operations/fetch_quote_data.dart';
 import 'package:goal_quest/operations/get_achievement_time.dart';
 import 'package:goal_quest/operations/rebuild_goal_listview.dart';
+import 'package:goal_quest/screens/completed_goals_screen.dart';
+import 'package:goal_quest/screens/new_goal_screen.dart';
+import 'package:goal_quest/screens/settings_screen.dart';
 import 'package:goal_quest/styles.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  static String routeName = '/';
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -27,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> fetchNewQuote() async {
-    String fetchedData = await fetchQuoteData();
+    String fetchedData = await fetchQuoteData(); 
     setState(() {
       quoteData = fetchedData;
     });
@@ -44,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
         tooltip: 'Create a new goal',
         backgroundColor: kCPrimaryCTAColor,
         onPressed: () {
-          Navigator.pushNamed(context, '/new_goal_screen');
+          Navigator.pushNamed(context,NewGoalScreen.routeName);
         },
         child: const Icon(Icons.add),
       ),
@@ -66,18 +71,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Text(
+                        const Text(
                           'Hello there, friend!',
-                          style: titleTextStyle1,
+                          style: AppTextStyles.headline1,
                         ),
                         Text(
                           quoteData,
-                          style: quoteTextStyle,
+                          style: AppTextStyles.captionText,
                           textAlign: TextAlign.center,
                         ),
-                        Text(
+                        const Text(
                           '',
-                          style: quoteTextStyle,
+                          style: AppTextStyles.captionText,
                         ),
                       ],
                     ),
@@ -89,9 +94,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'M Y  G O A L S',
-                      style: titleTextStyle1,
+                      style: AppTextStyles.headline1,
                     ),
                     goalBox.isEmpty
                         ? const NoGoalsWidget(
@@ -106,7 +111,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-    
         child: SizedBox(
           height: 50,
           child: Row(
@@ -115,14 +119,14 @@ class _HomeScreenState extends State<HomeScreen> {
               IconButton(
                 icon: const Icon(Icons.checklist_sharp),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/completed_goals_screen');
+                  Navigator.pushNamed(context,CompletedGoalsScreen.routeName);
                 },
               ),
               IconButton(
                 icon: const Icon(Icons.info_outline),
                 tooltip: 'How it works',
                 onPressed: () async {
-                  Navigator.pushNamed(context, '/settings_screen');
+                  Navigator.pushNamed(context, SettingsScreen.routeName);
                 },
               )
             ],

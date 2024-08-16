@@ -9,6 +9,7 @@ import '../constants.dart';
 
 class CompletedGoalsScreen extends StatefulWidget {
   const CompletedGoalsScreen({super.key});
+  static String routeName = 'completed_goals_screen';
 
   @override
   State<CompletedGoalsScreen> createState() => _CompletedGoalsScreenState();
@@ -107,25 +108,25 @@ class AchievedGoalCard extends StatelessWidget {
                         children: [
                           Text(
                             '[ ${mapValue['title']} ]',
-                            style: titleFont2,
+                            style: AppTextStyles.headline2,
                           ),
                           const Divider(),
-                          Text(
+                          const Text(
                             'Goal Description',
-                            style: titleFont2,
+                            style: AppTextStyles.headline2,
                           ),
-                          Text('${mapValue['description']}', style: subtextTextStyle),
+                          Text('${mapValue['description']}', style: AppTextStyles.captionText),
                           const Divider(),
-                          Text(
+                          const Text(
                             'Action Plan',
-                            style: titleFont2,
+                            style: AppTextStyles.headline2,
                           ),
-                          Text('${mapValue['actionPlan']}', style: subtextTextStyle),
+                          Text('${mapValue['actionPlan']}', style: AppTextStyles.captionText),
                           const Divider(),
                           Text(
                               'Allocated time: ${mapValue['timeSpan']} days [${(mapValue['timeSpan'] / 31).round()} months]',
-                              style: bodyTextStyle),
-                          Text('Achievement time: ${mapValue['achievementTime']} days', style: bodyTextStyle),
+                              style: AppTextStyles.bodyText1),
+                          Text('Achievement time: ${mapValue['achievementTime']} days', style: AppTextStyles.bodyText1),
                           Visibility(
                               child: Row(
                             children: [
@@ -137,7 +138,7 @@ class AchievedGoalCard extends StatelessWidget {
                                   },
                                   child: Text(
                                     'Delete',
-                                    style: bodyTextStyle.copyWith(color: Colors.red),
+                                    style: AppTextStyles.bodyText1.copyWith(color: Colors.red),
                                   ))
                             ],
                           ))
@@ -153,7 +154,7 @@ class AchievedGoalCard extends StatelessWidget {
                 children: [
                   Text(
                     mapValue['title'],
-                    style: titleFont2,
+                    style: AppTextStyles.headline2,
                   ),
                   const Divider(),
                   Text('Time span: ${mapValue['timeSpan']} days'),
@@ -165,10 +166,10 @@ class AchievedGoalCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Created on: ${mapValue['creationDate']}', style: subtextTextStyle),
+                      Text('Created on: ${mapValue['creationDate']}', style: AppTextStyles.captionText),
                       Text(
                         'Target date: ${mapValue['dueDate']}',
-                        style: subtextTextStyle,
+                        style: AppTextStyles.captionText,
                       )
                     ],
                   )

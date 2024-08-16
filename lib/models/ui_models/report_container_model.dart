@@ -25,7 +25,7 @@ class ReportContainerModel extends StatelessWidget {
                 Text(
                   '${reportList[index]['report']}',
                   textAlign: TextAlign.justify,
-                  style: bodyTextStyle,
+                  style: AppTextStyles.bodyText1,
                 ),
                 const SizedBox(
                   height: 20,
@@ -33,7 +33,7 @@ class ReportContainerModel extends StatelessWidget {
                 Text(
                   'Report date: ${reportList[index]['record_date']}',
                   textAlign: TextAlign.start,
-                  style: subtextTextStyle,
+                  style: AppTextStyles.captionText,
                 )
               ],
             ),

@@ -42,7 +42,7 @@ class GoalCardModel extends HookWidget {
               children: [
                 Text(
                   title,
-                  style: titleFont2,
+                  style: AppTextStyles.headline2,
                   overflow: TextOverflow.ellipsis,
                 ),
                 const Divider(
@@ -51,7 +51,7 @@ class GoalCardModel extends HookWidget {
                 // show set time in months
                 Text(
                     'Allocated time: $timeSpan days  [ ${timeMonths < 1 ? "Less than a month" : "about $timeMonths months"} ]',
-                    style: bodyTextStyle),
+                    style: AppTextStyles.bodyText1),
                 const SizedBox(
                   height: 10,
                 ),
@@ -59,11 +59,11 @@ class GoalCardModel extends HookWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Created on: $creationDate', style: subtextTextStyle),
+                      Text('Created on: $creationDate', style: AppTextStyles.captionText),
                       const SizedBox(width: 10),
                       Text(
                         'Target date: $dueBeforeDate',
-                        style: subtextTextStyle,
+                        style: AppTextStyles.captionText,
                       )
                     ],
                   ),
@@ -75,9 +75,9 @@ class GoalCardModel extends HookWidget {
                     children: [
                       TextButton.icon(
                           icon: const Icon(Icons.check_box_outlined),
-                          label: Text(
+                          label: const Text(
                             'Mark as done',
-                            style: bodyTextStyle,
+                            style: AppTextStyles.bodyText1,
                           ),
                           onPressed: (() {
                             onMarked!();
@@ -95,7 +95,7 @@ class GoalCardModel extends HookWidget {
                           },
                           child: Text(
                             'Remove',
-                            style: bodyTextStyle.copyWith(color: Colors.red),
+                            style: AppTextStyles.bodyText1.copyWith(color: Colors.red),
                           )),
                     ],
                   ),

@@ -22,7 +22,7 @@ class EditableTextModel extends StatelessWidget {
             controller: sampleTextController,
             focusNode: FocusNode(canRequestFocus: true),
             scrollPhysics: const BouncingScrollPhysics(),
-            style: fontStyle ?? bodyTextStyle.copyWith(color: kCLightGrey),
+            style: fontStyle ?? AppTextStyles.bodyText1.copyWith(color: kCLightGrey),
             cursorColor: kCAccentOrange,
             backgroundCursorColor: Colors.green),
       ),

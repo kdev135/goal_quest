@@ -27,14 +27,14 @@ class GoalPropCardModel extends StatelessWidget {
   void _showDialog(BuildContext context) {
     showDialog(
       context: context,
-      barrierColor: Color.fromRGBO(0, 0, 0, 0.8),
+      barrierColor: const Color.fromRGBO(0, 0, 0, 0.8),
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(title),
           content: Text(description),
           actions: <Widget>[
             TextButton(
-              child: Text('Close'),
+              child: const Text('Close'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -48,7 +48,6 @@ class GoalPropCardModel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -61,27 +60,27 @@ class GoalPropCardModel extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 10.0),
                   child: Text(
                     title,
-                    style: titleFont2,
+                    style: AppTextStyles.headline2,
                   ),
                 ),
                 TextButton.icon(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.help,
                     color: kCLightGrey,
                   ),
-                  label: Text(
+                  label: const Text(
                     'help',
-                    style: subtextTextStyle,
+                    style: AppTextStyles.captionText,
                   ),
                   onPressed: () => _showDialog(context),
                 ),
               ],
             ),
-            TextFieldModel(
-              textController: textController,
-              label: label ?? title,
+            CustomFormField(
+              textEditingController: textController,
+              fieldLabel: label ?? title,
               hintText: hintText,
-              maxlines: fieldMaxlines,
+              linecount: fieldMaxlines,
               maxLength: maxLength,
             ),
           ],

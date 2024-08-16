@@ -51,7 +51,7 @@ class GoalUpdateScreen extends HookWidget {
             Text(
               'Tap to start editting where necessary',
               textAlign: TextAlign.center,
-              style: subtextTextStyle.copyWith(fontSize: 14),
+              style: AppTextStyles.captionText.copyWith(fontSize: 14),
             ),
             sizedBox,
             Card(
@@ -63,14 +63,14 @@ class GoalUpdateScreen extends HookWidget {
                   children: [
                     Text(
                       '${goalObject['title']}',
-                      style: titleFont2.copyWith(fontStyle: FontStyle.italic),
+                      style: AppTextStyles.headline2.copyWith(fontStyle: FontStyle.italic),
                       textAlign: TextAlign.center,
                     ),
                     sizedBox,
                     sizedBox,
-                    Text(
+                    const Text(
                       'Goal description',
-                      style: titleFont2,
+                      style: AppTextStyles.headline2,
                       textAlign: TextAlign.start,
                     ),
                     EditableTextModel(
@@ -78,9 +78,9 @@ class GoalUpdateScreen extends HookWidget {
                       maxLines: 8,
                     ),
                     sizedBox,
-                    Text(
+                    const Text(
                       'Action plan',
-                      style: titleFont2,
+                      style: AppTextStyles.headline2,
                       textAlign: TextAlign.start,
                     ),
                     EditableTextModel(
@@ -92,7 +92,7 @@ class GoalUpdateScreen extends HookWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Created on: ${goalObject['creationDate']}', style: subtextTextStyle),
+                          Text('Created on: ${goalObject['creationDate']}', style: AppTextStyles.captionText),
                           const SizedBox(
                             width: 10,
                           ),
@@ -114,7 +114,7 @@ class GoalUpdateScreen extends HookWidget {
                             },
                             child: Text(
                               'Target date: ${dueDate.value}',
-                              style: subtextTextStyle,
+                              style: AppTextStyles.captionText,
                             ),
                           )
                         ],
@@ -132,19 +132,20 @@ class GoalUpdateScreen extends HookWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'My progress report',
-                      style: titleFont2,
+                      style: AppTextStyles.headline2,
                     ),
-                    Text(
+                    const Text(
                       'Did you make some progress towards achieving this goal? Record it here. [Latest report appears first]',
-                      style: subtextTextStyle,
+                      style: AppTextStyles.captionText,
                     ),
-                    TextFieldModel(
-                      textController: newReportController,
-                      label: '',
-                      hintText: 'eg. Today, I read 3 chapters of Atomic Habits and learnt that habits are the compound interest of self-improvement. Small changes can lead to remarkable results over time',
-                      maxlines: 3,
+                    CustomFormField(
+                      textEditingController: newReportController,
+                      fieldLabel: '',
+                      hintText:
+                          'eg. Today, I read 3 chapters of Atomic Habits and learnt that habits are the compound interest of self-improvement. Small changes can lead to remarkable results over time',
+                      linecount: 3,
                     ),
                     ListView.separated(
                       shrinkWrap: true,
@@ -186,7 +187,6 @@ class GoalUpdateScreen extends HookWidget {
   }
 }
 
-
 class UpdateButton extends StatelessWidget {
   const UpdateButton({
     Key? key,
@@ -219,13 +219,12 @@ class UpdateButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: () => _updateGoal(context),
       style: ElevatedButton.styleFrom(
-        backgroundColor: kCPrimaryCTAColor,
-        foregroundColor: Colors.white,
-        shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(10))
-      ),
-      child: Text(
+          backgroundColor: kCPrimaryCTAColor,
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+      child: const Text(
         'update',
-        style: titleFont2,
+        style: AppTextStyles.headline2,
       ),
     );
   }
@@ -235,10 +234,7 @@ class UpdateButton extends StatelessWidget {
     DateTime formattedCreationDate = dateToDateTimeObject(creationDate);
 
     if (newReportController.text.trim().isNotEmpty) {
-      reportList.add({
-        'record_date': customDateFormat(DateTime.now()),
-        'report': newReportController.text
-      });
+      reportList.add({'record_date': customDateFormat(DateTime.now()), 'report': newReportController.text});
     }
 
     var updates = {

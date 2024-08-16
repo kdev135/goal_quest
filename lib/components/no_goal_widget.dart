@@ -11,10 +11,7 @@ class NoGoalsWidget extends StatelessWidget {
         padding: const EdgeInsets.only(top: 100.0),
         child: Text(
           message,
-          style: bodyTextStyle.copyWith(
-            fontSize: 16,
-            fontStyle: FontStyle.italic,
-          ),
+          style: AppTextStyles.bodyText1,
         ),
       ),
     );

@@ -1,48 +1,103 @@
 import 'package:flutter/material.dart';
-import 'package:goal_quest/constants.dart';
 import 'package:goal_quest/styles.dart';
 
-class TextFieldModel extends StatelessWidget {
-  const TextFieldModel(
-      {Key? key,
-      required this.textController,
-      required this.label,
-      required this.hintText,
-      this.maxlines = 1,
-      this.maxLength = 700})
-      : super(key: key);
+import '../../operations/email_validation.dart';
 
-  final TextEditingController textController;
-  final String label;
+class CustomFormField extends StatelessWidget {
+  CustomFormField({
+    super.key,
+    required this.hintText,
+    required this.fieldLabel,
+    required this.textEditingController,
+    this.linecount = 1,
+    this.obscureText = false,
+    this.shouldValidate = true,
+    this.isEmail = false,
+    this.onEditingComplete,
+    this.isNumber = false,
+    this.maxLength = 50,
+    this.showCharacterCount = false,
+  });
+
   final String hintText;
-  final int maxlines;
+  final int linecount;
+  final String fieldLabel;
+  final TextEditingController textEditingController;
+  final bool shouldValidate;
+  final bool obscureText;
+  final bool isEmail;
+  final bool isNumber;
+  final Function? onEditingComplete;
+  final FocusNode focusNode = FocusNode();
   final int maxLength;
+  final bool showCharacterCount;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 20, bottom: 20.0),
-      child: TextFormField(
-        controller: textController,
-        maxLines: maxlines,
-        maxLength: maxLength,
-        textCapitalization: TextCapitalization.sentences,
-        textInputAction: TextInputAction.newline,
-        cursorColor: kCAccentOrange,
-        decoration: InputDecoration(
-            filled: true,
-            fillColor: interactiveFieldGrey,
-            hintText: hintText,
-            hintStyle: subtextTextStyle,
-            border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-            focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: kCPrimaryCTAColor))),
-        validator: (value) {
-          if (value == null || value.length < 5) {
-            return 'Please be more detailed';
-          } else {
-            return null;
-          }
-        },
+      padding: const EdgeInsets.only(
+        bottom: 10.0,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 5.0),
+            child: Text(
+              fieldLabel,
+              style: AppTextStyles.labelText,
+            ),
+          ),
+          TextFormField(
+            maxLines: linecount,
+            textInputAction: TextInputAction.done,
+            style: AppTextStyles.bodyText2,
+            controller: textEditingController,
+            textCapitalization: TextCapitalization.sentences,
+            maxLength: showCharacterCount ? maxLength : null,
+            keyboardType: isNumber ? TextInputType.number : null,
+            decoration: InputDecoration(
+              hintText: hintText,
+              hintStyle: AppTextStyles.bodyText1.copyWith(color: Theme.of(context).hintColor),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: BorderSide(
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  width: 2,
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: BorderSide(
+                  color: Theme.of(context).colorScheme.outlineVariant,
+                ),
+              ),
+              fillColor: Theme.of(context).hoverColor,
+              counterText: showCharacterCount ? null : '',
+            ),
+            obscureText: obscureText,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            validator: !shouldValidate
+                ? null
+                : (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'This field is required';
+                    }
+                    if (isEmail && !isValidEmail(value)) {
+                      return 'Invalid email format';
+                    }
+                    return null;
+                  },
+            onFieldSubmitted: (value) {
+              if (onEditingComplete != null) {
+                onEditingComplete!(value);
+              }
+            },
+          ),
+        ],
       ),
     );
   }
