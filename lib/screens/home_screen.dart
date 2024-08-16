@@ -10,12 +10,17 @@ import 'package:goal_quest/operations/notification_handler.dart';
 import 'package:goal_quest/operations/notification_service.dart';
 
 import 'package:goal_quest/operations/rebuild_goal_listview.dart';
+import 'package:goal_quest/screens/completed_goals_screen.dart';
+import 'package:goal_quest/screens/new_goal_screen.dart';
+import 'package:goal_quest/screens/settings_screen.dart';
 import 'package:goal_quest/styles.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  static String routeName = '/';
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -31,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> fetchNewQuote() async {
-    String fetchedData = await fetchQuoteData();
+    String fetchedData = await fetchQuoteData(); 
     setState(() {
       quoteData = fetchedData;
     });
@@ -42,114 +47,96 @@ class _HomeScreenState extends State<HomeScreen> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
 
-    return Stack(
-      children: [
-        Scaffold(
-          floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
-          floatingActionButton: FloatingActionButton(
-            tooltip: 'Create a new goal',
-            backgroundColor: interactiveColor,
-            onPressed: () {
-              Navigator.pushNamed(context, '/new_goal_screen');
-            },
-            child: const Icon(Icons.add),
-          ),
-          appBar: AppBar(
-            elevation: 0.0,
-            backgroundColor: primaryColor,
-            centerTitle: true,
-            title: Image.asset(
-              'assets/round_logo.png',
-              scale: 3.5,
-            ),
-          ),
-          body: SafeArea(
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ClipPath(
-                    clipper: CustomClipperPath(),
-                    child: Container(
-                      color: primaryColor,
-                      height: height / 4,
-                      width: width,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text(
-                              'Hello there, Friend!',
-                              style: titleFont1,
-                            ),
-                            Text(
-                              quoteData,
-                              style: quoteFont,
-                              textAlign: TextAlign.center,
-                            ),
-                            Text(
-                              '',
-                              style: quoteFont,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  // Body with goal cards
-                  Padding(
+    return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
+      floatingActionButton: FloatingActionButton(
+        tooltip: 'Create a new goal',
+     
+        onPressed: () {
+          Navigator.pushNamed(context,NewGoalScreen.routeName);
+        },
+        child: const Icon(Icons.add),
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipPath(
+                clipper: CustomClipperPath(),
+                child: Container(
+                  decoration:
+                      const BoxDecoration(image: DecorationImage(image: AssetImage('assets/ss.jpg'), fit: BoxFit.fill)),
+                  height: height / 3,
+                  width: width,
+                  child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Text(
-                          'M Y  G O A L S',
-                          style: titleFont1,
+                        const Text(
+                          'Hello there, friend!',
+                          style: AppTextStyles.headline1,
                         ),
-                        goalBox.isEmpty
-                            ? const NoGoalsWidget(
-                                message: 'Tap on the  ➕  icon to create a goal',
-                              )
-                            : const GoalListview()
+                        Text(
+                          quoteData,
+                          style: AppTextStyles.captionText,
+                          textAlign: TextAlign.center,
+                        ),
+                        const Text(
+                          '',
+                          style: AppTextStyles.captionText,
+                        ),
                       ],
                     ),
-                  )
-                ],
-              ),
-            ),
-          ),
-
-          // Bottom navigation buttons here
-          bottomNavigationBar: BottomAppBar(
-            shape: const CircularNotchedRectangle(),
-            child: SizedBox(
-              height: 50,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.checklist_sharp),
-                    onPressed: () {
-                      // Navigator.pushNamed(context, '/completed_goals_screen');
-                      // NotificationService().showNotification(title: 'This is it');
-                      showMorningNotification();
-                    },
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.info_outline),
-                    tooltip: 'How it works',
-                    onPressed: () async {
-                      Navigator.pushNamed(context, '/settings_screen');
-                    },
-                  )
-                ],
+                ),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'M Y  G O A L S',
+                      style: AppTextStyles.headline1,
+                    ),
+                    goalBox.isEmpty
+                        ? const NoGoalsWidget(
+                            message: 'Tap on the  ➕  icon to create a goal',
+                          )
+                        : const GoalListview()
+                  ],
+                ),
+              )
+            ],
           ),
         ),
-      ],
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: SizedBox(
+          height: 50,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.checklist_sharp),
+                onPressed: () {
+                  Navigator.pushNamed(context,CompletedGoalsScreen.routeName);
+                },
+              ),
+              IconButton(
+                icon: const Icon(Icons.info_outline),
+                tooltip: 'How it works',
+                onPressed: () async {
+                  Navigator.pushNamed(context, SettingsScreen.routeName);
+                },
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

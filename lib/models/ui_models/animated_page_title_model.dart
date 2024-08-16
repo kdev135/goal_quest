@@ -17,7 +17,7 @@ class AnimatedPageTitleModel extends StatelessWidget {
       animatedTexts: [
         TyperAnimatedText(
           titleText,
-          textStyle: titleFont1,
+          textStyle: AppTextStyles.headline1,
           speed: const Duration(milliseconds: 50),
         ),
       ],

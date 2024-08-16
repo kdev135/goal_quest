@@ -18,12 +18,13 @@ class EditableTextModel extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: EditableText(
+          cursorColor:Theme.of(context).colorScheme.onPrimary,
             maxLines: maxLines,
             controller: sampleTextController,
             focusNode: FocusNode(canRequestFocus: true),
             scrollPhysics: const BouncingScrollPhysics(),
-            style: fontStyle ?? defaultFont,
-            cursorColor: Colors.orange,
+            style: fontStyle ?? AppTextStyles.bodyText1,
+            
             backgroundCursorColor: Colors.green),
       ),
     );

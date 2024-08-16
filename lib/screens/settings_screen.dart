@@ -7,6 +7,8 @@ import 'package:goal_quest/styles.dart';
 
 class SettingsScreen extends HookWidget {
   const SettingsScreen({Key? key}) : super(key: key);
+
+  static String routeName = 'settings_screen';
   final appDescription =
       'Welcome to Goal Quest - the app that empowers you to achieve your dreams! With Goal Quest, you can set personalized goals and track your progress towards them, helping you stay accountable and motivated. Whether you want to write a book, save up for a new car, or learn a new skill, Goal Quest is the perfect companion for your journey towards personal growth and success. Remember, you have got what it takes to achieve your true potential.';
   final homeScreenText =
@@ -37,16 +39,16 @@ class SettingsScreen extends HookWidget {
                   padding: const EdgeInsets.all(10.0),
                   child: Text(
                     appDescription,
-                    style: defaultFont,
+                    style: AppTextStyles.bodyText1,
                   ),
                 ),
               ),
               const SizedBox(
                 height: 20,
               ),
-              Text(
+              const Text(
                 'A P P  S C R E E N S',
-                style: titleFont2,
+                style: AppTextStyles.headline2,
                 textAlign: TextAlign.center,
               ),
               ExpandablePanelModel(
@@ -98,13 +100,13 @@ class ExpandablePanelModel extends StatelessWidget {
                 child: ListTile(
                   title: Text(
                     title,
-                    style: titleFont2,
+                    style: AppTextStyles.headline2,
                   ),
                   trailing: Text(
                     'read more...',
-                    style: subtextFont.copyWith(color: primaryColor),
+                    style: AppTextStyles.captionText,
                   ),
-                  subtitle: Text(previewText, style: defaultFont),
+                  subtitle: Text(previewText, style: AppTextStyles.bodyText1),
                 ),
               ),
               expanded: Padding(
@@ -112,19 +114,18 @@ class ExpandablePanelModel extends StatelessWidget {
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Text(
                     title,
-                    style: titleFont2,
+                    style: AppTextStyles.headline2,
                     textAlign: TextAlign.left,
                   ),
                   Text(
                     longText,
-                    style: defaultFont.copyWith(color: Colors.grey.shade300),
+                    style: AppTextStyles.bodyText1.copyWith(color: Colors.grey.shade300),
                   ),
                   ExpandableButton(
-// <-- Collapses when tapped on
-                    child: Center(
+                    child: const Center(
                         child: Text(
                       'show less',
-                      style: subtextFont,
+                      style: AppTextStyles.captionText,
                     )),
                   ),
                 ]),

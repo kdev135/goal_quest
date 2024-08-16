@@ -46,7 +46,7 @@ flutter_icons:
   image_path: "assets/icon/round_logo.png"
   adaptive_icon_foreground: "assets/icon/round_logo.png"
   adaptive_icon_background: "#CF6F19"
-  min_sdk_android: 21
+  min_sdk_android: 30
 
 # The following section is specific to Flutter packages.
 flutter:

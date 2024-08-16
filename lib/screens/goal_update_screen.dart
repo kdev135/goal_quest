@@ -1,27 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:goal_quest/constants.dart';
 import 'package:goal_quest/models/ui_models/editable_text_model.dart';
 import 'package:goal_quest/models/ui_models/text_field_model.dart';
+import 'package:goal_quest/operations/date_format.dart';
 import 'package:goal_quest/operations/date_picker_fn.dart';
 import 'package:goal_quest/styles.dart';
 import 'package:hive/hive.dart';
 
 import '../models/ui_models/animated_page_title_model.dart';
-import '../operations/date_format.dart';
+import '../models/ui_models/report_container_model.dart';
 
-// The screen allows modification of an existing goalObject. changes like description, target date and action plan.
-// New achieved milestones about the goalObject can be recorded on this page.
-class GoalScreen extends HookWidget {
-  GoalScreen({super.key});
-  static String routeName = 'goal_screen';
+class GoalUpdateScreen extends HookWidget {
+  GoalUpdateScreen({super.key});
   final _goalBox = Hive.box('myGoalBox');
 
   final sizedBox = const SizedBox(
     height: 10,
   );
-
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +39,6 @@ class GoalScreen extends HookWidget {
         title: const AnimatedPageTitleModel(
           titleText: 'U P D A T E  M Y  G O A L',
         ),
-        // backgroundColor: Colors.transparent,
-        // shadowColor: Colors.transparent,
         centerTitle: true,
       ),
       body: Padding(
@@ -158,8 +152,8 @@ class GoalScreen extends HookWidget {
                       reverse: true,
                       physics: const BouncingScrollPhysics(),
                       separatorBuilder: (context, index) => const SizedBox(
-                        height: 20,
-                        child: VerticalDivider(color: primaryColor),
+                        height: 10,
+                        child: VerticalDivider( ),
                       ),
                       itemCount: reportList.length,
                       itemBuilder: (context, index) => ReportContainerModel(
@@ -193,59 +187,20 @@ class GoalScreen extends HookWidget {
   }
 }
 
-class ReportContainerModel extends StatelessWidget {
-  const ReportContainerModel({Key? key, required this.reportList, required this.index}) : super(key: key);
-
-  final List reportList;
-  final int index;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: Container(
-          decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-              border: Border.all(color: interactiveFieldGrey)),
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  '${reportList[index]['report']}',
-                  textAlign: TextAlign.justify,
-                  style: AppTextStyles.bodyText1,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  'Report date: ${reportList[index]['record_date']}',
-                  textAlign: TextAlign.start,
-                  style: AppTextStyles.captionText,
-                )
-              ],
-            ),
-          )),
-    );
-  }
-}
-
 class UpdateButton extends StatelessWidget {
-   UpdateButton(
-      {Key? key,
-      required this.dueDate,
-      required this.newReportController,
-      required this.reportList,
-      required this.creationDate,
-      required this.titleController,
-      required this.descriptionController,
-      required this.actionPlanController,
-      required this.goalObject,
-      required Box goalBox,
-      this.oldTitle = ''})
-      : _goalBox = goalBox,
+  const UpdateButton({
+    Key? key,
+    required this.dueDate,
+    required this.newReportController,
+    required this.reportList,
+    required this.creationDate,
+    required this.titleController,
+    required this.descriptionController,
+    required this.actionPlanController,
+    required this.goalObject,
+    required Box goalBox,
+    this.oldTitle = '',
+  })  : _goalBox = goalBox,
         super(key: key);
 
   final ValueNotifier<String> dueDate;
@@ -267,7 +222,7 @@ class UpdateButton extends StatelessWidget {
         
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-      child:  Text(
+      child: const Text(
         'update',
         style: AppTextStyles.headline2,
       ),
@@ -295,9 +250,6 @@ class UpdateButton extends StatelessWidget {
     _goalBox.delete(oldTitle);
     _goalBox.put(titleController.text, updates);
 
-          Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-        
-             
-    
+    Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
   }
 }

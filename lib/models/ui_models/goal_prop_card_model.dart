@@ -22,32 +22,65 @@ class GoalPropCardModel extends StatelessWidget {
   final String description;
   final String hintText;
   final int fieldMaxlines;
-final int maxLength;
+  final int maxLength;
+
+  void _showDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierColor: const Color.fromRGBO(0, 0, 0, 0.8),
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(description),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
-           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10.0),
-              child: Text(
-                title,
-                style: titleFont2,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10.0),
+                  child: Text(
+                    title,
+                    style: AppTextStyles.headline2,
+                  ),
+                ),
+                TextButton.icon(
+                  icon: const Icon(
+                    Icons.help,
+                   
+                  ),
+                  label: const Text(
+                    'help',
+                    style: AppTextStyles.captionText,
+                  ),
+                  onPressed: () => _showDialog(context),
+                ),
+              ],
             ),
-            Text(
-              description,
-              style: defaultFont.copyWith(color: Colors.grey.shade400),
-            ),
-            TextFieldModel(
-              textController: textController,
-              label: label ?? title,
+            CustomFormField(
+              textEditingController: textController,
+              fieldLabel: label ?? title,
               hintText: hintText,
-              maxlines: fieldMaxlines,
+              linecount: fieldMaxlines,
               maxLength: maxLength,
             ),
           ],
