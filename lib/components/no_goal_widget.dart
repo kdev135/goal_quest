@@ -9,9 +9,14 @@ class NoGoalsWidget extends StatelessWidget {
     return Center(
       child: Padding(
         padding: const EdgeInsets.only(top: 100.0),
-        child: Text(
-          message,
-          style: AppTextStyles.bodyText1,
+        child: Column(
+          children: [
+            Image.asset("assets/trophy.png",width: 200,),
+            Text(
+              message,
+              style: AppTextStyles.bodyText1,
+            ),
+          ],
         ),
       ),
     );

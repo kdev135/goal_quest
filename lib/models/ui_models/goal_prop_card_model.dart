@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:goal_quest/models/ui_models/custom_form_field.dart';
 import 'package:goal_quest/styles.dart';
 
-import 'text_field_model.dart';
+
 
 // Model for goal property fields on new_goal_screen. Contains description, title and text field of new goals
 class GoalPropCardModel extends StatelessWidget {
@@ -13,7 +14,7 @@ class GoalPropCardModel extends StatelessWidget {
       required this.description,
       required this.hintText,
       this.fieldMaxlines = 1,
-       this.maxLength =700})
+       this.maxLength =500})
       : super(key: key);
 
   final TextEditingController textController;
@@ -78,10 +79,11 @@ class GoalPropCardModel extends StatelessWidget {
             ),
             CustomFormField(
               textEditingController: textController,
-              fieldLabel: label ?? title,
+              fieldLabel: label ?? "",
               hintText: hintText,
               linecount: fieldMaxlines,
               maxLength: maxLength,
+              
             ),
           ],
         ),

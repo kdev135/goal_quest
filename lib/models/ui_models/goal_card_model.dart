@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:goal_quest/screens/goal_screen.dart';
 import 'package:goal_quest/styles.dart';
 
 class GoalCardModel extends HookWidget {
@@ -28,13 +29,13 @@ class GoalCardModel extends HookWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
-      child: InkWell(
-        onTap: () => isSelected.value
-            ? isSelected.value = false
-            : Navigator.pushNamed(context, '/goal_screen', arguments: title),
-        onLongPress: () => isSelected.value = true,
-        child: Card(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        child: InkWell(
+          onTap: () => isSelected.value
+              ? isSelected.value = false
+              : Navigator.pushNamed(context, GoalScreen.routeName, arguments: title),
+          onLongPress: () => isSelected.value = true,
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(
@@ -42,7 +43,7 @@ class GoalCardModel extends HookWidget {
               children: [
                 Text(
                   title,
-                  style: AppTextStyles.headline2,
+                  style: AppTextStyles.headline3,
                   overflow: TextOverflow.ellipsis,
                 ),
                 const Divider(
@@ -55,18 +56,16 @@ class GoalCardModel extends HookWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                FittedBox(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Created on: $creationDate', style: AppTextStyles.captionText),
-                      const SizedBox(width: 10),
-                      Text(
-                        'Target date: $dueBeforeDate',
-                        style: AppTextStyles.captionText,
-                      )
-                    ],
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Created on: $creationDate', style: AppTextStyles.captionText),
+                    const SizedBox(width: 10),
+                    Text(
+                      'Target date: $dueBeforeDate',
+                      style: AppTextStyles.captionText,
+                    )
+                  ],
                 ),
                 Visibility(
                   visible: isSelected.value,

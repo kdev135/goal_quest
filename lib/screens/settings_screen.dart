@@ -1,7 +1,6 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:goal_quest/constants.dart';
 import 'package:goal_quest/models/ui_models/animated_page_title_model.dart';
 import 'package:goal_quest/styles.dart';
 
@@ -102,7 +101,7 @@ class ExpandablePanelModel extends StatelessWidget {
                     title,
                     style: AppTextStyles.headline2,
                   ),
-                  trailing: Text(
+                  trailing: const Text(
                     'read more...',
                     style: AppTextStyles.captionText,
                   ),

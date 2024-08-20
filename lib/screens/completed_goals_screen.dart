@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:goal_quest/components/no_goal_widget.dart';
 import 'package:goal_quest/models/ui_models/animated_page_title_model.dart';
-import 'package:goal_quest/operations/rebuild_goal_listview.dart';
 
 import 'package:goal_quest/styles.dart';
 
 import '../constants.dart';
+import '../utils/operations/rebuild_goal_listview.dart';
 
 class CompletedGoalsScreen extends StatefulWidget {
   const CompletedGoalsScreen({super.key});
-  static String routeName = 'completed_goals_screen';
+  static String routeName = 'attained';
 
   @override
   State<CompletedGoalsScreen> createState() => _CompletedGoalsScreenState();
@@ -30,10 +30,10 @@ class _CompletedGoalsScreenState extends State<CompletedGoalsScreen> {
           shadowColor: Colors.transparent,
           centerTitle: true,
         ),
-        body: achievedGoalBox.length == 0
+        body: achievedGoalBox.isEmpty
             ?
             // If no completed goals, show this
-            const NoGoalsWidget(message: "Achieved goals will appear here",)
+            const NoGoalsWidget(message: "Achieved goals will appear here. You make do it!",)
             : const AchievedGoalListView()
 
         // goals exist? show this

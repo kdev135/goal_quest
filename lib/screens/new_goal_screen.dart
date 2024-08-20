@@ -3,16 +3,17 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:goal_quest/constants.dart';
 import 'package:goal_quest/models/ui_models/animated_page_title_model.dart';
 import 'package:goal_quest/models/ui_models/goal_prop_card_model.dart';
+import 'package:goal_quest/screens/home_screen.dart';
 import 'package:goal_quest/styles.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 
 import '../models/data_models/goal.dart';
-import '../operations/date_picker_fn.dart';
+import '../utils/operations/date_picker_fn.dart';
 
 class NewGoalScreen extends HookWidget {
   NewGoalScreen({Key? key}) : super(key: key);
-  static String routeName = 'new_goal_screen';
+  static String routeName = 'new';
 
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
@@ -71,7 +72,7 @@ class NewGoalScreen extends HookWidget {
                           GoalPropCardModel(
                             textController: actionPlanController,
                             title: 'My action plan',
-                            label: 'Action plan',
+                            label: '',
                             description:
                                 'What exact steps will you take to reach your goal? Please describe in detail what you plan to do. Your plan details can always be modified later.',
                             hintText:
@@ -199,7 +200,7 @@ void _showSuccessDialog(BuildContext context) {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+              Navigator.pushNamedAndRemoveUntil(context, HomeScreen.routeName, (route) => false);
             },
             child: const Text(
               'Ok',

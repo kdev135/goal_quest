@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:goal_quest/constants.dart';
 import 'package:goal_quest/models/ui_models/editable_text_model.dart';
-import 'package:goal_quest/models/ui_models/text_field_model.dart';
-import 'package:goal_quest/operations/date_picker_fn.dart';
+import 'package:goal_quest/models/ui_models/custom_form_field.dart';
 import 'package:goal_quest/styles.dart';
 import 'package:hive/hive.dart';
 
 import '../models/ui_models/animated_page_title_model.dart';
-import '../operations/date_format.dart';
+import '../utils/operations/date_format.dart';
+import '../utils/operations/date_picker_fn.dart';
 
 // The screen allows modification of an existing goalObject. changes like description, target date and action plan.
 // New achieved milestones about the goalObject can be recorded on this page.
@@ -47,131 +46,133 @@ class GoalScreen extends HookWidget {
         // shadowColor: Colors.transparent,
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: ListView(
-          shrinkWrap: true,
-          physics: const BouncingScrollPhysics(),
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          children: [
-            Text(
-              'Tap to start editting where necessary',
-              textAlign: TextAlign.center,
-              style: AppTextStyles.captionText.copyWith(fontSize: 14),
-            ),
-            sizedBox,
-            Card(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      '${goalObject['title']}',
-                      style: AppTextStyles.headline2.copyWith(fontStyle: FontStyle.italic),
-                      textAlign: TextAlign.center,
-                    ),
-                    sizedBox,
-                    sizedBox,
-                    const Text(
-                      'Goal description',
-                      style: AppTextStyles.headline2,
-                      textAlign: TextAlign.start,
-                    ),
-                    EditableTextModel(
-                      sampleTextController: descriptionController,
-                      maxLines: 8,
-                    ),
-                    sizedBox,
-                    const Text(
-                      'Action plan',
-                      style: AppTextStyles.headline2,
-                      textAlign: TextAlign.start,
-                    ),
-                    EditableTextModel(
-                      sampleTextController: actionPlanController,
-                      maxLines: 8,
-                    ),
-                    sizedBox,
-                    FittedBox(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Created on: ${goalObject['creationDate']}', style: AppTextStyles.captionText),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              // split target date for picker
-                              List<String> targetDate = dueDate.value.split('-');
-                              int day = int.parse(targetDate[0]);
-                              int year = int.parse(targetDate[2]);
-                              int month = int.parse(targetDate[1]);
-
-                              //jump to target date in date picker
-                              datePicker(context, year, month, day).then((value) {
-                                value != null
-                                    ? dueDate.value =
-                                        '${value.day.toString().padLeft(2, '0')}-${value.month.toString().padLeft(2, '0')}-${value.year}'
-                                    : dueDateController.value = dueDateController.value;
-                              });
-                            },
-                            child: Text(
-                              'Target date: ${dueDate.value}',
-                              style: AppTextStyles.captionText,
+      body: Center(
+        child: SizedBox(width: 800,
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: ListView(
+              shrinkWrap: true,
+              physics: const BouncingScrollPhysics(),
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              children: [
+                const Text(
+                  'Tap to start editting where necessary',
+                  textAlign: TextAlign.center,
+                  style: AppTextStyles.captionText
+                ),
+                sizedBox,
+                Card(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                          '${goalObject['title']}',
+                          style: AppTextStyles.headline2.copyWith(fontStyle: FontStyle.italic),
+                          textAlign: TextAlign.center,
+                        ),
+                        sizedBox,
+                        sizedBox,
+                        const Text(
+                          'Goal description',
+                          style: AppTextStyles.headline2,
+                          textAlign: TextAlign.start,
+                        ),
+                        EditableTextModel(
+                          sampleTextController: descriptionController,
+                          maxLines: 8,
+                        ),
+                        sizedBox,
+                        const Text(
+                          'Action plan',
+                          style: AppTextStyles.headline2,
+                          textAlign: TextAlign.start,
+                        ),
+                        EditableTextModel(
+                          sampleTextController: actionPlanController,
+                          maxLines: 8,
+                        ),
+                        sizedBox,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Created on: ${goalObject['creationDate']}', style: AppTextStyles.captionText),
+                            const SizedBox(
+                              width: 10,
                             ),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
+                            GestureDetector(
+                              onTap: () {
+                                // split target date for picker
+                                List<String> targetDate = dueDate.value.split('-');
+                                int day = int.parse(targetDate[0]);
+                                int year = int.parse(targetDate[2]);
+                                int month = int.parse(targetDate[1]);
+                        
+                                //jump to target date in date picker
+                                datePicker(context, year, month, day).then((value) {
+                                  value != null
+                                      ? dueDate.value =
+                                          '${value.day.toString().padLeft(2, '0')}-${value.month.toString().padLeft(2, '0')}-${value.year}'
+                                      : dueDateController.value = dueDateController.value;
+                                });
+                              },
+                              child: Text(
+                                'Target date: ${dueDate.value}',
+                                style: AppTextStyles.captionText,
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            sizedBox,
-            Card(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'My progress report',
-                      style: AppTextStyles.headline2,
+                sizedBox,
+                Card(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'My progress report',
+                          style: AppTextStyles.headline2,
+                        ),
+                        const Text(
+                          'Did you make some progress towards achieving this goal? Record it here. [Latest report appears first]',
+                          style: AppTextStyles.captionText,
+                        ),
+                        CustomFormField(
+                          textEditingController: newReportController,
+                          fieldLabel: '',
+                          hintText:
+                              'eg. Today, I read 3 chapters of Atomic Habits and learnt that habits are the compound interest of self-improvement. Small changes can lead to remarkable results over time',
+                          linecount: 3,
+                        ),
+                        ListView.separated(
+                          shrinkWrap: true,
+                          reverse: true,
+                          physics: const BouncingScrollPhysics(),
+                          separatorBuilder: (context, index) => const SizedBox(
+                            height: 20,
+                            child: VerticalDivider(color: primaryColor),
+                          ),
+                          itemCount: reportList.length,
+                          itemBuilder: (context, index) => ReportContainerModel(
+                            reportList: reportList,
+                            index: index,
+                          ),
+                        ),
+                      ],
                     ),
-                    const Text(
-                      'Did you make some progress towards achieving this goal? Record it here. [Latest report appears first]',
-                      style: AppTextStyles.captionText,
-                    ),
-                    CustomFormField(
-                      textEditingController: newReportController,
-                      fieldLabel: '',
-                      hintText:
-                          'eg. Today, I read 3 chapters of Atomic Habits and learnt that habits are the compound interest of self-improvement. Small changes can lead to remarkable results over time',
-                      linecount: 3,
-                    ),
-                    ListView.separated(
-                      shrinkWrap: true,
-                      reverse: true,
-                      physics: const BouncingScrollPhysics(),
-                      separatorBuilder: (context, index) => const SizedBox(
-                        height: 20,
-                        child: VerticalDivider(color: primaryColor),
-                      ),
-                      itemCount: reportList.length,
-                      itemBuilder: (context, index) => ReportContainerModel(
-                        reportList: reportList,
-                        index: index,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomAppBar(
@@ -233,7 +234,7 @@ class ReportContainerModel extends StatelessWidget {
 }
 
 class UpdateButton extends StatelessWidget {
-   UpdateButton(
+   const UpdateButton(
       {Key? key,
       required this.dueDate,
       required this.newReportController,
@@ -263,13 +264,10 @@ class UpdateButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () => _updateGoal(context),
-      style: ElevatedButton.styleFrom(
-        
-          foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-      child:  Text(
+
+      child:  const Text(
         'update',
-        style: AppTextStyles.headline2,
+        style: AppTextStyles.buttonText,
       ),
     );
   }

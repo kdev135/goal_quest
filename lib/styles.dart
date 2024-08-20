@@ -1,34 +1,26 @@
 import 'package:flutter/material.dart';
 
 class AppTextStyles {
+
   static const TextStyle headline1 = TextStyle(
-    fontSize: 24,
+    fontSize: 20,
+    letterSpacing: 02,
     fontWeight: FontWeight.w600,
   ); // For primary page titles
 
   static const TextStyle headline2 = TextStyle(
-    fontSize: 20,
-    fontWeight: FontWeight.w600,
-  ); // For secondary page titles or section headers
+      fontSize: 16, fontWeight: FontWeight.w600, ); // For secondary page titles or section headers
 
   static const TextStyle headline3 = TextStyle(
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: FontWeight.w500,
   ); // For tertiary page titles or content blocks
 
-static const TextStyle headline4 = TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w400,
-  ); // For section lables eg. a form section
-
-  static const TextStyle bodyText1 = TextStyle(
-    fontSize: 14,
-    letterSpacing: 1,fontWeight: FontWeight.w400
-  ); // For main body text
+  static const TextStyle bodyText1 =
+      TextStyle(fontSize: 14, letterSpacing: 1, fontWeight: FontWeight.w400); // For main body text
 
   static const TextStyle bodyText2 = TextStyle(
     fontSize: 12,
-
   ); // For secondary body text or supporting information
 
   static const TextStyle buttonText = TextStyle(
@@ -41,7 +33,7 @@ static const TextStyle headline4 = TextStyle(
 
   static const TextStyle labelText = TextStyle(
     fontSize: 14,
-    letterSpacing:1,
+    letterSpacing: 1,
     fontWeight: FontWeight.w500,
   ); // For form labels or other descriptive text
 }

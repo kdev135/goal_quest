@@ -1,22 +1,31 @@
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:goal_quest/operations/check_platform.dart';
-import 'package:goal_quest/operations/notification_service.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:goal_quest/screens/blog_content_screen.dart';
+
 import 'package:goal_quest/screens/completed_goals_screen.dart';
 import 'package:goal_quest/screens/home_screen.dart';
 import 'package:goal_quest/screens/goal_screen.dart';
 import 'package:goal_quest/screens/new_goal_screen.dart';
+import 'package:goal_quest/screens/resource_screen.dart';
+import 'package:goal_quest/screens/sample_content_screen.dart';
 import 'package:goal_quest/screens/settings_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'operations/notification_handler.dart';
-
+import 'utils/operations/check_platform.dart';
+import 'utils/operations/notification_handler.dart';
+import 'utils/operations/notification_service.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   await _initializeApp();
-  runApp(const MyApp());
+
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -27,14 +36,19 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Goal Quest',
-      theme: _buildTheme(Brightness.dark),
-     
+      theme: _buildTheme(Brightness.light),
+      darkTheme: _buildTheme(Brightness.dark),
+      themeMode: ThemeMode.dark,
+      initialRoute: HomeScreen.routeName,
       routes: {
-       HomeScreen.routeName: (_) => const HomeScreen(),
+        HomeScreen.routeName: (_) => const HomeScreen(),
         GoalScreen.routeName: (_) => GoalScreen(),
         NewGoalScreen.routeName: (_) => NewGoalScreen(),
-      CompletedGoalsScreen.routeName: (_) => const CompletedGoalsScreen(),
-       SettingsScreen.routeName : (_) => const SettingsScreen(),
+        CompletedGoalsScreen.routeName: (_) => const CompletedGoalsScreen(),
+        SettingsScreen.routeName: (_) => const SettingsScreen(),
+        SampleContentScreen.routeName: (_) => const SampleContentScreen(),
+        ResourceScreen.routeName: (_) => const ResourceScreen(),
+        BlogContentScreen.routeName: (_) => const BlogContentScreen()
       },
     );
   }
@@ -42,6 +56,15 @@ class MyApp extends StatelessWidget {
 
 // initialize the flutter app
 Future<void> _initializeApp() async {
+  await dotenv.load(fileName: ".env");
+
+  final supabaseUrl = dotenv.env['SUPABASE_URL']!;
+  final supabaseAnonKey = dotenv.env['SUPABASE_ANON_KEY']!;
+
+  Supabase.initialize(
+    url: supabaseUrl,
+    anonKey: supabaseAnonKey,
+  );
   await Hive.openBox('myGoalBox');
   await Hive.openBox('achievedGoalBox');
 
@@ -66,7 +89,7 @@ ThemeData _buildTheme(Brightness brightness) {
   var baseTheme = ThemeData(brightness: brightness);
 
   // Define your color scheme
-  const primaryColor = Color.fromARGB(255, 2, 103, 119);
+  var primaryColor = Colors.cyan;
   var colorScheme = ColorScheme.fromSeed(
     seedColor: primaryColor,
     brightness: brightness,

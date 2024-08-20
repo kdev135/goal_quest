@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:goal_quest/styles.dart';
 
-import '../../operations/email_validation.dart';
+import '../../utils/operations/email_validation.dart';
+
 
 class CustomFormField extends StatelessWidget {
   CustomFormField({
@@ -50,7 +51,7 @@ class CustomFormField extends StatelessWidget {
           ),
           TextFormField(
             maxLines: linecount,
-            textInputAction: TextInputAction.done,
+        textInputAction: linecount > 1 ? TextInputAction.next : TextInputAction.done,
             style: AppTextStyles.bodyText2,
             controller: textEditingController,
             textCapitalization: TextCapitalization.sentences,
@@ -93,8 +94,10 @@ class CustomFormField extends StatelessWidget {
                   },
             onFieldSubmitted: (value) {
               if (onEditingComplete != null) {
-                onEditingComplete!(value);
-              }
+      onEditingComplete!(value);
+    } else {
+      FocusScope.of(context).nextFocus();
+    }
             },
           ),
         ],

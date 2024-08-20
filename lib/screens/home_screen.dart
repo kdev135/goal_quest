@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:goal_quest/components/custom_clip_path.dart';
-import 'package:goal_quest/components/no_goal_widget.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:goal_quest/components/blog_content_list_view.dart';
+import 'package:goal_quest/components/blog_preview_list_view.dart';
 import 'package:goal_quest/models/ui_models/goal_card_model.dart';
 import 'package:goal_quest/constants.dart';
-import 'package:goal_quest/operations/fetch_quote_data.dart';
-import 'package:goal_quest/operations/get_achievement_time.dart';
-import 'package:goal_quest/operations/notification_handler.dart';
 
-import 'package:goal_quest/operations/notification_service.dart';
-
-import 'package:goal_quest/operations/rebuild_goal_listview.dart';
 import 'package:goal_quest/screens/completed_goals_screen.dart';
 import 'package:goal_quest/screens/new_goal_screen.dart';
+import 'package:goal_quest/screens/resource_screen.dart';
+import 'package:goal_quest/screens/sample_content_screen.dart';
 import 'package:goal_quest/screens/settings_screen.dart';
 import 'package:goal_quest/styles.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
+
+import '../utils/operations/fetch_quote_data.dart';
+import '../utils/operations/get_achievement_time.dart';
+import '../utils/operations/rebuild_goal_listview.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -36,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> fetchNewQuote() async {
-    String fetchedData = await fetchQuoteData(); 
+    String fetchedData = await fetchQuoteData();
     setState(() {
       quoteData = fetchedData;
     });
@@ -45,72 +46,85 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
+
 
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
       floatingActionButton: FloatingActionButton(
         tooltip: 'Create a new goal',
-     
         onPressed: () {
-          Navigator.pushNamed(context,NewGoalScreen.routeName);
+          Navigator.pushNamed(context, NewGoalScreen.routeName);
         },
         child: const Icon(Icons.add),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ClipPath(
-                clipper: CustomClipperPath(),
-                child: Container(
-                  decoration:
-                      const BoxDecoration(image: DecorationImage(image: AssetImage('assets/ss.jpg'), fit: BoxFit.fill)),
-                  height: height / 3,
-                  width: width,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        const Text(
-                          'Hello there, friend!',
-                          style: AppTextStyles.headline1,
-                        ),
-                        Text(
-                          quoteData,
-                          style: AppTextStyles.captionText,
-                          textAlign: TextAlign.center,
-                        ),
-                        const Text(
-                          '',
-                          style: AppTextStyles.captionText,
-                        ),
-                      ],
+          child: Center(
+            child: SizedBox(
+              width: 800,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: height / 4,
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'Hello there, friend!',
+                            style: AppTextStyles.headline2,
+                          ),
+                          Text(
+                            quoteData,
+                            style: AppTextStyles.captionText,
+                            textAlign: TextAlign.center,
+                          ),
+                          const Text(
+                            '',
+                            style: AppTextStyles.captionText,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'M Y  G O A L S',
-                      style: AppTextStyles.headline1,
+                  Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Tips and Resources",
+                        style: AppTextStyles.headline2,
+                      ),
+                      TextButton(onPressed: ()=> Navigator.pushNamed(context, ResourceScreen.routeName), child: const Text("view more", style: AppTextStyles.buttonText,),)
+                    ],
+                  ),
+             
+                  const SizedBox(
+                    height: 80,
+                    
+                    
+                    child: BlogPreviewListView(scrollDirection: Axis.horizontal,)
+                  ),
+                  const SizedBox(height: 15),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'My Goals',
+                          style: AppTextStyles.headline2,
+                        ),
+                        goalBox.isEmpty ? const GoalSectionPlaceholderColumn() : const GoalListview()
+                      ],
                     ),
-                    goalBox.isEmpty
-                        ? const NoGoalsWidget(
-                            message: 'Tap on the  ➕  icon to create a goal',
-                          )
-                        : const GoalListview()
-                  ],
-                ),
-              )
-            ],
+                  )
+                ],
+              ),
+            ),
           ),
         ),
       ),
@@ -123,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
               IconButton(
                 icon: const Icon(Icons.checklist_sharp),
                 onPressed: () {
-                  Navigator.pushNamed(context,CompletedGoalsScreen.routeName);
+                  Navigator.pushNamed(context, CompletedGoalsScreen.routeName);
                 },
               ),
               IconButton(
@@ -137,6 +151,46 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// Shown in the HomeScreen when there are no goals created yet
+class GoalSectionPlaceholderColumn extends StatelessWidget {
+  const GoalSectionPlaceholderColumn({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Card(
+            child: ListTile(
+          leading: const Icon(Icons.list_alt_sharp),
+          title: const Text(
+            "Create A New Goal",
+            style: AppTextStyles.headline3,
+          ),
+          subtitle: const Text(
+            "Get started by creating your first goals",
+            style: AppTextStyles.captionText,
+          ),onTap: () => Navigator.pushNamed(context, NewGoalScreen.routeName),
+        )),
+        Card(
+            child: ListTile(
+          leading: const Icon(Icons.lightbulb_rounded),
+          title: const Text(
+            "See Example",
+            style: AppTextStyles.headline3,
+          ),
+          subtitle: const Text(
+            "Not sure where to start? View a sample goal",
+            style: AppTextStyles.captionText,
+          ), onTap: () => Navigator.pushNamed(context, SampleContentScreen.routeName),
+        ))
+      ],
     );
   }
 }
