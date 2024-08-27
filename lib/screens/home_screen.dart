@@ -69,26 +69,28 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(
                     height: height / 4,
                     width: double.infinity,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Text(
-                            'Hello there, friend!',
-                            style: AppTextStyles.headline2,
-                          ),
-                          Text(
-                            quoteData,
-                            style: AppTextStyles.captionText,
-                            textAlign: TextAlign.center,
-                          ),
-                          const Text(
-                            '',
-                            style: AppTextStyles.captionText,
-                          ),
-                        ],
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Text(
+                              'Hello there, friend!',
+                              style: AppTextStyles.headline2,
+                            ),
+                            Text(
+                              quoteData,
+                              style: AppTextStyles.captionText,
+                              textAlign: TextAlign.center,
+                            ),
+                            const Text(
+                              '',
+                              style: AppTextStyles.captionText,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -118,6 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           'My Goals',
                           style: AppTextStyles.headline2,
                         ),
+                        Text("No goals yet. Get started now"),
                         goalBox.isEmpty ? const GoalSectionPlaceholderColumn() : const GoalListview()
                       ],
                     ),

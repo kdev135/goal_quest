@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:goal_quest/constants.dart';
-import 'package:goal_quest/styles.dart';
 
 
 class EditableTextModel extends StatelessWidget {

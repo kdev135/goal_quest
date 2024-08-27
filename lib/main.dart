@@ -96,7 +96,7 @@ ThemeData _buildTheme(Brightness brightness) {
   );
 
   // Use DM Sans as the default font
-  var textTheme = GoogleFonts.dmSansTextTheme(baseTheme.textTheme);
+  var textTheme = GoogleFonts.nunitoTextTheme(baseTheme.textTheme);
 
   return ThemeData(
     useMaterial3: true,

@@ -4,7 +4,7 @@ class AppTextStyles {
 
   static const TextStyle headline1 = TextStyle(
     fontSize: 20,
-    letterSpacing: 02,
+
     fontWeight: FontWeight.w600,
   ); // For primary page titles
 

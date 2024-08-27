@@ -23,6 +23,9 @@ class _CompletedGoalsScreenState extends State<CompletedGoalsScreen> {
     // var items = useState(achievedGoalBox.values.length);
     return Scaffold(
         appBar: AppBar(
+           leading: BackButton(
+          onPressed: () => Navigator.pop(context),
+        ),
           title: const AnimatedPageTitleModel(
             titleText: ' A T T A I N E D  G O A L S',
           ),
@@ -33,7 +36,7 @@ class _CompletedGoalsScreenState extends State<CompletedGoalsScreen> {
         body: achievedGoalBox.isEmpty
             ?
             // If no completed goals, show this
-            const NoGoalsWidget(message: "Achieved goals will appear here. You make do it!",)
+            const NoGoalsWidget(message: "Achieved goals will appear here",)
             : const AchievedGoalListView()
 
         // goals exist? show this
