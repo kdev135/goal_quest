@@ -36,7 +36,7 @@ class BlogContentListView extends ConsumerWidget {
                   style: AppTextStyles.headline2,
                 ),
               ), Text("Read time: ${blog.readTime}"),
-          SizedBox(height: 15,),
+          const SizedBox(height: 15,),
           ...parseContent(blog.content, ),
             ],
           ),

@@ -3,21 +3,21 @@ import 'package:flutter/material.dart';
 class AppTextStyles {
 
   static const TextStyle headline1 = TextStyle(
-    fontSize: 20,
+    fontSize: 24,
 
     fontWeight: FontWeight.w600,
   ); // For primary page titles
 
   static const TextStyle headline2 = TextStyle(
-      fontSize: 16, fontWeight: FontWeight.w600, ); // For secondary page titles or section headers
+      fontSize: 20, fontWeight: FontWeight.w600, ); // For secondary page titles or section headers
 
   static const TextStyle headline3 = TextStyle(
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: FontWeight.w500,
   ); // For tertiary page titles or content blocks
 
   static const TextStyle bodyText1 =
-      TextStyle(fontSize: 14, letterSpacing: 1, fontWeight: FontWeight.w400); // For main body text
+      TextStyle(fontSize: 16, letterSpacing: 1, fontWeight: FontWeight.w400); // For main body text
 
   static const TextStyle bodyText2 = TextStyle(
     fontSize: 12,

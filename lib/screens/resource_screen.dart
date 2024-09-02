@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:goal_quest/components/blog_preview_list_view.dart';
 import 'package:goal_quest/models/ui_models/animated_page_title_model.dart';
 import 'package:goal_quest/screens/home_screen.dart';
-import 'package:goal_quest/styles.dart';
 
 /// A catalog of the availiable resources to help in goal achievement
 class ResourceScreen extends StatelessWidget {
@@ -14,7 +13,7 @@ class ResourceScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(onPressed: () => Navigator.pushNamed(context, HomeScreen.routeName),),
-        title: AnimatedPageTitleModel(titleText: "RESOURCES"),
+        title: const AnimatedPageTitleModel(titleText: "RESOURCES"),
         centerTitle: true,
       ),
       body: const SafeArea(

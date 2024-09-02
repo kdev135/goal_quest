@@ -1,28 +1,27 @@
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 
 import 'fetch_quote_data.dart';
-import 'notification_service.dart';
 
 // The notification handler
 @pragma('vm:entry-point')
 void showMorningNotification() async {
   final quoteData = await fetchQuoteData();
   String morningNotificationBody = quoteData.split('\n').first;
-  await NotificationService().showNotification(
-    id: 0,
-    title: "You have what it takes!",
-    body: morningNotificationBody,
-  );
+  // await NotificationService().showNotification(
+  //   id: 0,
+  //   title: "You have what it takes!",
+  //   body: morningNotificationBody,
+  // );
 }
 
 @pragma('vm:entry-point')
 showEveningNotification() async {
 
-  await NotificationService().showNotification(
-    id: 1,
-    title: "How was your day?",
-    body: "Remember to record your milestones",
-  );
+  // await NotificationService().showNotification(
+  //   id: 1,
+  //   title: "How was your day?",
+  //   body: "Remember to record your milestones",
+  // );
 }
 
 // setup the daily 8am notification

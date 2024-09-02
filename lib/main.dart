@@ -1,7 +1,7 @@
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:goal_quest/screens/blog_content_screen.dart';
 
@@ -13,12 +13,11 @@ import 'package:goal_quest/screens/resource_screen.dart';
 import 'package:goal_quest/screens/sample_content_screen.dart';
 import 'package:goal_quest/screens/settings_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'utils/operations/check_platform.dart';
 import 'utils/operations/notification_handler.dart';
-import 'utils/operations/notification_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -65,6 +64,7 @@ Future<void> _initializeApp() async {
     url: supabaseUrl,
     anonKey: supabaseAnonKey,
   );
+    await Hive.initFlutter();  // Initialize Hive with Flutter support
   await Hive.openBox('myGoalBox');
   await Hive.openBox('achievedGoalBox');
 
@@ -74,14 +74,14 @@ Future<void> _initializeApp() async {
     WidgetsFlutterBinding.ensureInitialized();
     scheduleMorningNotification();
     scheduleEveningNotifications();
-    await NotificationService().initNotification();
+    // await NotificationService().initNotification();
 
     await AndroidAlarmManager.initialize();
 
-    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = NotificationService.notificationsPlugin;
-    await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()!
-        .requestPermission();
+    // FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = NotificationService.notificationsPlugin;
+    // await flutterLocalNotificationsPlugin
+    //     .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()!
+    //     .requestPermission();
   }
 }
 

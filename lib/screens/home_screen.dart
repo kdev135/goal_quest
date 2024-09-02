@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:goal_quest/components/blog_content_list_view.dart';
 import 'package:goal_quest/components/blog_preview_list_view.dart';
 import 'package:goal_quest/models/ui_models/goal_card_model.dart';
 import 'package:goal_quest/constants.dart';
@@ -120,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           'My Goals',
                           style: AppTextStyles.headline2,
                         ),
-                        Text("No goals yet. Get started now"),
+                        const Text("No goals yet. Get started now"),
                         goalBox.isEmpty ? const GoalSectionPlaceholderColumn() : const GoalListview()
                       ],
                     ),
